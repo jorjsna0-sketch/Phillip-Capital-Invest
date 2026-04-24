@@ -13,6 +13,9 @@ import { Footer } from "./components/Footer";
 import { AuthCallback, ProtectedRoute } from "./components/AuthCallback";
 import { MobileLayout } from "./components/MobileLayout";
 
+// Runtime translator — auto-translates hardcoded RU text to TR/EN
+import { useRuntimeTranslator } from "./hooks/useRuntimeTranslator";
+
 // Pages
 import { LandingPage } from "./pages/LandingPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -126,6 +129,7 @@ function AppLayout({ children }) {
 // Router component that handles session_id in URL
 function AppRouter() {
   const location = useLocation();
+  useRuntimeTranslator();
   
   // Check for session_id in URL hash (OAuth callback)
   if (location.hash?.includes('session_id=')) {

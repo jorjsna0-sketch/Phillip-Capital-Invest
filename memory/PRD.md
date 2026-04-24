@@ -543,3 +543,26 @@
 - `frontend/public/{index.html,manifest.json}` — обновлено
 - `backend/routers/{auth,admin,utilities,notifications}.py`, `models/schemas.py`, `init_db.py` — KZT→TRY, брендинг
 
+
+---
+
+## Полная локализация (Январь 2026 - update 2) ✅ COMPLETE
+
+### Система перевода:
+- **`/app/frontend/src/i18n/uiDictionary.js`** — словарь ~300 RU→TR/EN переводов для всех хардкодных UI-строк
+- **`/app/frontend/src/hooks/useRuntimeTranslator.js`** — runtime DOM-переводчик (MutationObserver-based) — автоматически переводит все текстовые узлы и атрибуты (placeholder, title, aria-label, alt) на активный язык
+- **`LanguageContext`** получил функцию `gt(ruText)` — dictionary-based translate helper
+- Подключён в `App.js` через `useRuntimeTranslator()` в корневом роутере
+
+### Дополнительные правки:
+- `PortfoliosPage.getDurationUnitLabel` — лэйблы (ч./дн./мес./г.) теперь language-aware
+- `PortfolioDetailPage.getDurationLabel/Short` — language-aware для tr/ru/en
+- `HistoryPage` — transaction typeLabel для 'profit'/'investment' переведены inline
+- `translations.js` — добавлены ключи `tx_payout`, `tx_income`, `tx_profit` для всех 3 языков
+- `AdminLayout` — логотип обновлён на Phillip Capital Invest + добавлен LanguageSwitcher
+
+### Проверено:
+- Dashboard / Portfolios / Settings (Profile + Security + KYC) / Wallet / History / Support / Admin dashboard — всё на TR
+- Даты в турецкой локали (28 Oca 2026, 24 Nis 2026)
+- RU-режим — остаётся без изменений (оригинальные русские строки сохраняются)
+- EN-режим — тоже работает

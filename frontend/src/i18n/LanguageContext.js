@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import translations from './translations';
+import UI_DICT from './uiDictionary';
 import axios from 'axios';
 
 const LanguageContext = createContext();
@@ -139,6 +140,18 @@ export function LanguageProvider({ children }) {
     return translations[language]?.[key] || translations['en']?.[key] || key;
   }, [language]);
 
+  // `gt` (general-translate) — dictionary-based runtime translation of hardcoded
+  // Russian UI strings. Looks up the original Russian text in UI_DICT and returns
+  // the corresponding translation for the active language. Falls back to the
+  // original Russian string when the language is `ru` or when no entry exists.
+  const gt = useCallback((ruText) => {
+    if (typeof ruText !== 'string') return ruText;
+    if (language === 'ru') return ruText;
+    const entry = UI_DICT[ruText];
+    if (!entry) return ruText;
+    return entry[language] || entry.en || ruText;
+  }, [language]);
+
   const convertCurrency = useCallback((amount, fromCurrency, toCurrency = currency) => {
     if (fromCurrency === toCurrency) return amount;
     const usdAmount = fromCurrency === 'USD' ? amount : amount / (exchangeRates[fromCurrency] || 1);
@@ -216,6 +229,7 @@ export function LanguageProvider({ children }) {
       currency,
       setCurrency,
       t,
+      gt,
       formatCurrency,
       formatUsdWithEquivalent,
       convertCurrency,

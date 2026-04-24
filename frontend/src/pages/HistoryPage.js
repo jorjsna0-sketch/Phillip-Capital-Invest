@@ -42,7 +42,7 @@ export function HistoryPage() {
 
 function DesktopHistory() {
   const { api } = useAuth();
-  const { t, formatCurrency, formatDateTime } = useLanguage();
+  const { t, language, formatCurrency, formatDateTime } = useLanguage();
   
   const [transactions, setTransactions] = useState([]);
   const [investments, setInvestments] = useState([]);
@@ -135,14 +135,14 @@ function DesktopHistory() {
                       let destination = '';
                       
                       if (tx.type === 'profit' || tx.type === 'income') {
-                        typeLabel = 'Доход';
+                        typeLabel = language === 'ru' ? 'Доход' : language === 'tr' ? 'Gelir' : 'Income';
                         if (tx.description && tx.description.includes('→')) {
                           detailLine = tx.description;
                         } else if (tx.description) {
                           detailLine = tx.description;
                         }
                       } else if (tx.type === 'investment') {
-                        typeLabel = 'Инвестирование';
+                        typeLabel = language === 'ru' ? 'Инвестирование' : language === 'tr' ? 'Yatırım' : 'Investment';
                         if (tx.description) {
                           // Russian format: "Инвестиция в «Name»"
                           if (tx.description.includes('«')) {

@@ -45,7 +45,7 @@ export function PortfoliosPage() {
 
 function DesktopPortfolios() {
   const { api, user } = useAuth();
-  const { t, formatCurrency, formatUsdWithEquivalent, getLocalizedText } = useLanguage();
+  const { t, language, formatCurrency, formatUsdWithEquivalent, getLocalizedText } = useLanguage();
   const navigate = useNavigate();
   
   const [portfolios, setPortfolios] = useState([]);
@@ -84,15 +84,15 @@ function DesktopPortfolios() {
     }
   };
 
-  // Get duration unit label - short version for cards
-  const getDurationUnitLabel = (unit, count = 1) => {
+  // Get duration unit label - short version for cards (language-aware)
+  const getDurationUnitLabel = (unit) => {
     const units = {
-      hours: 'ч.',
-      days: 'дн.',
-      months: 'мес.',
-      years: 'г.'
+      tr: { hours: 's.', days: 'gün', months: 'ay', years: 'yıl' },
+      ru: { hours: 'ч.', days: 'дн.', months: 'мес.', years: 'г.' },
+      en: { hours: 'h', days: 'd', months: 'mo.', years: 'y' }
     };
-    return units[unit] || 'мес.';
+    const set = units[language] || units.en;
+    return set[unit] || set.months;
   };
 
   // Calculate rate per unit

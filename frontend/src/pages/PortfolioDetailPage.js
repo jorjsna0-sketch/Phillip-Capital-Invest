@@ -117,24 +117,24 @@ function DesktopPortfolioDetail() {
   // Get duration unit label based on portfolio's duration_unit
   const getDurationLabel = (value) => {
     const unit = portfolio?.duration_unit || 'months';
-    const labels = {
-      hours: language === 'ru' ? 'ч.' : 'h',
-      days: language === 'ru' ? 'дн.' : 'd',
-      months: language === 'ru' ? 'мес.' : 'mo',
-      years: language === 'ru' ? 'г.' : 'y'
+    const labelMap = {
+      tr: { hours: 's.', days: 'gün', months: 'ay', years: 'yıl' },
+      ru: { hours: 'ч.', days: 'дн.', months: 'мес.', years: 'г.' },
+      en: { hours: 'h', days: 'd', months: 'mo', years: 'y' }
     };
-    return `${value} ${labels[unit] || labels.months}`;
+    const set = labelMap[language] || labelMap.en;
+    return `${value} ${set[unit] || set.months}`;
   };
 
   const getDurationUnitShort = () => {
     const unit = portfolio?.duration_unit || 'months';
-    const labels = {
-      hours: language === 'ru' ? 'ч.' : 'h',
-      days: language === 'ru' ? 'дн.' : 'd',
-      months: language === 'ru' ? 'мес.' : 'mo',
-      years: language === 'ru' ? 'г.' : 'y'
+    const labelMap = {
+      tr: { hours: 's.', days: 'gün', months: 'ay', years: 'yıl' },
+      ru: { hours: 'ч.', days: 'дн.', months: 'мес.', years: 'г.' },
+      en: { hours: 'h', days: 'd', months: 'mo', years: 'y' }
     };
-    return labels[unit] || labels.months;
+    const set = labelMap[language] || labelMap.en;
+    return set[unit] || set.months;
   };
 
   // Calculate expected return based on selected duration - now term-based (not annual)

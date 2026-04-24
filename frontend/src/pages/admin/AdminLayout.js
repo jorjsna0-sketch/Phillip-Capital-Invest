@@ -3,6 +3,8 @@ import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { Button } from '../../components/ui/button';
+import { Logo } from '../../components/Logo';
+import { LanguageSwitcher } from '../../components/LanguageSwitcher';
 import { 
   LayoutDashboard,
   Users,
@@ -60,11 +62,8 @@ export function AdminLayout() {
       <aside className={`${sidebarOpen ? 'w-64' : 'w-16'} bg-primary text-primary-foreground transition-all duration-300 flex flex-col`}>
         <div className="p-4 flex items-center justify-between border-b border-primary-foreground/10">
           {sidebarOpen && (
-            <Link to="/admin" className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-sm bg-white flex items-center justify-center">
-                <span className="text-primary font-heading font-bold text-lg">A</span>
-              </div>
-              <span className="font-heading font-semibold">Admin</span>
+            <Link to="/admin" className="flex items-center">
+              <Logo variant="light" size={32} showWordmark={true} />
             </Link>
           )}
           <Button 
@@ -95,7 +94,12 @@ export function AdminLayout() {
           ))}
         </nav>
 
-        <div className="p-4 border-t border-primary-foreground/10">
+        <div className="p-4 border-t border-primary-foreground/10 space-y-2">
+          {sidebarOpen && (
+            <div className="flex justify-center">
+              <LanguageSwitcher />
+            </div>
+          )}
           <Link to="/dashboard">
             <Button 
               variant="ghost" 
