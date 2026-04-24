@@ -1,6 +1,25 @@
-# AltynContract - PRD (Product Requirements Document)
+# Phillip Capital Invest - PRD (Product Requirements Document)
 
-## Latest Updates (January 28, 2026)
+## Latest Updates (February 2026)
+
+### TRY as Sole Currency (P0) - ✅ COMPLETE (Feb 2026)
+User requirement: "Сделай основную валюту лиры, другие валюты убери" (Make Lira the main currency, remove others).
+
+**What's implemented:**
+- `LanguageContext.CURRENCIES` now contains only TRY — removed USD, EUR, KZT, USDT options from user-facing UI
+- `formatCurrency` auto-converts backend USD balances → TRY for display; backend storage remains USD (internal base, invisible to users)
+- Desktop Wallet (`WalletPage.js`): balance/deposit/withdrawal show only ₺ TRY. Deposit/withdrawal inputs collected in TRY, converted TRY→USD via `convertCurrency` before POST to backend. Removed currency dropdowns.
+- Mobile Wallet (`MobileWallet.js`): removed currency selector; inputs in TRY, submit converts to USD.
+- Desktop & Mobile Dashboards: removed currency selectors from deposit/withdraw dialogs; balance cards, charts, and transaction history display TRY only.
+- Desktop & Mobile Invest Wizards (`InvestPage.js`, `MobileInvestWizard.js`): "Валюта операции" shows "₺ TRY"; amount input labelled TRY; portfolio min/max limits display as TRY via `formatCurrency`; quick-amount presets changed to ₺1K/₺5K/₺10K (mobile wizard). `validateStep1` converts TRY input → USD for backend comparison.
+- Portfolios & MobilePortfolios: min/max investment display in TRY.
+- Landing Page: calculator uses ₺ symbol with quick amounts ₺350K/₺850K/₺1.7M/₺3.5M; marketing metrics (AUM, insurance, portfolio minimums) restated in TRY; dropped all USDT references.
+
+**Architecture note:** Backend `available_balance.USD` is the source of truth. Frontend converts at display (USD→TRY) and submission (TRY→USD). Admin approval flow unchanged — deposits/withdrawals continue to increment `available_balance.USD`.
+
+**Testing:**
+- Iteration 21: Found `convertCurrency` missing in DesktopWallet destructure → fixed.
+- Iteration 22: All TRY flows verified (desktop + mobile viewports, TR/RU/EN language switching). No USD/EUR/KZT leakage. Backend deposit/withdrawal endpoints accept USD-currency payloads as expected.
 
 ### Investment Logic Refactoring (P0) - ✅ COMPLETE (Session 2, Part 3)
 **Новая логика начисления прибыли:**
@@ -22,7 +41,7 @@
    - Пункт 4.2: Начисление дохода производится **{frequency}**
 4. Переименовано "Авто-реинвест" → "Капитализация"
 
-### Currency Display Overhaul (P0) - ✅ COMPLETE (Session 2, Part 2)
+### Currency Display Overhaul (P0) - ✅ COMPLETE (Session 2, Part 2) [Superseded by TRY-only rollout above]
 - **Removed currency selector** from investment forms - all investments now in USD
 - **Fixed balance display bug** - balance now correctly converts from USD to user's preferred currency
 - **Added USD with equivalent** - when user's currency ≠ USD, shows "$X.XX (~₸Y)" format
