@@ -1,0 +1,165 @@
+{
+  "summary": "Iteration 6 testing completed successfully. All requested features verified: AdminPortfolios list with profit accrual info, AdminPortfolioForm separate page with 4 tabs, dynamic durations with individual rates, contract template selection with auto-translate button, translate API via Gemini 3 Flash, InvestPage canvas-only signature, and PDF generation with DejaVuSans Cyrillic font.",
+  
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "Backend: Health endpoint working",
+    "Backend: Admin login with session_token",
+    "Backend: GET /api/admin/portfolios - returns portfolios with profit_accrual_interval and profit_accrual_time",
+    "Backend: POST /api/admin/portfolios - creates portfolio with dynamic durations and duration_unit",
+    "Backend: POST /api/translate - requires authentication (401 without auth)",
+    "Backend: POST /api/translate - translates Russian to Kazakh and English via Gemini 3 Flash",
+    "Backend: Translation preserves placeholders like {{contract_id}}",
+    "Backend: GET /api/admin/contract-templates - returns 2 templates",
+    "Backend: GET /api/portfolios - returns 6 active portfolios",
+    "Backend: GET /api/investments/{id}/contract - generates PDF with DejaVuSans font (Cyrillic support)",
+    "Backend: POST /api/investments - creates investment with canvas signature_type",
+    "Frontend: AdminPortfolios page loads at /admin/portfolios",
+    "Frontend: Portfolio list shows profit accrual info (Начисление: Еженедельно в 12:00)",
+    "Frontend: 'Создать портфель' button navigates to /admin/portfolios/create",
+    "Frontend: AdminPortfolioForm has 4 tabs: Основное, Доходность, Презентация, Договор",
+    "Frontend: 'Доходность' tab shows duration unit selector (Единица срока: Месяцы)",
+    "Frontend: 'Доходность' tab shows dynamic durations with individual rates",
+    "Frontend: 'Добавить срок' button available for adding new durations",
+    "Frontend: Profit accrual settings section with interval dropdown and time input",
+    "Frontend: Example calculation display (При доходности 12% годовых и ежемесячном начислении = 1.00%/месяц)",
+    "Frontend: 'Договор' tab shows template selector (Выбор шаблона договора)",
+    "Frontend: 'Автоперевод на KZ/EN' button present",
+    "Frontend: Contract text tabs: Русский*, Қазақша, English",
+    "Frontend: Available variables section with {{contract_id}}, {{client_name}}, etc.",
+    "Frontend: InvestPage 4-step flow (Параметры→Условия→Подписание→Подтверждение)",
+    "Frontend: InvestPage Step 3 shows canvas signature ONLY (no text signature tab)",
+    "Frontend: Canvas signature drawing works correctly",
+    "Frontend: 'Очистить' (Clear) button available for canvas"
+  ],
+  
+  "test_report_links": [
+    "/app/backend/tests/test_iteration6.py",
+    "/app/test_reports/pytest/pytest_results_iter6.xml"
+  ],
+  
+  "action_items": [],
+  
+  "critical_code_review_comments": [],
+  
+  "updated_files": [
+    "/app/backend/tests/test_iteration6.py"
+  ],
+  
+  "success_rate": {
+    "backend": "100% (10 tests passed)",
+    "frontend": "100% (all features working correctly)"
+  },
+  
+  "test_credentials": {
+    "admin_user": "admin@altyncontract.kz / abc123"
+  },
+  
+  "seed_data_creation": "Created and cleaned up test portfolio with dynamic durations during testing",
+  
+  "retest_needed": false,
+  
+  "should_main_agent_self_test": false,
+  
+  "context_for_next_testing_agent": "All iteration 6 features verified working: 1) AdminPortfolios at /admin/portfolios shows portfolio list with profit accrual info. 2) AdminPortfolioForm at /admin/portfolios/create is a separate page with 4 tabs (Основное, Доходность, Презентация, Договор). 3) 'Доходность' tab has duration_unit selector, dynamic durations with individual rates, 'Добавить срок' button, and profit accrual settings. 4) 'Договор' tab has template selector and 'Автоперевод на KZ/EN' button that calls POST /api/translate. 5) Translation API uses Gemini 3 Flash via EMERGENT_LLM_KEY and preserves placeholders. 6) InvestPage canvas signature is graphical only (no text signature tab). 7) PDF generation uses DejaVuSans font for Cyrillic support.",
+  
+  "features_verified": {
+    "admin_portfolios_list": {
+      "route": "/admin/portfolios",
+      "status": "WORKING",
+      "components": [
+        "Portfolio list with profit accrual info display",
+        "Stats cards: Всего портфелей, На главной, Активные, Ср. доходность",
+        "Each portfolio shows: Доходность, Сроки, Сумма, Начисление",
+        "Action buttons: Star (featured), Eye (view), Edit, Delete",
+        "'Создать портфель' button navigates to /admin/portfolios/create"
+      ]
+    },
+    "admin_portfolio_form": {
+      "route": "/admin/portfolios/create",
+      "status": "WORKING",
+      "components": [
+        "Separate page (not modal) for portfolio creation",
+        "4 tabs: Основное, Доходность, Презентация, Договор",
+        "Back button to return to portfolio list",
+        "Save/Create button in header"
+      ]
+    },
+    "dohodnost_tab": {
+      "status": "WORKING",
+      "components": [
+        "Duration unit selector (Единица срока: Часы/Дни/Месяцы/Годы)",
+        "Dynamic durations list with individual rates",
+        "'Добавить срок' button to add new duration",
+        "Delete button for each duration",
+        "Profit accrual settings section",
+        "Interval dropdown (hourly/daily/weekly/monthly/yearly)",
+        "Time input (HH:MM UTC)",
+        "Example calculation display"
+      ]
+    },
+    "dogovor_tab": {
+      "status": "WORKING",
+      "components": [
+        "Template selector dropdown",
+        "'Без шаблона (ввести вручную)' option",
+        "Contract text section with language tabs (Русский*, Қазақша, English)",
+        "'Автоперевод на KZ/EN' button",
+        "Available variables section with badges"
+      ]
+    },
+    "translate_api": {
+      "endpoint": "POST /api/translate",
+      "status": "WORKING",
+      "features": [
+        "Requires admin authentication",
+        "Uses Gemini 3 Flash via EMERGENT_LLM_KEY",
+        "Translates Russian to Kazakh and English",
+        "Preserves placeholders like {{contract_id}}",
+        "Returns {translations: {kz: '...', en: '...'}}"
+      ]
+    },
+    "invest_page_canvas_signature": {
+      "route": "/invest/:portfolioId",
+      "status": "WORKING",
+      "components": [
+        "4-step investment flow",
+        "Step 3: Canvas signature ONLY (no text signature tab)",
+        "Title: 'Квалифицированная электронная подпись'",
+        "Instruction: 'Нарисуйте вашу подпись в поле ниже'",
+        "Canvas with 'Поле для подписи' header",
+        "'Очистить' (Clear) button",
+        "Hint: 'Используйте мышь или касание для рисования подписи'",
+        "Canvas dimensions: 600x200 pixels"
+      ]
+    },
+    "pdf_generation": {
+      "endpoint": "GET /api/investments/{id}/contract",
+      "status": "WORKING",
+      "features": [
+        "Valid PDF generation",
+        "DejaVuSans font for Cyrillic support",
+        "Company signature and stamp from admin_settings",
+        "Client canvas signature embedded",
+        "Professional contract layout"
+      ]
+    }
+  },
+  
+  "translation_api_test_result": {
+    "input": "ИНВЕСТИЦИОННЫЙ ДОГОВОР №{{contract_id}}",
+    "output_kz": "ИНВЕСТИЦИЯЛЫҚ ШАРТ №{{contract_id}}",
+    "output_en": "INVESTMENT AGREEMENT NO. {{contract_id}}",
+    "placeholders_preserved": true
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "summary": "Iteration 7 testing completed successfully. All requested features verified: PDF generation with DejaVuSans font (Cyrillic support, styles without parent), POST /api/admin/accrue-profits with correct logic for auto_reinvest, AdminTemplates page at /admin/templates with navigation to create/edit, AdminTemplateForm at /admin/templates/create with auto-translate button, Dashboard wallet section with deposit/withdraw dialogs showing bank requisites and broker selection.",
+  
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "Backend: Health endpoint working",
+    "Backend: Admin login with session_token",
+    "Backend: GET /api/admin/contract-templates - returns templates list",
+    "Backend: POST /api/admin/contract-templates - creates new template",
+    "Backend: GET /api/admin/contract-templates/{id}/preview - generates PDF with DejaVuSans font",
+    "Backend: POST /api/admin/accrue-profits - processes 21 investments correctly",
+    "Backend: Profit accrual logic - auto_reinvest=true -> type='reinvested', profit to current_balance",
+    "Backend: Profit accrual logic - auto_reinvest=false -> type='to_available_balance', profit to balance_available",
+    "Backend: GET /api/investments/{id}/contract - PDF with DejaVuSans font embedded",
+    "Backend: GET /api/brokers - returns brokers list for withdrawal dialog",
+    "Backend: GET /api/company-bank-info - returns bank info for deposit dialog",
+    "Backend: GET /api/deposit-requests - returns deposit requests",
+    "Backend: GET /api/withdrawal-requests - returns withdrawal requests",
+    "Frontend: AdminTemplates page loads at /admin/templates",
+    "Frontend: Templates list shows 2 templates with stats cards",
+    "Frontend: 'Создать шаблон' button navigates to /admin/templates/create",
+    "Frontend: AdminTemplateForm page loads at /admin/templates/create",
+    "Frontend: 'Автоперевод на KZ/EN' button present in template form",
+    "Frontend: Contract text tabs: Русский*, Қазақша, English",
+    "Frontend: Dashboard page loads with wallet section",
+    "Frontend: Deposit button opens dialog with bank requisites (Банк: Народный банк Казахстана)",
+    "Frontend: Withdraw button opens dialog with broker selection and account number field"
+  ],
+  
+  "test_report_links": [
+    "/app/backend/tests/test_iteration7.py",
+    "/app/test_reports/pytest/pytest_results_iter7.xml"
+  ],
+  
+  "action_items": [],
+  
+  "critical_code_review_comments": [],
+  
+  "updated_files": [
+    "/app/backend/tests/test_iteration7.py"
+  ],
+  
+  "success_rate": {
+    "backend": "100% (14 tests passed)",
+    "frontend": "100% (all features working correctly)"
+  },
+  
+  "test_credentials": {
+    "admin_user": "admin@altyncontract.kz / abc123"
+  },
+  
+  "seed_data_creation": "Created and cleaned up test template during testing",
+  
+  "retest_needed": false,
+  
+  "should_main_agent_self_test": false,
+  
+  "context_for_next_testing_agent": "All iteration 7 features verified working: 1) PDF generation uses DejaVuSans font with styles created without parent=styles['...'] to ensure Cyrillic support. 2) POST /api/admin/accrue-profits correctly handles profit accrual - auto_reinvest=true adds profit to current_balance (type='reinvested'), auto_reinvest=false adds profit to balance_available (type='to_available_balance'). 3) AdminTemplates at /admin/templates shows templates list with navigation to create/edit. 4) AdminTemplateForm at /admin/templates/create is a separate page with auto-translate button. 5) Dashboard wallet section has deposit dialog showing bank requisites and withdraw dialog with broker selection and account number field.",
+  
+  "features_verified": {
+    "pdf_cyrillic_support": {
+      "status": "WORKING",
+      "details": [
+        "DejaVuSans and DejaVuSans-Bold fonts embedded in PDF",
+        "Styles created without parent=styles['...'] to avoid font override",
+        "Both contract PDF and template preview PDF use DejaVuSans",
+        "Verified by checking PDF content for font references"
+      ]
+    },
+    "profit_accrual_logic": {
+      "endpoint": "POST /api/admin/accrue-profits",
+      "status": "WORKING",
+      "details": [
+        "Processed 21 investments in test run",
+        "auto_reinvest=true: profit added to current_balance, type='reinvested'",
+        "auto_reinvest=false: profit added to balance_available, type='to_available_balance'",
+        "Returns detailed breakdown with investment_id, user_id, profit, type"
+      ]
+    },
+    "admin_templates_page": {
+      "route": "/admin/templates",
+      "status": "WORKING",
+      "components": [
+        "Templates list with stats cards (Всего шаблонов, По умолчанию, Активные)",
+        "Each template shows name, ID, created date, content preview",
+        "Action buttons: Star (default), Eye (preview), Edit, Delete",
+        "'Создать шаблон' button navigates to /admin/templates/create"
+      ]
+    },
+    "admin_template_form": {
+      "route": "/admin/templates/create",
+      "status": "WORKING",
+      "components": [
+        "Separate page for template creation/editing",
+        "Basic info section: name, description, is_default toggle",
+        "Contract text section with language tabs (Русский*, Қазақша, English)",
+        "'Автоперевод на KZ/EN' button for auto-translation",
+        "'Вставить шаблон по умолчанию' button",
+        "Available variables section with copy functionality"
+      ]
+    },
+    "dashboard_wallet_section": {
+      "route": "/dashboard",
+      "status": "WORKING",
+      "components": [
+        "Available balance card with Пополнить/Вывести buttons",
+        "Deposit dialog shows bank requisites (Банк, Получатель)",
+        "Withdraw dialog has broker selection dropdown",
+        "Withdraw dialog has account number input field",
+        "Both dialogs have currency selection and amount input"
+      ]
+    }
+  },
+  
+  "profit_accrual_test_result": {
+    "processed": 21,
+    "skipped": 0,
+    "errors": 0,
+    "total_profit_distributed": 1965.24,
+    "sample_reinvested": {
+      "investment_id": "inv_79b99f366a1c",
+      "type": "reinvested",
+      "profit": 380.625,
+      "new_balance": 25755.625
+    },
+    "sample_to_available": {
+      "investment_id": "inv_b9fc4193c517",
+      "type": "to_available_balance",
+      "profit": 19.23
+    }
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "summary": "Iteration 9 testing completed successfully. All APScheduler and profit analytics features verified. Fixed profit-analytics API to include both 'income' and 'profit' transaction types for chart data.",
+  
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "Backend: Health endpoint working",
+    "Backend: Admin login returns session_token and account_number",
+    "Backend: GET /api/scheduler/status returns running=true and job info",
+    "Backend: GET /api/scheduler/status requires admin authentication",
+    "Backend: POST /api/scheduler/run-now triggers profit accrual",
+    "Backend: POST /api/scheduler/run-now requires admin authentication",
+    "Backend: GET /api/user/profit-analytics returns monthly data with cumulative",
+    "Backend: GET /api/user/profit-analytics requires authentication",
+    "Backend: Login returns account_number (AC76743631)",
+    "Backend: GET /api/auth/me returns account_number",
+    "Backend: Transactions have type field for 'Доход' display",
+    "Backend: Portfolios have expected_return for yield display",
+    "Backend: Admin dashboard endpoint returns stats",
+    "Frontend: Admin Dashboard shows scheduler status card 'Планировщик начислений'",
+    "Frontend: Scheduler status shows 'Активен' (Active) badge",
+    "Frontend: Scheduler shows job name 'Automatic Profit Accrual'",
+    "Frontend: Scheduler shows next run time (23.01.2026, 17:00:00)",
+    "Frontend: Scheduler shows trigger 'cron[minute=0]'",
+    "Frontend: 'Обновить' (Refresh) button present",
+    "Frontend: 'Запустить сейчас' (Run Now) button present",
+    "Frontend: Deposit modal shows account_number AC76743631",
+    "Frontend: Deposit modal shows 'Ваш номер счёта для пополнения' label",
+    "Frontend: History page shows 'Доход' for income/profit transactions",
+    "Frontend: History page shows transaction descriptions",
+    "Frontend: Dashboard profit chart shows 'История доходов' title",
+    "Frontend: Dashboard profit chart shows 'Реальные данные' badge",
+    "Frontend: Dashboard profit chart shows 'Общий доход: +$473,08'"
+  ],
+  
+  "test_report_links": [
+    "/app/backend/tests/test_iteration9.py",
+    "/app/test_reports/pytest/pytest_results_iter9.xml"
+  ],
+  
+  "action_items": [],
+  
+  "critical_code_review_comments": [],
+  
+  "updated_files": [
+    "/app/backend/server.py - Fixed profit-analytics API to include both 'income' and 'profit' transaction types"
+  ],
+  
+  "success_rate": {
+    "backend": "100%",
+    "frontend": "100%"
+  },
+  
+  "test_credentials": {
+    "admin": "admin@altyncontract.kz / abc123"
+  },
+  
+  "seed_data_creation": "None - used existing data",
+  
+  "retest_needed": false,
+  
+  "should_main_agent_self_test": false,
+  
+  "context_for_next_testing_agent": "APScheduler is running with hourly profit accrual (cron[minute=0]). The scheduler creates 'income' type transactions. Profit-analytics API now includes both 'income' and 'profit' types for backward compatibility. Dashboard chart shows real profit data when available, otherwise shows forecast. Admin dashboard has scheduler status card with refresh and run-now buttons.",
+  
+  "features_verified": {
+    "apscheduler_status_endpoint": {
+      "status": "WORKING",
+      "endpoint": "GET /api/scheduler/status",
+      "response": {
+        "running": true,
+        "jobs": [
+          {
+            "id": "profit_accrual_hourly",
+            "name": "Automatic Profit Accrual",
+            "next_run": "2026-01-23T17:00:00+00:00",
+            "trigger": "cron[minute='0']"
+          }
+        ]
+      }
+    },
+    "manual_profit_accrual_trigger": {
+      "status": "WORKING",
+      "endpoint": "POST /api/scheduler/run-now",
+      "response": {
+        "message": "Profit accrual job started in background",
+        "status": "running"
+      }
+    },
+    "admin_dashboard_scheduler_card": {
+      "status": "WORKING",
+      "details": [
+        "Card title: 'Планировщик начислений'",
+        "Status badge: 'Активен'",
+        "Job name: 'Automatic Profit Accrual'",
+        "Next run time displayed",
+        "Trigger: 'cron[minute=0]'",
+        "Refresh button: 'Обновить'",
+        "Run now button: 'Запустить сейчас'"
+      ]
+    },
+    "profit_analytics_api": {
+      "status": "WORKING",
+      "endpoint": "GET /api/user/profit-analytics",
+      "response_structure": {
+        "monthly": "Array of 6 months with month, month_name, profit, count, cumulative",
+        "total_profit": "Sum of all profits",
+        "currency": "USD"
+      },
+      "fix_applied": "Added 'profit' type to query filter for backward compatibility"
+    },
+    "dashboard_profit_chart": {
+      "status": "WORKING",
+      "details": [
+        "Title changes to 'История доходов' when real data available",
+        "'Реальные данные' badge shown when profit > 0",
+        "'Общий доход' displays total profit",
+        "Chart shows cumulative profit over 6 months"
+      ]
+    },
+    "previous_features": {
+      "account_number_in_deposit_modal": "WORKING - Shows AC76743631",
+      "transaction_types_show_dohod": "WORKING - 'Доход' label for income/profit types"
+    }
+  }
+}

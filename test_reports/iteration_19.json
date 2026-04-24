@@ -1,0 +1,121 @@
+{
+  "summary": "P0 fix verification complete: Early termination payout logic and remaining profit display working correctly. Backend APIs return paid_profit and remaining_profit. Admin panel shows correct payout calculation (principal + remaining_profit). Mobile client displays remaining profit instead of total expected.",
+  
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "API: GET /api/admin/users/{user_id} returns paid_profit and remaining_profit for investments - PASS",
+    "API: GET /api/investments returns paid_profit and remaining_profit - PASS",
+    "API: POST /api/admin/investments/{investment_id}/terminate endpoint exists and validates - PASS",
+    "API: remaining_profit = expected_return - paid_profit calculation verified - PASS",
+    "Admin Panel: Investment list shows remaining profit (+$1,129.54 ожид. прибыль) - PASS",
+    "Admin Panel: Investment list shows paid profit (Выплачено: $70.46) - PASS",
+    "Admin Panel: Terminate dialog shows 'Общая ожид. прибыль' (total expected) - PASS",
+    "Admin Panel: Terminate dialog shows 'Уже выплачено' (already paid) - PASS",
+    "Admin Panel: Terminate dialog shows 'Осталось выплатить' (remaining to pay) - PASS",
+    "Admin Panel: Terminate dialog shows correct 'К возврату' (principal + remaining_profit) - PASS",
+    "Admin Panel: Terminate dialog explanation text correct - PASS",
+    "Mobile Dashboard: Shows 'Прогнозируемый доход' (sum of remaining profits) - PASS",
+    "Mobile Dashboard: Shows 'Общий доход' (total paid profit) - PASS",
+    "Mobile Contracts: Shows 'Ожид. прибыль' (remaining profit) per contract - PASS",
+    "Mobile Contracts: Shows 'Выплачено' (paid profit) per contract - PASS"
+  ],
+  
+  "test_report_links": [
+    "/app/backend/tests/test_remaining_profit.py",
+    "/app/test_reports/pytest/pytest_results_iter19.xml"
+  ],
+  
+  "action_items": [],
+  
+  "critical_code_review_comments": [],
+  
+  "updated_files": [
+    "/app/backend/tests/test_remaining_profit.py"
+  ],
+  
+  "success_rate": {
+    "backend": "100% (5/5 tests passed)",
+    "frontend": "100% (10/10 UI checks passed)"
+  },
+  
+  "test_credentials": {
+    "admin_email": "admin@altyncontract.kz",
+    "admin_password": "abc123"
+  },
+  
+  "seed_data_creation": "None - used existing admin user with 18 investments",
+  
+  "retest_needed": false,
+  
+  "should_main_agent_self_test": false,
+  
+  "context_for_next_testing_agent": "P0 fix for early termination payout and remaining profit display is complete and verified. Backend APIs (admin.py, investments.py) correctly calculate and return paid_profit and remaining_profit. Admin panel (AdminUserDetail.js) shows remaining profit in investment list and correct payout calculation in terminate dialog. Mobile client (MobileDashboard.js, MobileHistory.js) displays remaining profit instead of total expected.",
+  
+  "features_verified": {
+    "backend_api": {
+      "GET /api/admin/users/{user_id}": {
+        "status": "WORKING",
+        "returns": "investments with paid_profit and remaining_profit fields",
+        "calculation": "remaining_profit = max(0, expected_return - paid_profit)"
+      },
+      "GET /api/investments": {
+        "status": "WORKING",
+        "returns": "investments with paid_profit and remaining_profit fields"
+      },
+      "POST /api/admin/investments/{investment_id}/terminate": {
+        "status": "WORKING",
+        "payout_calculation": "principal + remaining_profit (for non-auto_reinvest)",
+        "returns": "principal, expected_return, already_paid_profit, remaining_profit, returned_amount"
+      }
+    },
+    "admin_panel": {
+      "investment_list": {
+        "status": "WORKING",
+        "displays": "remaining profit as 'ожид. прибыль', paid profit as 'Выплачено'"
+      },
+      "terminate_dialog": {
+        "status": "WORKING",
+        "shows": [
+          "Сумма инвестиции (principal)",
+          "Общая ожид. прибыль (total expected profit)",
+          "Уже выплачено (already paid)",
+          "Осталось выплатить (remaining to pay)",
+          "К возврату (principal + remaining_profit)"
+        ],
+        "explanation_text": "Клиенту будет возвращена сумма инвестиции + оставшаяся прибыль"
+      }
+    },
+    "mobile_client": {
+      "dashboard": {
+        "status": "WORKING",
+        "expected_profit": "Shows sum of remaining_profit from all investments",
+        "total_income": "Shows sum of paid_profit"
+      },
+      "contracts_page": {
+        "status": "WORKING",
+        "displays": "remaining_profit as 'Ожид. прибыль', paid_profit as 'Выплачено'"
+      }
+    }
+  },
+  
+  "verification_data": {
+    "sample_investment": {
+      "investment_id": "inv_7891c81961bb",
+      "principal": 10000.0,
+      "expected_return": 1200.0,
+      "paid_profit": 70.46,
+      "remaining_profit": 1129.54,
+      "calculated_payout": 11129.54
+    }
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "summary": "Iteration 20: Investment Logic Overhaul - All 4 features verified working. Backend APIs pass 12/12 tests. Frontend UI correctly implements compound interest calculator, editable portfolio stats, and term-based interest rates.",
+  
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {
+        "endpoint": "/api/portfolios",
+        "issue": "Some portfolios missing duration_unit and profit_accrual_interval fields (defaults used)",
+        "priority": "LOW"
+      }
+    ]
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "Admin Portfolios List",
+        "issues": ["Shows 'Доходность: X% годовых' (annual) in list view - consider updating to '% за срок' for consistency"]
+      }
+    ]
+  },
+  
+  "passed_tests": [
+    "Backend: Admin login with admin@altyncontract.kz / abc123 - PASS",
+    "Backend: Admin dashboard access - PASS",
+    "Backend: GET /api/admin/portfolios returns portfolio list - PASS",
+    "Backend: GET /api/portfolios/{id}/stats returns display values (investor_count, total_invested, total_profit) - PASS",
+    "Backend: PUT /api/admin/portfolios/{id}/stats updates display values - PASS",
+    "Backend: Portfolio has returns_by_term with term-based rates - PASS",
+    "Backend: Investment with auto_reinvest uses current_balance for compound interest - PASS",
+    "Backend: API health check - PASS",
+    "Frontend: Admin portfolio form - Presentation tab shows display_investor_count, display_total_invested, display_total_profit fields - PASS",
+    "Frontend: Admin portfolio form - Returns tab shows '% за срок' label (term-based rate) - PASS",
+    "Frontend: Admin portfolio form - Profit calculator shows simple vs compound interest toggle - PASS",
+    "Frontend: Invest page - Simple interest calculation: $10,000 @ 14% = $1,400 - PASS",
+    "Frontend: Invest page - Compound interest calculation: $10,000 @ 14% = $1,484.25 - PASS",
+    "Frontend: Invest page - Shows '(сложный процент)' label when auto-reinvest enabled - PASS"
+  ],
+  
+  "test_report_links": [
+    "/app/backend/tests/test_investment_logic_iter20.py",
+    "/app/test_reports/pytest/pytest_results_iter20.xml"
+  ],
+  
+  "action_items": [],
+  
+  "critical_code_review_comments": [
+    "Backend calculate_profit_for_investment() correctly implements term-based rates (not annual)",
+    "Frontend calculateCompoundReturn() matches backend logic for compound interest",
+    "Admin portfolio form correctly saves display_* fields to database",
+    "Portfolio stats endpoint returns both display values and actual values for admin reference"
+  ],
+  
+  "updated_files": [
+    "/app/backend/tests/test_investment_logic_iter20.py"
+  ],
+  
+  "success_rate": {
+    "backend": "100% (12/12 tests passed)",
+    "frontend": "100% (All UI features verified)"
+  },
+  
+  "test_credentials": {
+    "admin_email": "admin@altyncontract.kz",
+    "admin_password": "abc123",
+    "test_user_email": "corpcor1337@gmail.com",
+    "test_user_password": "corpcor1337"
+  },
+  
+  "seed_data_creation": "None - used existing data",
+  
+  "retest_needed": false,
+  
+  "should_main_agent_self_test": false,
+  
+  "context_for_next_testing_agent": "Investment logic overhaul complete. Key changes: 1) Backend calculates profit per-period as term_rate/total_periods (not annual), 2) Compound interest uses current_balance when auto_reinvest=true, 3) Admin can edit display stats for portfolios (display_investor_count, display_total_invested, display_total_profit) in Presentation tab, 4) Frontend calculators show compound interest when auto-reinvest is enabled with '(сложный процент)' label.",
+  
+  "features_verified": {
+    "compound_interest": {
+      "status": "WORKING",
+      "backend": "calculate_profit_for_investment() uses current_balance for auto_reinvest investments",
+      "frontend": "calculateCompoundReturn() shows higher profit with compound formula",
+      "ui_indicator": "Shows '(сложный процент)' when auto-reinvest enabled"
+    },
+    "editable_portfolio_stats": {
+      "status": "WORKING",
+      "fields": ["display_investor_count", "display_total_invested", "display_total_profit"],
+      "location": "Admin Portfolio Form > Presentation tab",
+      "api_endpoint": "PUT /api/admin/portfolios/{id}/stats"
+    },
+    "term_based_interest_rates": {
+      "status": "WORKING",
+      "backend": "returns_by_term contains rates for full term (not annual)",
+      "frontend_admin": "Shows '% за срок' label in Returns tab",
+      "frontend_invest": "Shows term rate in duration selector (e.g., '6 мес. — 14%')"
+    },
+    "investment_calculator": {
+      "status": "WORKING",
+      "simple_interest": "$10,000 @ 14% for 6 months = $1,400",
+      "compound_interest": "$10,000 @ 14% for 6 months = $1,484.25",
+      "admin_calculator": "Shows profit by term with simple/compound toggle"
+    }
+  },
+  
+  "verification_screenshots": [
+    ".screenshots/admin_portfolio_presentation.png - Shows display stats fields",
+    ".screenshots/admin_portfolio_returns.png - Shows '% за срок' label and calculator",
+    ".screenshots/invest_simple_interest.png - Shows $1,400 simple interest",
+    ".screenshots/invest_compound_interest.png - Shows $1,484.25 compound interest"
+  ]
+}

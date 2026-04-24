@@ -1,0 +1,122 @@
+{
+  "summary": "Mobile UI fixes verification completed. Landing page header with login button is visible. Mobile wallet deposit/withdraw buttons work. Portfolio detail invest button is visible. Dashboard is compact. However, found a BUG: 'Создать заявку' button in deposit modal is partially hidden behind bottom navigation bar.",
+  
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "MobileWallet - Deposit Modal",
+        "issue": "'Создать заявку' button is partially hidden behind bottom navigation bar. Button position: top=740, bottom=788. Bottom nav position: top=747. The button overlaps with bottom nav by ~41px.",
+        "selector": "button:has-text('Создать заявку')",
+        "priority": "HIGH",
+        "file": "/app/frontend/src/pages/MobileWallet.js",
+        "suggested_fix": "Add padding-bottom to modal content or use pb-20 class to account for bottom navigation height"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "Landing page - Header visible on mobile with 'Вход' (Login) button",
+    "Landing page - Mobile menu button (hamburger) visible",
+    "Login flow - Email/password authentication works",
+    "Mobile Dashboard - Loads correctly with user greeting",
+    "Mobile Dashboard - Balance card with deposit/withdraw buttons visible",
+    "Mobile Dashboard - Stats (invested capital, expected profit) visible",
+    "Mobile Dashboard - Active contracts section visible",
+    "Mobile Dashboard - Income history chart visible",
+    "Mobile Dashboard - Scroll ratio 2.39 (reasonable for content)",
+    "Mobile Wallet - Page loads with balance cards",
+    "Mobile Wallet - 'Пополнить' (Deposit) button visible and clickable",
+    "Mobile Wallet - 'Вывести' (Withdraw) button visible and clickable",
+    "Mobile Wallet - Deposit modal opens correctly",
+    "Mobile Wallet - Modal has account number and bank details",
+    "Mobile Wallet - Currency selector works",
+    "Mobile Wallet - Amount input works",
+    "Mobile Portfolio Detail - Page loads with portfolio info",
+    "Mobile Portfolio Detail - 'Инвестировать' (Invest) button visible at bottom",
+    "Mobile Portfolio Detail - Investment terms selector works",
+    "Mobile Portfolio Detail - Tabs (Overview, Calculator, Assets) work",
+    "API /api/health - Returns healthy status",
+    "API /api/auth/login - Returns session_token, user_id, role"
+  ],
+  
+  "test_report_links": [
+    "/app/test_reports/iteration_17.json"
+  ],
+  
+  "action_items": [
+    "FIX: Add bottom padding to deposit modal in MobileWallet.js to prevent 'Создать заявку' button from being hidden behind bottom navigation. Suggested: change 'pb-safe' to 'pb-24' or add 'mb-20' to the button container."
+  ],
+  
+  "critical_code_review_comments": [
+    "MobileWallet.js line 268: Modal has 'pb-safe' class but this doesn't account for the 65px bottom navigation bar. The button at y=740 overlaps with bottom nav at y=747.",
+    "Consider using a fixed bottom button inside the modal similar to MobilePortfolioDetail.js which uses 'fixed bottom-20' positioning"
+  ],
+  
+  "updated_files": [],
+  
+  "success_rate": {
+    "backend": "100% (2/2 API tests passed)",
+    "frontend": "95% (19/20 UI tests passed, 1 bug found)"
+  },
+  
+  "test_credentials": {
+    "admin_email": "admin@altyncontract.kz",
+    "admin_password": "abc123"
+  },
+  
+  "seed_data_creation": "None - used existing admin user",
+  
+  "retest_needed": true,
+  
+  "should_main_agent_self_test": true,
+  
+  "context_for_next_testing_agent": "Mobile UI fixes mostly working. Landing page header shows login button. Dashboard and wallet pages have visible deposit/withdraw buttons. Portfolio detail has visible invest button. One bug found: deposit modal 'Создать заявку' button is hidden behind bottom navigation bar on 375x812 viewport.",
+  
+  "features_verified": {
+    "landing_page_mobile": {
+      "header_visible": "WORKING - Header with logo, login button, and hamburger menu visible",
+      "login_button": "WORKING - 'Вход' button visible at top=16, left=260"
+    },
+    "mobile_wallet": {
+      "deposit_button": "WORKING - 'Пополнить' button visible and clickable",
+      "withdraw_button": "WORKING - 'Вывести' button visible and clickable",
+      "deposit_modal": "PARTIAL - Modal opens but 'Создать заявку' button hidden behind bottom nav"
+    },
+    "mobile_portfolio_detail": {
+      "invest_button": "WORKING - 'Инвестировать' button visible at bottom with fixed positioning"
+    },
+    "mobile_dashboard": {
+      "compactness": "WORKING - Scroll ratio 2.39 is reasonable for dashboard content",
+      "balance_card": "WORKING - Shows available balance with deposit/withdraw buttons"
+    },
+    "backend_apis": {
+      "health": "WORKING - Returns {status: healthy}",
+      "login": "WORKING - Returns session_token, user_id, role"
+    }
+  },
+  
+  "bug_details": {
+    "deposit_modal_button_hidden": {
+      "description": "'Создать заявку' button in deposit modal is partially hidden behind bottom navigation bar",
+      "viewport": "375x812",
+      "button_position": {"top": 740, "bottom": 788},
+      "bottom_nav_position": {"top": 747, "height": 65},
+      "overlap": "41px (button bottom 788 - nav top 747)",
+      "modal_css": "max-h-[85vh] overflow-auto pb-safe",
+      "root_cause": "pb-safe class doesn't account for bottom navigation height",
+      "reproduction_steps": [
+        "1. Login as admin@altyncontract.kz",
+        "2. Navigate to /wallet",
+        "3. Click 'Пополнить' button",
+        "4. Observe that 'Создать заявку' button is hidden behind bottom nav"
+      ]
+    }
+  }
+}

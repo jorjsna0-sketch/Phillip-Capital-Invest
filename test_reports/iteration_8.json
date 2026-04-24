@@ -1,0 +1,123 @@
+{
+  "summary": "Iteration 8 testing completed successfully. All requested features verified: 1) Header no longer has language/currency switchers (removed from Header.js), 2) Settings page has language and currency selectors in Preferences tab, 3) Deposit modal shows client account_number (AC76743631) prominently in both Dashboard and Wallet pages, 4) History page shows 'Доход' for income/profit transactions with descriptions, 5) Portfolio cards display annual yield (12%, 18%, 28%) and per-period yield (1.00%, 1.50%, 2.33% per month), 6) Admin portfolio form has Profit Calculator in Доходность tab with investment amount input.",
+  
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  
+  "passed_tests": [
+    "Backend: Health endpoint working",
+    "Backend: Login returns account_number (AC76743631)",
+    "Backend: Get_me returns account_number",
+    "Backend: Portfolios return expected_return (annual yield)",
+    "Backend: Portfolios have duration_months for period yield calculation",
+    "Backend: User transactions endpoint returns transactions with type field",
+    "Backend: Company bank info endpoint works for deposit modal",
+    "Backend: Brokers endpoint returns brokers list",
+    "Frontend: Header does NOT have Globe icon or language/currency switchers",
+    "Frontend: Settings page has language selector in Preferences tab",
+    "Frontend: Settings page has currency selector in Preferences tab",
+    "Frontend: Dashboard deposit modal shows account_number AC76743631",
+    "Frontend: Wallet page deposit modal shows account_number AC76743631",
+    "Frontend: History page shows 'Доход' label for income/profit transactions",
+    "Frontend: History page shows transaction descriptions (e.g., 'Начисление прибыли по инвестиции inv_...')",
+    "Frontend: Portfolios page shows 'Годовая доходность' (Annual yield) - 12%, 18%, 28%",
+    "Frontend: Portfolios page shows 'За месяц' (Per month) yield - 1.00%, 1.50%, 2.33%",
+    "Frontend: Admin portfolio form has 'Калькулятор прибыли' (Profit Calculator) in Доходность tab",
+    "Frontend: Profit Calculator has 'Сумма инвестиции' (Investment amount) input",
+    "Frontend: Profit Calculator shows profit per period and profit by terms"
+  ],
+  
+  "test_report_links": [
+    "/app/backend/tests/test_iteration8.py",
+    "/app/test_reports/pytest/pytest_results_iter8.xml"
+  ],
+  
+  "action_items": [],
+  
+  "critical_code_review_comments": [],
+  
+  "updated_files": [
+    "/app/backend/tests/test_iteration8.py"
+  ],
+  
+  "success_rate": {
+    "backend": "100% (9 tests passed)",
+    "frontend": "100% (all features working correctly)"
+  },
+  
+  "test_credentials": {
+    "admin_user": "admin@altyncontract.kz / abc123"
+  },
+  
+  "seed_data_creation": "None - used existing data",
+  
+  "retest_needed": false,
+  
+  "should_main_agent_self_test": false,
+  
+  "context_for_next_testing_agent": "All iteration 8 features verified working: 1) Language/currency switchers removed from Header.js - now only available in Settings page Preferences tab. 2) account_number (e.g., AC76743631) is returned by login and get_me endpoints and displayed prominently in deposit modals on Dashboard and Wallet pages. 3) History page correctly shows 'Доход' for income/profit transaction types with descriptions. 4) Portfolio cards show both annual yield (Годовая доходность) and per-period yield (За месяц/день/час). 5) Admin portfolio form has ProfitCalculator component in Доходность tab with investment amount input and profit calculations.",
+  
+  "features_verified": {
+    "header_switchers_removed": {
+      "status": "WORKING",
+      "details": [
+        "Globe icon removed from Header.js",
+        "No language dropdown in header",
+        "No currency dropdown in header",
+        "Mobile menu also has no language/currency switchers"
+      ]
+    },
+    "settings_page_selectors": {
+      "status": "WORKING",
+      "details": [
+        "Language selector in Preferences tab with data-testid='language-select'",
+        "Currency selector in Preferences tab with data-testid='currency-select'",
+        "Both selectors functional and save preferences"
+      ]
+    },
+    "deposit_modal_account_number": {
+      "status": "WORKING",
+      "details": [
+        "Dashboard deposit modal shows account_number prominently",
+        "Wallet page deposit modal shows account_number with copy button",
+        "Account number format: AC76743631",
+        "Label: 'Ваш номер счёта для пополнения'"
+      ]
+    },
+    "transaction_income_label": {
+      "status": "WORKING",
+      "details": [
+        "History page shows 'Доход' for profit/income transaction types",
+        "Transactions include descriptions like 'Начисление прибыли по инвестиции inv_...'",
+        "Green color and down-arrow icon for income transactions"
+      ]
+    },
+    "portfolio_yield_display": {
+      "status": "WORKING",
+      "details": [
+        "Annual yield shown as 'Годовая доходность' (12%, 18%, 28%)",
+        "Per-period yield shown as 'За месяц' (1.00%, 1.50%, 2.33%)",
+        "Both values displayed in green gradient box on portfolio cards"
+      ]
+    },
+    "admin_profit_calculator": {
+      "status": "WORKING",
+      "details": [
+        "Located in Admin Portfolio Form -> Доходность tab",
+        "Title: 'Калькулятор прибыли'",
+        "Investment amount input: 'Сумма инвестиции' with default $100,000",
+        "Shows 'Прибыль за месяц' (Profit per month)",
+        "Shows 'Ставка за период' (Rate per period)",
+        "Shows 'Прибыль по срокам' (Profit by terms) for each duration"
+      ]
+    }
+  }
+}
