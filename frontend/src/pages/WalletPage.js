@@ -53,7 +53,7 @@ export function WalletPage() {
 
 function DesktopWallet() {
   const { api, user } = useAuth();
-  const { t, formatCurrency, formatDate } = useLanguage();
+  const { t, formatCurrency, formatDate, convertCurrency } = useLanguage();
   
   const [depositRequests, setDepositRequests] = useState([]);
   const [withdrawalRequests, setWithdrawalRequests] = useState([]);

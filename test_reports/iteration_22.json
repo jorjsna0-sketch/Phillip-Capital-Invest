@@ -1,0 +1,32 @@
+{
+  "summary": "Retest after fix for DesktopWallet convertCurrency destructure. Verified /wallet renders without runtime error in both desktop and mobile viewports. All TRY-only requirements confirmed.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Mobile Wallet deposit modal", "issues": ["Mixed i18n labels: 'Your Account:' and 'Submit' button remain in English even in TR locale (pre-existing, not part of current fix)"]},
+      {"screen": "Wallet page header H1", "issues": ["Main heading shows 'Cüzdan' (Turkish) even when language is switched to EN. Nav item correctly shows 'Wallet' (pre-existing)"]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "[OPTIONAL, pre-existing] Translate mobile deposit modal labels 'Your Account' and 'Submit' via useLanguage().t()",
+    "[OPTIONAL, pre-existing] Ensure H1 page title on /wallet uses t('wallet.title') so it switches EN/RU/TR"
+  ],
+  "critical_code_review_comments": [
+    "Fix applied at WalletPage.js line 56 (added convertCurrency to useLanguage() destructure) resolved the runtime crash — verified no pageerror events on /wallet route.",
+    "convertCurrency is destructured but never used in DesktopWallet (search shows no reference after the destructure). Consider removing from destructure to avoid dead code, or confirm use-site."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped as per instruction)", "frontend": "100%"},
+  "test_credentials": "admin@altyncontract.kz / abc123",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Iteration 22 validated the convertCurrency fix. Desktop /wallet renders clean with zero page errors. Balance cards show ₺ only. Deposit modal label: 'Yatırma tutarı (TRY)', no currency dropdown (0 comboboxes). Withdrawal modal label: 'Çekim tutarı (TRY)', 'Çekim için mevcut: ₺4.153.383,54', 1 combobox (Broker - expected, not currency). Language switch TR→RU→EN tested on /wallet — all three render TRY only, no USD/EUR/KZT anywhere. Mobile viewport 390x844 also verified — header, balance cards, deposit modal all TRY only. Minor pre-existing i18n issues noted in design_issues. Test credentials confirmed in /app/memory/test_credentials.md.",
+  "rca of the issue": "Previous iteration 21 bug: DesktopWallet called convertCurrency() but did not destructure it from useLanguage() at line 56 — caused ReferenceError crashing /wallet. Fix: added convertCurrency to destructure. Verified zero runtime errors in current testing."
+}
