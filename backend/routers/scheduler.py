@@ -1,5 +1,5 @@
 """
-Scheduler router for AltynContract - Automatic profit accrual
+Scheduler router for Phillip Capital Invest - Automatic profit accrual
 """
 from datetime import datetime, timezone
 from fastapi import APIRouter, Request, HTTPException

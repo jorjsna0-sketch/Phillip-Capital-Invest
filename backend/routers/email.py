@@ -1,5 +1,5 @@
 """
-Email router for AltynContract - Email templates, campaigns, notifications
+Email router for Phillip Capital Invest - Email templates, campaigns, notifications
 """
 from datetime import datetime, timezone
 from fastapi import APIRouter, Request, HTTPException, BackgroundTasks
@@ -69,12 +69,12 @@ async def admin_test_email(request: Request):
     
     success = await EmailService.send_email(
         test_email,
-        "Тестовое письмо - AltynContract",
+        "Тестовое письмо - Phillip Capital Invest",
         """
         <html>
         <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: #0d4a4a; color: white; padding: 20px; text-align: center;">
-                <h1>AltynContract</h1>
+                <h1>Phillip Capital Invest</h1>
             </div>
             <div style="padding: 30px;">
                 <h2>Тестовое письмо</h2>
@@ -112,8 +112,8 @@ async def admin_create_email_template(request: Request):
     template = {
         "template_id": f"etmpl_{uuid.uuid4().hex[:8]}",
         "name": body.get("name"),
-        "subject": body.get("subject", {"ru": "", "en": "", "kz": ""}),
-        "content": body.get("content", {"ru": "", "en": "", "kz": ""}),
+        "subject": body.get("subject", {"ru": "", "en": "", "tr": ""}),
+        "content": body.get("content", {"ru": "", "en": "", "tr": ""}),
         "is_active": body.get("is_active", True),
         "created_at": datetime.now(timezone.utc).isoformat()
     }
@@ -180,8 +180,8 @@ async def admin_create_campaign(request: Request):
     
     campaign = {
         "campaign_id": f"camp_{uuid.uuid4().hex[:8]}",
-        "subject": body.get("subject", {"ru": "", "en": "", "kz": ""}),
-        "content": body.get("content", {"ru": "", "en": "", "kz": ""}),
+        "subject": body.get("subject", {"ru": "", "en": "", "tr": ""}),
+        "content": body.get("content", {"ru": "", "en": "", "tr": ""}),
         "filters": body.get("filters", {}),
         "status": "draft",
         "recipients_count": 0,

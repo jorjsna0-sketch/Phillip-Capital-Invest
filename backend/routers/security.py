@@ -1,5 +1,5 @@
 """
-Security router for AltynContract - 2FA (Google Authenticator & Email)
+Security router for Phillip Capital Invest - 2FA (Google Authenticator & Email)
 """
 import io
 import base64
@@ -44,7 +44,7 @@ async def setup_totp(user: dict = Depends(get_current_user)):
     totp = pyotp.TOTP(secret)
     provisioning_uri = totp.provisioning_uri(
         name=user["email"],
-        issuer_name="AltynContract"
+        issuer_name="Phillip Capital Invest"
     )
     
     # Generate QR code as base64
@@ -149,7 +149,7 @@ async def setup_email_2fa(user: dict = Depends(get_current_user)):
     try:
         await EmailService.send_email(
             to_email=user["email"],
-            subject="AltynContract - Код подтверждения 2FA",
+            subject="Phillip Capital Invest - Код подтверждения 2FA",
             html_content=f"""
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                 <h2 style="color: #064E3B;">Включение двухфакторной аутентификации</h2>
@@ -234,7 +234,7 @@ async def disable_email_2fa(data: Disable2FARequest, user: dict = Depends(get_cu
         try:
             await EmailService.send_email(
                 to_email=user["email"],
-                subject="AltynContract - Отключение 2FA",
+                subject="Phillip Capital Invest - Отключение 2FA",
                 html_content=f"""
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                     <h2 style="color: #dc2626;">Отключение двухфакторной аутентификации</h2>
@@ -304,7 +304,7 @@ async def send_login_email_code(email: str):
     try:
         await EmailService.send_email(
             to_email=email,
-            subject="AltynContract - Код входа",
+            subject="Phillip Capital Invest - Код входа",
             html_content=f"""
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                 <h2 style="color: #064E3B;">Вход в аккаунт</h2>

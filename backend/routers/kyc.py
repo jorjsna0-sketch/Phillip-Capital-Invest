@@ -1,5 +1,5 @@
 """
-KYC router for AltynContract - Document verification
+KYC router for Phillip Capital Invest - Document verification
 """
 from datetime import datetime, timezone
 from fastapi import APIRouter, Request, HTTPException, UploadFile, File, Form

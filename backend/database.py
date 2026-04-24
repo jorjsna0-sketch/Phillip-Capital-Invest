@@ -1,5 +1,5 @@
 """
-Database configuration and connection for AltynContract
+Database configuration and connection for Phillip Capital Invest
 """
 import os
 from pathlib import Path

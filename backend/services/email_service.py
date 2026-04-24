@@ -1,5 +1,5 @@
 """
-Email service for AltynContract
+Email service for Phillip Capital Invest
 """
 import logging
 import httpx
@@ -29,7 +29,7 @@ class EmailService:
             'smtp_user': os.environ.get('SMTP_USER') or db_settings.get('smtp_user'),
             'smtp_password': smtp_password,  # DB takes priority to avoid $ issues
             'email_from': os.environ.get('EMAIL_FROM') or db_settings.get('email_from'),
-            'email_from_name': os.environ.get('EMAIL_FROM_NAME') or db_settings.get('email_from_name', 'AltynContract'),
+            'email_from_name': os.environ.get('EMAIL_FROM_NAME') or db_settings.get('email_from_name', 'Phillip Capital Invest'),
         }
         
         return settings
@@ -50,7 +50,7 @@ class EmailService:
         
         # Get sender info
         sender_email = settings.get('email_from') or settings.get('sender_email')
-        sender_name = settings.get('email_from_name') or settings.get('sender_name', 'AltynContract')
+        sender_name = settings.get('email_from_name') or settings.get('sender_name', 'Phillip Capital Invest')
         
         if not sender_email:
             logging.warning("Email not configured - email_from missing")

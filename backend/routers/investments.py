@@ -1,5 +1,5 @@
 """
-Investments router for AltynContract
+Investments router for Phillip Capital Invest
 """
 from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, Request, HTTPException
@@ -332,7 +332,7 @@ async def create_investment(request: Request, data: InvestmentCreate):
         contract_email_html = f"""
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="background: #064e3b; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-                <h1 style="color: white; margin: 0; font-size: 24px;">AltynContract</h1>
+                <h1 style="color: white; margin: 0; font-size: 24px;">Phillip Capital Invest</h1>
             </div>
             <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none;">
                 <h2 style="color: #064e3b; margin-top: 0;">Контракт успешно оформлен ✓</h2>
@@ -376,7 +376,7 @@ async def create_investment(request: Request, data: InvestmentCreate):
                 
                 <p style="color: #6b7280; font-size: 13px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
                     С уважением,<br>
-                    <strong>Команда AltynContract</strong><br>
+                    <strong>Команда Phillip Capital Invest</strong><br>
                     {support_email}
                 </p>
             </div>
@@ -398,7 +398,7 @@ async def create_investment(request: Request, data: InvestmentCreate):
         
         await EmailService.send_email(
             to_email=user['email'],
-            subject=f"✓ Контракт #{investment.investment_id} успешно оформлен | AltynContract",
+            subject=f"✓ Контракт #{investment.investment_id} успешно оформлен | Phillip Capital Invest",
             html_content=contract_email_html,
             to_name=user.get('name'),
             attachments=pdf_attachment

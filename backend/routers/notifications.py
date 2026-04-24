@@ -1,5 +1,5 @@
 """
-Push Notifications router for AltynContract PWA
+Push Notifications router for Phillip Capital Invest PWA
 """
 import os
 import json
@@ -18,7 +18,7 @@ router = APIRouter(prefix="/notifications", tags=["notifications"])
 # VAPID configuration
 VAPID_PUBLIC_KEY = os.environ.get("VAPID_PUBLIC_KEY", "")
 VAPID_PRIVATE_KEY = os.environ.get("VAPID_PRIVATE_KEY", "")
-VAPID_MAILTO = os.environ.get("VAPID_MAILTO", "mailto:support@altyncontract.kz")
+VAPID_MAILTO = os.environ.get("VAPID_MAILTO", "mailto:support@phillipcapitalinvest.com")
 
 
 class PushSubscription(BaseModel):
@@ -214,7 +214,7 @@ async def notify_deposit_approved(user_id: str, amount: float, currency: str):
             <h2 style="color: #0d6e56;">Депозит зачислен</h2>
             <p>Ваш депозит на сумму <strong>{amount:,.2f} {currency}</strong> успешно зачислен на ваш счёт.</p>
             <p>Вы можете использовать эти средства для инвестирования.</p>
-            <p style="color: #666; font-size: 12px; margin-top: 20px;">Команда AltynContract</p>
+            <p style="color: #666; font-size: 12px; margin-top: 20px;">Команда Phillip Capital Invest</p>
         </div>
         """
     )
@@ -231,7 +231,7 @@ async def notify_withdrawal_processed(user_id: str, amount: float, currency: str
             <h2 style="color: #0d6e56;">Вывод средств одобрен</h2>
             <p>Ваша заявка на вывод <strong>{amount:,.2f} {currency}</strong> одобрена и обрабатывается.</p>
             <p>Средства будут переведены в ближайшее время.</p>
-            <p style="color: #666; font-size: 12px; margin-top: 20px;">Команда AltynContract</p>
+            <p style="color: #666; font-size: 12px; margin-top: 20px;">Команда Phillip Capital Invest</p>
         </div>
         """
     else:
@@ -243,7 +243,7 @@ async def notify_withdrawal_processed(user_id: str, amount: float, currency: str
             <h2 style="color: #c53030;">Вывод средств отклонён</h2>
             <p>Ваша заявка на вывод <strong>{amount:,.2f} {currency}</strong> была отклонена.</p>
             <p>Средства возвращены на ваш баланс. Для уточнения деталей обратитесь в поддержку.</p>
-            <p style="color: #666; font-size: 12px; margin-top: 20px;">Команда AltynContract</p>
+            <p style="color: #666; font-size: 12px; margin-top: 20px;">Команда Phillip Capital Invest</p>
         </div>
         """
     

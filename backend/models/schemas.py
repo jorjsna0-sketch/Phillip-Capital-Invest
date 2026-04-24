@@ -1,5 +1,5 @@
 """
-Pydantic models for AltynContract
+Pydantic models for Phillip Capital Invest
 """
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
@@ -32,8 +32,8 @@ class User(BaseModel):
     picture: Optional[str] = None
     role: str = "user"  # user, admin
     tier: str = "silver"  # silver, gold, platinum
-    available_balance: Dict[str, float] = Field(default_factory=lambda: {"USD": 0, "KZT": 0, "EUR": 0, "USDT": 0})
-    portfolio_balance: Dict[str, float] = Field(default_factory=lambda: {"USD": 0, "KZT": 0, "EUR": 0, "USDT": 0})
+    available_balance: Dict[str, float] = Field(default_factory=lambda: {"USD": 0, "TRY": 0, "EUR": 0, "USDT": 0})
+    portfolio_balance: Dict[str, float] = Field(default_factory=lambda: {"USD": 0, "TRY": 0, "EUR": 0, "USDT": 0})
     total_invested: float = 0
     kyc_status: str = "none"  # none, pending, approved, rejected
     preferred_language: str = "ru"
@@ -54,7 +54,7 @@ class PortfolioAsset(BaseModel):
     name: Dict[str, str]
     allocation_percent: float
     asset_type: str  # stock, crypto, commodity, bond, real_estate
-    description: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "kz": "", "en": ""})
+    description: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "tr": "", "en": ""})
     current_price: float = 0
     price_change_24h: float = 0
     price_history: List[Dict[str, Any]] = Field(default_factory=list)
@@ -89,10 +89,10 @@ class Portfolio(BaseModel):
     landing_order: int = 0
     banner_url: Optional[str] = None
     contract_template_id: Optional[str] = None
-    contract_template: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "kz": "", "en": ""})
+    contract_template: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "tr": "", "en": ""})
     detailed_assets: List[Dict[str, Any]] = Field(default_factory=list)
-    sales_text: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "kz": "", "en": ""})
-    safety_guarantee: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "kz": "", "en": ""})
+    sales_text: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "tr": "", "en": ""})
+    safety_guarantee: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "tr": "", "en": ""})
     price_history: List[Dict[str, Any]] = Field(default_factory=list)
     news: List[Dict[str, Any]] = Field(default_factory=list)
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -116,10 +116,10 @@ class PortfolioCreate(BaseModel):
     landing_order: int = 0
     banner_url: Optional[str] = None
     contract_template_id: Optional[str] = None
-    contract_template: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "kz": "", "en": ""})
+    contract_template: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "tr": "", "en": ""})
     detailed_assets: List[Dict[str, Any]] = Field(default_factory=list)
-    sales_text: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "kz": "", "en": ""})
-    safety_guarantee: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "kz": "", "en": ""})
+    sales_text: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "tr": "", "en": ""})
+    safety_guarantee: Dict[str, str] = Field(default_factory=lambda: {"ru": "", "tr": "", "en": ""})
     price_history: List[Dict[str, Any]] = Field(default_factory=list)
     news: List[Dict[str, Any]] = Field(default_factory=list)
 
@@ -300,15 +300,15 @@ class AdminSettings(BaseModel):
     smtp_user: Optional[str] = None
     smtp_password: Optional[str] = None
     email_from: Optional[str] = None
-    email_from_name: Optional[str] = "AltynContract"
+    email_from_name: Optional[str] = "Phillip Capital Invest"
     sender_email: Optional[str] = None
-    sender_name: Optional[str] = "AltynContract"
+    sender_name: Optional[str] = "Phillip Capital Invest"
     smtp_username: Optional[str] = None
     use_smtp: bool = False
     # Telegram
     telegram_bot_token: Optional[str] = None
     # Company details
-    company_name: Optional[str] = "AltynContract LLP"
+    company_name: Optional[str] = "Phillip Capital Invest LLP"
     company_director: Optional[str] = "Иванов И.И."
     company_director_title: Optional[str] = "Генеральный директор"
     company_license: Optional[str] = "Лицензия НБ РК №1.2.34/567"

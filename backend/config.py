@@ -1,10 +1,10 @@
 """
-Configuration settings for AltynContract
+Configuration settings for Phillip Capital Invest
 """
 import os
 
 # App settings
-APP_NAME = "AltynContract"
+APP_NAME = "Phillip Capital Invest"
 DEBUG = os.environ.get("DEBUG", "false").lower() == "true"
 
 # Database

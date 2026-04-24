@@ -1,5 +1,5 @@
 """
-Support router for AltynContract - Tickets and help
+Support router for Phillip Capital Invest - Tickets and help
 """
 from datetime import datetime, timezone
 from fastapi import APIRouter, Request, HTTPException

@@ -1,5 +1,5 @@
 """
-Contract PDF Generator Service for AltynContract
+Contract PDF Generator Service for Phillip Capital Invest
 Generates PDF contracts for investments
 """
 import io
@@ -103,7 +103,7 @@ async def generate_contract_pdf(investment_id: str, user_id: str) -> bytes:
     portfolio_name = portfolio['name'].get(lang, portfolio['name'].get('ru', 'N/A')) if portfolio else 'N/A'
     
     # Company info
-    company_name = admin_settings.get('company_name', 'AltynContract LLP')
+    company_name = admin_settings.get('company_name', 'Phillip Capital Invest LLP')
     company_director = admin_settings.get('company_director', 'Иванов И.И.')
     company_director_title = admin_settings.get('company_director_title', 'Генеральный директор')
     company_license = admin_settings.get('company_license', 'Лицензия НБ РК №1.2.34/567')

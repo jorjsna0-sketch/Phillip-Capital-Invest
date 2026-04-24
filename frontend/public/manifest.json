@@ -1,14 +1,14 @@
 {
-  "name": "AltynContract",
-  "short_name": "AltynContract",
-  "description": "Премиум инвестиционная платформа для Tier-1 инвесторов",
+  "name": "Phillip Capital Invest",
+  "short_name": "Phillip Capital",
+  "description": "Premium yatırım platformu — Tier-1 yatırımcılar için özel varlık yönetimi",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#064E3B",
-  "theme_color": "#064E3B",
+  "background_color": "#0B1E3F",
+  "theme_color": "#0B1E3F",
   "orientation": "portrait-primary",
   "scope": "/",
-  "lang": "ru",
+  "lang": "tr",
   "categories": ["finance", "business"],
   "icons": [
     {
@@ -62,16 +62,16 @@
   ],
   "shortcuts": [
     {
-      "name": "Мой портфель",
-      "short_name": "Портфель",
-      "description": "Просмотр инвестиционного портфеля",
+      "name": "Portföyüm",
+      "short_name": "Portföy",
+      "description": "Yatırım portföyünü görüntüle",
       "url": "/dashboard",
       "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     },
     {
-      "name": "Инвестировать",
-      "short_name": "Инвестиции",
-      "description": "Выбрать портфель для инвестирования",
+      "name": "Yatırım Yap",
+      "short_name": "Yatırım",
+      "description": "Yatırım için portföy seç",
       "url": "/portfolios",
       "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     }

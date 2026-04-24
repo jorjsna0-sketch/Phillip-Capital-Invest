@@ -1,5 +1,5 @@
 """
-Routers package for AltynContract API
+Routers package for Phillip Capital Invest API
 """
 from fastapi import APIRouter
 

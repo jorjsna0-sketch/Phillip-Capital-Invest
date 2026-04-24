@@ -369,14 +369,14 @@ export function AdminPortfolioForm() {
       const response = await api.post('/translate', {
         text: formData.contract_template.ru,
         source_lang: 'ru',
-        target_langs: ['kz', 'en']
+        target_langs: ['tr', 'en']
       });
       
       setFormData({
         ...formData,
         contract_template: {
           ...formData.contract_template,
-          kz: response.data.translations.kz || '',
+          tr: response.data.translations.tr || '',
           en: response.data.translations.en || ''
         }
       });
@@ -848,12 +848,12 @@ export function AdminPortfolioForm() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>Қазақша (KZ)</Label>
+                <Label>Türkçe (TR)</Label>
                 <Textarea
-                  value={formData.strategy?.kz || ''}
-                  onChange={(e) => setFormData({...formData, strategy: {...(formData.strategy || {}), kz: e.target.value}})}
+                  value={formData.strategy?.tr || ''}
+                  onChange={(e) => setFormData({...formData, strategy: {...(formData.strategy || {}), tr: e.target.value}})}
                   rows={4}
-                  placeholder="Инвестициялық стратегия сипаттамасы..."
+                  placeholder="Yatırım stratejisi açıklaması..."
                 />
               </div>
               <div className="space-y-2">
@@ -954,7 +954,7 @@ export function AdminPortfolioForm() {
                 <Tabs defaultValue="ru">
                   <TabsList>
                     <TabsTrigger value="ru">Русский *</TabsTrigger>
-                    <TabsTrigger value="kz">Қазақша</TabsTrigger>
+                    <TabsTrigger value="tr">Türkçe</TabsTrigger>
                     <TabsTrigger value="en">English</TabsTrigger>
                   </TabsList>
                   
@@ -971,16 +971,16 @@ export function AdminPortfolioForm() {
                     />
                   </TabsContent>
                   
-                  <TabsContent value="kz">
+                  <TabsContent value="tr">
                     <Textarea
-                      value={formData.contract_template.kz}
+                      value={formData.contract_template.tr || ''}
                       onChange={(e) => setFormData({
                         ...formData, 
-                        contract_template: {...formData.contract_template, kz: e.target.value}
+                        contract_template: {...formData.contract_template, tr: e.target.value}
                       })}
                       rows={15}
                       className="font-mono text-sm"
-                      placeholder="Нажмите 'Автоперевод' для перевода с русского..."
+                      placeholder="Türkçe çeviri için 'Otomatik çevir' düğmesine tıklayın..."
                     />
                   </TabsContent>
                   

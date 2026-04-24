@@ -1,5 +1,5 @@
 """
-Utility functions for AltynContract
+Utility functions for Phillip Capital Invest
 """
 import hashlib
 from datetime import datetime, timezone

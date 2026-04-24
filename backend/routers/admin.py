@@ -1,5 +1,5 @@
 """
-Admin router for AltynContract - Admin panel endpoints
+Admin router for Phillip Capital Invest - Admin panel endpoints
 """
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
@@ -994,7 +994,7 @@ async def get_settings(request: Request):
             "setting_id": "admin_settings",
             "email_enabled": False,
             "email_provider": "sendgrid",
-            "company_name": "AltynContract LLP",
+            "company_name": "Phillip Capital Invest LLP",
             "brokers": []
         }
         await db.admin_settings.insert_one(settings)
@@ -1096,7 +1096,7 @@ async def test_email(request: Request):
     test_html = f"""
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="background: #064e3b; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-            <h1 style="color: white; margin: 0;">AltynContract</h1>
+            <h1 style="color: white; margin: 0;">Phillip Capital Invest</h1>
         </div>
         <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
             <h2 style="color: #064e3b;">✓ Тестовое письмо</h2>
@@ -1107,14 +1107,14 @@ async def test_email(request: Request):
                 <p style="margin: 5px 0 0;"><strong>SMTP Host:</strong> {settings.get('smtp_host', 'N/A')}</p>
                 <p style="margin: 5px 0 0;"><strong>SMTP Port:</strong> {settings.get('smtp_port', 'N/A')}</p>
             </div>
-            <p style="color: #6b7280; font-size: 13px;">Отправлено из админ-панели AltynContract</p>
+            <p style="color: #6b7280; font-size: 13px;">Отправлено из админ-панели Phillip Capital Invest</p>
         </div>
     </div>
     """
     
     success = await EmailService.send_email(
         to_email=admin_email,
-        subject="✓ Тестовое письмо | AltynContract",
+        subject="✓ Тестовое письмо | Phillip Capital Invest",
         html_content=test_html,
         to_name=admin.get("name")
     )
@@ -1562,13 +1562,13 @@ async def get_contact_info(request: Request):
     if not contact:
         contact = {
             "setting_id": "contact_info",
-            "phone": "+7 (727) 123-45-67",
-            "phone_hours": {"ru": "Пн-Пт: 9:00 - 18:00", "en": "Mon-Fri: 9:00 AM - 6:00 PM", "kz": "Дс-Жм: 9:00 - 18:00"},
-            "email": "info@altyncontract.kz",
+            "phone": "+90 (212) 000-00-00",
+            "phone_hours": {"ru": "Пн-Пт: 9:00 - 18:00", "en": "Mon-Fri: 9:00 AM - 6:00 PM", "tr": "Pzt-Cum: 09:00 - 18:00"},
+            "email": "info@phillipcapitalinvest.com",
             "address": {
-                "ru": "г. Алматы, пр. Аль-Фараби, 77/8, БЦ \"Esentai Tower\"",
-                "en": "77/8 Al-Farabi Ave., Esentai Tower, Almaty, Kazakhstan",
-                "kz": "Алматы қ., Әл-Фараби д., 77/8, \"Esentai Tower\" БО"
+                "ru": "Стамбул, Левент, Финансовый район, Tower A, 34330",
+                "en": "Istanbul, Levent Finance District, Tower A, 34330",
+                "tr": "İstanbul, Levent Finans Bölgesi, Tower A, 34330"
             }
         }
         await db.site_settings.insert_one(contact)

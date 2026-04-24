@@ -1,5 +1,5 @@
 """
-Services package for AltynContract
+Services package for Phillip Capital Invest
 """
 from .email_service import EmailService
 

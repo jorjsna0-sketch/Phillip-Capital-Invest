@@ -104,7 +104,7 @@ export function MobileMorePage() {
 
       {/* App Version */}
       <div className="p-3 text-center flex-shrink-0">
-        <p className="text-xs text-gray-400">AltynContract v1.0.0</p>
+        <p className="text-xs text-gray-400">Phillip Capital Invest v1.0.0</p>
       </div>
     </div>
   );

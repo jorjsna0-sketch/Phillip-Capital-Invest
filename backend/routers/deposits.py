@@ -1,5 +1,5 @@
 """
-Deposits router for AltynContract - Deposit and withdrawal requests
+Deposits router for Phillip Capital Invest - Deposit and withdrawal requests
 """
 from datetime import datetime, timezone
 from fastapi import APIRouter, Request, HTTPException

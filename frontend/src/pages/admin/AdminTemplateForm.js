@@ -161,14 +161,14 @@ _____________________                    _____________________
       const response = await api.post('/translate', {
         text: formData.content.ru,
         source_lang: 'ru',
-        target_langs: ['kz', 'en']
+        target_langs: ['tr', 'en']
       });
       
       setFormData({
         ...formData,
         content: {
           ...formData.content,
-          kz: response.data.translations.kz || '',
+          tr: response.data.translations.tr || '',
           en: response.data.translations.en || ''
         }
       });
@@ -328,7 +328,7 @@ _____________________                    _____________________
                 ) : (
                   <Languages className="w-4 h-4 mr-2" />
                 )}
-                Автоперевод на KZ/EN
+                Автоперевод на TR/EN
               </Button>
             </div>
           </CardHeader>
@@ -336,9 +336,9 @@ _____________________                    _____________________
             <Tabs defaultValue="ru">
               <TabsList>
                 <TabsTrigger value="ru">Русский *</TabsTrigger>
-                <TabsTrigger value="kz">
-                  Қазақша
-                  {formData.content.kz && <CheckCircle className="w-3 h-3 ml-1 text-green-600" />}
+                <TabsTrigger value="tr">
+                  Türkçe
+                  {formData.content.tr && <CheckCircle className="w-3 h-3 ml-1 text-green-600" />}
                 </TabsTrigger>
                 <TabsTrigger value="en">
                   English
@@ -367,16 +367,16 @@ _____________________                    _____________________
                 />
               </TabsContent>
               
-              <TabsContent value="kz">
+              <TabsContent value="tr">
                 <Textarea
-                  value={formData.content.kz}
+                  value={formData.content.tr || ''}
                   onChange={(e) => setFormData({
                     ...formData, 
-                    content: {...formData.content, kz: e.target.value}
+                    content: {...formData.content, tr: e.target.value}
                   })}
                   rows={20}
                   className="font-mono text-sm"
-                  placeholder="Нажмите 'Автоперевод на KZ/EN' для автоматического перевода с русского..."
+                  placeholder="'Автоперевод на TR/EN' для автоматического перевода с русского..."
                 />
               </TabsContent>
               

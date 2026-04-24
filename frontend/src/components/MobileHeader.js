@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
+import { Logo } from './Logo';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -74,11 +76,7 @@ export function MobileHeader({ title, showBack = false, showMenu = true }) {
             </Button>
           ) : (
             <Link to="/dashboard" className="flex items-center gap-2" onClick={triggerHaptic}>
-              <img 
-                src="/icons/icon-72x72.png" 
-                alt="AltynContract" 
-                className="w-8 h-8 rounded-lg"
-              />
+              <Logo variant="dark" size={30} showWordmark={false} />
             </Link>
           )}
           
@@ -98,6 +96,9 @@ export function MobileHeader({ title, showBack = false, showMenu = true }) {
 
         {/* Right section */}
         <div className="flex items-center gap-2">
+          {/* Language switcher */}
+          <LanguageSwitcher compact />
+
           {/* Tier Badge */}
           {user?.tier && !title && (
             <Badge className={`${getTierColor(user.tier)} text-[10px] px-2 py-0.5`}>

@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Button } from './ui/button';
+import { Logo } from './Logo';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,7 +44,7 @@ export function Header() {
   const navLinks = user ? [
     { path: '/dashboard', label: t('nav_dashboard'), icon: LayoutDashboard },
     { path: '/portfolios', label: t('nav_portfolios'), icon: Briefcase },
-    { path: '/wallet', label: 'Кошелёк', icon: Wallet },
+    { path: '/wallet', label: t('nav_wallet'), icon: Wallet },
     { path: '/history', label: t('nav_history'), icon: History },
     { path: '/support', label: t('nav_support'), icon: HelpCircle },
   ] : [
@@ -55,13 +57,8 @@ export function Header() {
       <div className="container-premium">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2" data-testid="logo-link">
-            <div className="w-8 h-8 rounded-sm bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-heading font-bold text-lg">A</span>
-            </div>
-            <span className="font-heading font-semibold text-xl text-primary hidden sm:block">
-              AltynContract
-            </span>
+          <Link to="/" className="flex items-center" data-testid="logo-link">
+            <Logo variant="dark" size={36} />
           </Link>
 
           {/* Desktop Navigation */}
@@ -98,6 +95,9 @@ export function Header() {
 
           {/* Right Side */}
           <div className="flex items-center space-x-2">
+            {/* Language Switcher */}
+            <LanguageSwitcher />
+
             {/* User Menu / Auth Buttons */}
             {user ? (
               <DropdownMenu>

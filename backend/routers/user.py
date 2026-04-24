@@ -1,5 +1,5 @@
 """
-User router for AltynContract - User profile and settings endpoints
+User router for Phillip Capital Invest - User profile and settings endpoints
 """
 from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, Request, HTTPException
@@ -101,7 +101,7 @@ async def send_phone_verification_code(request: Request):
     email_sent = await EmailService.send_email(
         to_email=user["email"],
         to_name=user.get("name"),
-        subject="Код подтверждения телефона - AltynContract",
+        subject="Код подтверждения телефона - Phillip Capital Invest",
         html_content=f"""
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #064E3B;">Подтверждение телефона</h2>
@@ -113,7 +113,7 @@ async def send_phone_verification_code(request: Request):
             <p>Код действителен 15 минут.</p>
             <p>Если вы не запрашивали этот код, проигнорируйте это письмо.</p>
             <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;">
-            <p style="color: #6b7280; font-size: 12px;">С уважением,<br>Команда AltynContract</p>
+            <p style="color: #6b7280; font-size: 12px;">С уважением,<br>Команда Phillip Capital Invest</p>
         </div>
         """
     )

@@ -1,5 +1,5 @@
 """
-Database initialization script for AltynContract
+Database initialization script for Phillip Capital Invest
 Restores backup data if database is empty
 """
 import asyncio
@@ -75,7 +75,7 @@ async def init_database():
                     "name": "Admin User",
                     "role": "admin",
                     "created_at": datetime.now(timezone.utc).isoformat(),
-                    "balances": {"USD": 0, "EUR": 0, "KZT": 0},
+                    "balances": {"USD": 0, "EUR": 0, "TRY": 0},
                     "account_number": f"AC{secrets.token_hex(4).upper()}"
                 })
                 print("Default admin created: admin@altyncontract.kz / abc123")

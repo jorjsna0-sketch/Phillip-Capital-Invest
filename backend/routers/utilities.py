@@ -1,5 +1,5 @@
 """
-Utilities router for AltynContract - Exchange rates, translations, health checks
+Utilities router for Phillip Capital Invest - Exchange rates, translations, health checks
 """
 from datetime import datetime, timezone
 from fastapi import APIRouter, Request, HTTPException, UploadFile, File
@@ -32,7 +32,7 @@ _exchange_rates_cache = {
 @router.get("/")
 async def root():
     """Root endpoint"""
-    return {"message": "AltynContract API", "version": "1.0.0"}
+    return {"message": "Phillip Capital Invest API", "version": "1.0.0"}
 
 
 @router.get("/health")
@@ -83,7 +83,7 @@ async def get_exchange_rates(base: str = "USD"):
         "rates": {
             "USD": 1.0,
             "EUR": 0.92,
-            "KZT": 450.0,
+            "TRY": 33.5,
             "USDT": 1.0,
             "RUB": 90.0
         },
@@ -182,13 +182,13 @@ async def get_public_contact_info():
     contact = await db.site_settings.find_one({"setting_id": "contact_info"}, {"_id": 0})
     if not contact:
         contact = {
-            "phone": "+7 (727) 123-45-67",
-            "phone_hours": {"ru": "Пн-Пт: 9:00 - 18:00", "en": "Mon-Fri: 9:00 AM - 6:00 PM", "kz": "Дс-Жм: 9:00 - 18:00"},
-            "email": "info@altyncontract.kz",
+            "phone": "+90 (212) 000-00-00",
+            "phone_hours": {"ru": "Пн-Пт: 9:00 - 18:00", "en": "Mon-Fri: 9:00 AM - 6:00 PM", "tr": "Pzt-Cum: 09:00 - 18:00"},
+            "email": "info@phillipcapitalinvest.com",
             "address": {
-                "ru": "г. Алматы, пр. Аль-Фараби, 77/8, БЦ \"Esentai Tower\"",
-                "en": "77/8 Al-Farabi Ave., Esentai Tower, Almaty, Kazakhstan",
-                "kz": "Алматы қ., Әл-Фараби д., 77/8, \"Esentai Tower\" БО"
+                "ru": "Стамбул, Левент, Финансовый район, Tower A, 34330",
+                "en": "Istanbul, Levent Finance District, Tower A, 34330",
+                "tr": "İstanbul, Levent Finans Bölgesi, Tower A, 34330"
             }
         }
     return contact

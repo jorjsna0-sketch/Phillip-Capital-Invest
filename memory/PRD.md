@@ -513,3 +513,33 @@
 - `site_documents` - Stores document type, file URL, title, update timestamp
 - `site_settings` (with setting_id="contact_info") - Stores contact information
 
+
+---
+
+## Ребрендинг Phillip Capital Invest (Январь 2026) ✅ COMPLETE
+
+### Выполнено:
+- **Удалён казахский язык (kz)** полностью из фронтенда и бэкенда
+- **Добавлен турецкий (tr)** как основной язык по умолчанию
+- Поддерживаемые языки теперь: **TR (default), RU, EN**
+- **Переключатель языков** в шапке рядом с профилем (десктоп + мобилка)
+- Язык сохраняется в localStorage (`pci_language`) + синхронизируется с профилем через `PUT /api/user/settings` (preferred_language)
+- Определение языка: профиль → localStorage → browser → default `tr`
+- **Новый логотип** `/app/frontend/src/components/Logo.js` (SVG): тёмно-синий #0B1E3F + золотой #C9A24B, wordmark "Phillip Capital INVEST"
+- **Ребрендинг** "AltynContract" → "Phillip Capital Invest" во всех файлах
+- **Валюта KZT → TRY (₺)** в балансах, списке валют и курсах
+- Удалены все упоминания НБ РК / KASE / тенге / Казахстана — заменены на нейтральные (Global Member, License №...)
+- Контактная информация обновлена на Стамбульские реквизиты
+- PWA manifest.json, index.html, splash screen обновлены
+- Intl.DateTimeFormat/NumberFormat использует `tr-TR` для турецкого
+
+### Ключевые файлы:
+- `frontend/src/i18n/LanguageContext.js` — новая конфигурация языков (tr/ru/en), миграция из legacy keys
+- `frontend/src/i18n/translations.js` — полный перевод на tr (ручной, не машинный), обновлены ru/en
+- `frontend/src/components/Logo.js` — новый бренд-марк (SVG)
+- `frontend/src/components/LanguageSwitcher.js` — новый компонент переключателя
+- `frontend/src/components/Header.js`, `MobileHeader.js`, `Footer.js` — интегрированы Logo и LanguageSwitcher
+- `frontend/src/pages/LandingPage.js` — удалён kz-блок, добавлен tr-блок
+- `frontend/public/{index.html,manifest.json}` — обновлено
+- `backend/routers/{auth,admin,utilities,notifications}.py`, `models/schemas.py`, `init_db.py` — KZT→TRY, брендинг
+

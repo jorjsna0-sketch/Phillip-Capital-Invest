@@ -6,6 +6,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Mail, Lock, User, Loader2 } from 'lucide-react';
+import { Logo } from '../components/Logo';
 
 export function RegisterPage() {
   const { register } = useAuth();
@@ -55,15 +56,12 @@ export function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-background">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center space-x-2 mb-6">
-            <div className="w-10 h-10 rounded-sm bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-heading font-bold text-xl">A</span>
-            </div>
-            <span className="font-heading font-semibold text-2xl text-primary">AltynContract</span>
+          <Link to="/" className="inline-flex items-center mb-6">
+            <Logo variant="dark" size={40} />
           </Link>
           <h1 className="text-h3 text-primary mb-2">{t('register')}</h1>
           <p className="text-muted-foreground">
-            {language === 'ru' ? 'Станьте клиентом AltynContract' : language === 'kz' ? 'AltynContract клиенті болыңыз' : 'Become an AltynContract client'}
+            {language === 'ru' ? 'Станьте клиентом Phillip Capital Invest' : language === 'tr' ? 'Phillip Capital Invest müşterisi olun' : 'Become a Phillip Capital Invest client'}
           </p>
         </div>
 

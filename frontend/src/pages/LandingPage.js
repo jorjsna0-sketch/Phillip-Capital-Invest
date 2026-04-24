@@ -77,7 +77,7 @@ export function LandingPage() {
 
   const content = {
     ru: {
-      badge: 'Лицензия НБ РК №1.2.34/567',
+      badge: 'Лицензия №1.2.34/567',
       headline: 'Готовые инвестиционные',
       headlineSub: 'портфели',
       description: 'Профессионально составленные портфели для любого бюджета. Выберите подходящий уровень риска и доходности — мы позаботимся об остальном.',
@@ -88,7 +88,7 @@ export function LandingPage() {
         { value: '18.4%', label: 'Средняя доходность', icon: TrendingUp },
         { value: '2,847', label: 'Активных инвесторов', icon: Users }
       ],
-      trustBadges: ['AML/KYC', 'SSL 256-bit', 'KASE Member'],
+      trustBadges: ['AML/KYC', 'SSL 256-bit', 'Global Member'],
       sectionTitle: 'Почему выбирают нас',
       features: [
         {
@@ -161,101 +161,101 @@ export function LandingPage() {
         button: 'Открыть счёт'
       },
       footer: {
-        disclaimer: 'Информация на сайте не является публичной офертой. Инвестирование связано с риском. Прошлые результаты не гарантируют будущую доходность. AltynContract лицензирован НБ РК.',
-        rights: '© 2024 AltynContract. Все права защищены.'
+        disclaimer: 'Информация на сайте не является публичной офертой. Инвестирование связано с риском. Прошлые результаты не гарантируют будущую доходность. Phillip Capital Invest ведёт деятельность по действующей лицензии.',
+        rights: `© ${new Date().getFullYear()} Phillip Capital Invest. Все права защищены.`
       }
     },
-    kz: {
-      badge: 'ҚР ҰБ лицензиясы №1.2.34/567',
-      headline: 'Дайын инвестициялық',
-      headlineSub: 'портфельдер',
-      description: 'Кез келген бюджетке арналған кәсіби құрастырылған портфельдер. Тәуекел мен табыстылықтың қолайлы деңгейін таңдаңыз — қалғанын біз шешеміз.',
-      cta: 'Портфельдерді қарау',
-      ctaSecondary: 'Бұл қалай жұмыс істейді',
+    tr: {
+      badge: 'Lisans No. №1.2.34/567',
+      headline: 'Hazır yatırım',
+      headlineSub: 'portföyleri',
+      description: 'Her bütçe için profesyonel olarak oluşturulmuş portföyler. Uygun risk ve getiri seviyesini seçin — gerisini biz hallederiz.',
+      cta: 'Portföyleri Görüntüle',
+      ctaSecondary: 'Nasıl Çalışır',
       metrics: [
-        { value: '$127M', label: 'Басқарудағы активтер', icon: Wallet },
-        { value: '18.4%', label: 'Орташа табыстылық', icon: TrendingUp },
-        { value: '2,847', label: 'Белсенді инвесторлар', icon: Users }
+        { value: '$127M', label: 'Yönetilen Varlıklar', icon: Wallet },
+        { value: '18.4%', label: 'Ortalama Getiri', icon: TrendingUp },
+        { value: '2,847', label: 'Aktif Yatırımcı', icon: Users }
       ],
-      trustBadges: ['AML/KYC', 'SSL 256-bit', 'KASE Member'],
-      sectionTitle: 'Неге бізді таңдайды',
+      trustBadges: ['AML/KYC', 'SSL 256-bit', 'Global Member'],
+      sectionTitle: 'Neden Bizi Seçmelisiniz',
       features: [
         {
           icon: Shield,
-          title: 'Инвестицияларды қорғау',
-          desc: 'Segregated accounts, $500K дейін сақтандыру, көп деңгейлі қорғау',
-          highlight: 'Сақтандырылған'
+          title: 'Yatırım Koruması',
+          desc: 'Ayrı hesaplar, $500K\'ya kadar sigorta, çok katmanlı güvenlik',
+          highlight: 'Sigortalı'
         },
         {
           icon: PieChart,
-          title: 'Әртараптандыру',
-          desc: 'Әр портфель секторлар, география және актив түрлері бойынша теңгерімделген',
-          highlight: 'Оңтайландырылған'
+          title: 'Çeşitlendirme',
+          desc: 'Her portföy sektörler, coğrafya ve varlık türleri açısından dengelenmiştir',
+          highlight: 'Optimize'
         },
         {
           icon: Clock,
-          title: 'Ашықтық',
-          desc: 'Күнделікті есептілік, 24/7 онлайн қол жетімділік, операциялар егжей-тегжейі',
+          title: 'Şeffaflık',
+          desc: 'Günlük raporlama, 7/24 çevrimiçi erişim, detaylı işlem kaydı',
           highlight: 'Real-time'
         },
         {
           icon: Target,
-          title: 'Мақсаттарыңыз үшін',
-          desc: 'Әртүрлі мақсаттарға арналған портфельдер: жинақтау, пассивті табыс, капитал өсімі',
-          highlight: '6 портфель'
+          title: 'Hedefleriniz İçin',
+          desc: 'Farklı hedefler için portföyler: birikim, pasif gelir, sermaye büyümesi',
+          highlight: '6 portföy'
         }
       ],
-      portfoliosTitle: 'Өз портфеліңізді таңдаңыз',
-      portfoliosSubtitle: 'Әр портфель — белгілі бір тәуекел деңгейіне арналған дайын шешім',
+      portfoliosTitle: 'Portföyünüzü Seçin',
+      portfoliosSubtitle: 'Her portföy belirli bir risk seviyesi için hazır bir çözümdür',
       portfolios: [
-        { 
-          name: 'Тұрақты', 
-          tag: 'Консервативті',
-          return: '12%', 
-          risk: 'Минималды тәуекел',
-          min: '$10,000-нан',
-          desc: 'Тұрақтылық пен капиталды сақтауды бағалайтындарға',
+        {
+          name: 'Kararlı',
+          tag: 'Muhafazakar',
+          return: '12%',
+          risk: 'Minimum risk',
+          min: '$10,000\'dan itibaren',
+          desc: 'İstikrar ve sermaye korumasına değer verenler için',
           color: 'emerald'
         },
-        { 
-          name: 'Теңгерімді', 
-          tag: 'Оңтайлы',
-          return: '18%', 
-          risk: 'Орташа тәуекел',
-          min: '$25,000-нан',
-          desc: 'Табыстылық пен сенімділіктің алтын ортасы',
+        {
+          name: 'Dengeli',
+          tag: 'Optimal',
+          return: '18%',
+          risk: 'Orta risk',
+          min: '$25,000\'dan itibaren',
+          desc: 'Getiri ve güvenilirlik arasındaki altın denge',
           color: 'amber',
           popular: true
         },
-        { 
-          name: 'Агрессивті', 
-          tag: 'Максималды табыс',
-          return: '28%', 
-          risk: 'Жоғары тәуекел',
-          min: '$50,000-нан',
-          desc: 'Максималды пайда үшін тәуекелге дайындарға',
+        {
+          name: 'Agresif',
+          tag: 'Maksimum getiri',
+          return: '28%',
+          risk: 'Yüksek risk',
+          min: '$50,000\'dan itibaren',
+          desc: 'Maksimum kâr için risk almaya hazır olanlar için',
           color: 'slate'
         }
       ],
-      howItWorks: 'Бұл қалай жұмыс істейді',
+      howItWorks: 'Nasıl Çalışır',
       steps: [
-        { num: '01', title: 'Портфельді таңдаңыз', desc: 'Қол жетімді портфельдерді зерттеп, мақсаттарыңызға сәйкесін таңдаңыз' },
-        { num: '02', title: 'Шот ашыңыз', desc: '15 минутта жылдам тіркелу мен верификациядан өтіңіз' },
-        { num: '03', title: 'Балансты толтырыңыз', desc: 'Қаражатты ыңғайлы әдіспен аударыңыз: карта, аударым, USDT' },
-        { num: '04', title: 'Инвестициялаңыз', desc: 'Сома мен мерзімді таңдаңыз — келісімшарт автоматты түрде жасалады' }
+        { num: '01', title: 'Portföy Seçin', desc: 'Mevcut portföyleri inceleyin ve hedeflerinize uygun olanı seçin' },
+        { num: '02', title: 'Hesap Açın', desc: '15 dakikada hızlı kayıt ve doğrulamayı tamamlayın' },
+        { num: '03', title: 'Bakiyeyi Yükleyin', desc: 'Kolay yöntemle fon aktarın: kart, havale, USDT' },
+        { num: '04', title: 'Yatırım Yapın', desc: 'Tutar ve süreyi seçin — sözleşme otomatik olarak oluşturulur' }
       ],
       ctaSection: {
-        title: 'Бастауға дайынсыз ба?',
-        subtitle: '5 минутта шот ашып, барлық портфельдерге қол жеткізіңіз',
-        button: 'Шот ашу'
+        title: 'Başlamaya Hazır mısınız?',
+        subtitle: '5 dakikada hesap açın ve tüm portföylere erişin',
+        button: 'Hesap Aç'
       },
       footer: {
-        disclaimer: 'Сайттағы ақпарат жария оферта болып табылмайды. Инвестициялау тәуекелмен байланысты. Өткен нәтижелер болашақ табыстылыққа кепілдік бермейді. AltynContract ҚР ҰБ лицензиясымен жұмыс істейді.',
-        rights: '© 2024 AltynContract. Барлық құқықтар қорғалған.'
+        disclaimer: 'Bu sitedeki bilgiler kamuya açık bir teklif teşkil etmez. Yatırım risk içerir. Geçmiş sonuçlar gelecekteki getirileri garanti etmez. Phillip Capital Invest geçerli lisans altında faaliyet göstermektedir.',
+        rights: `© ${new Date().getFullYear()} Phillip Capital Invest. Tüm hakları saklıdır.`
       }
     },
     en: {
-      badge: 'NBK License №1.2.34/567',
+      badge: 'License №1.2.34/567',
       headline: 'Ready-made investment',
       headlineSub: 'portfolios',
       description: 'Professionally assembled portfolios for any budget. Choose your preferred risk and return level — we take care of the rest.',
@@ -266,7 +266,7 @@ export function LandingPage() {
         { value: '18.4%', label: 'Average Return', icon: TrendingUp },
         { value: '2,847', label: 'Active Investors', icon: Users }
       ],
-      trustBadges: ['AML/KYC', 'SSL 256-bit', 'KASE Member'],
+      trustBadges: ['AML/KYC', 'SSL 256-bit', 'Global Member'],
       sectionTitle: 'Why Choose Us',
       features: [
         {
@@ -339,8 +339,8 @@ export function LandingPage() {
         button: 'Open Account'
       },
       footer: {
-        disclaimer: 'Information on this site does not constitute a public offer. Investing involves risk. Past results do not guarantee future returns. AltynContract is licensed by NBK.',
-        rights: '© 2024 AltynContract. All rights reserved.'
+        disclaimer: 'Information on this site does not constitute a public offer. Investing involves risk. Past results do not guarantee future returns. Phillip Capital Invest operates under a valid license.',
+        rights: `© ${new Date().getFullYear()} Phillip Capital Invest. All rights reserved.`
       }
     }
   };
@@ -483,7 +483,7 @@ export function LandingPage() {
                 <div className="space-y-3">
                   <label className="flex items-center gap-2 text-slate-400 text-sm font-medium">
                     <Wallet className="w-4 h-4" />
-                    {language === 'ru' ? 'Сумма инвестиций' : language === 'kz' ? 'Инвестиция сомасы' : 'Investment amount'}
+                    {language === 'ru' ? 'Сумма инвестиций' : language === 'tr' ? 'Yatırım tutarı' : 'Investment amount'}
                   </label>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-400 text-xl font-bold">$</span>
@@ -516,7 +516,7 @@ export function LandingPage() {
                 <div className="space-y-3">
                   <label className="flex items-center gap-2 text-slate-400 text-sm font-medium">
                     <Clock className="w-4 h-4" />
-                    {language === 'ru' ? 'Срок инвестирования' : language === 'kz' ? 'Инвестиция мерзімі' : 'Investment term'}
+                    {language === 'ru' ? 'Срок инвестирования' : language === 'tr' ? 'Yatırım süresi' : 'Investment term'}
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     {[3, 6, 12, 24].map(term => (
@@ -529,7 +529,7 @@ export function LandingPage() {
                             : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-600'
                         }`}
                       >
-                        {term} {language === 'ru' ? 'мес' : language === 'kz' ? 'ай' : 'mo'}
+                        {term} {language === 'ru' ? 'мес' : language === 'tr' ? 'ay' : 'mo'}
                       </button>
                     ))}
                   </div>
@@ -539,7 +539,7 @@ export function LandingPage() {
                 <div className="space-y-3">
                   <label className="flex items-center gap-2 text-slate-400 text-sm font-medium">
                     <TrendingUp className="w-4 h-4" />
-                    {language === 'ru' ? 'Доходность (% годовых)' : language === 'kz' ? 'Табыстылық (% жылдық)' : 'Return rate (% p.a.)'}
+                    {language === 'ru' ? 'Доходность (% годовых)' : language === 'tr' ? 'Getiri (% yıllık)' : 'Return rate (% p.a.)'}
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     {[12, 18, 24, 28].map(rate => (
@@ -568,7 +568,7 @@ export function LandingPage() {
                   {/* Investment */}
                   <div className="bg-slate-900/50 rounded-xl p-5 text-center">
                     <p className="text-slate-500 text-sm mb-2">
-                      {language === 'ru' ? 'Ваши инвестиции' : 'Your investment'}
+                      {language === 'ru' ? 'Ваши инвестиции' : language === 'tr' ? 'Yatırımınız' : 'Your investment'}
                     </p>
                     <p className="text-2xl font-bold text-white">
                       ${parseFloat(calcAmount).toLocaleString()}
@@ -578,7 +578,7 @@ export function LandingPage() {
                   {/* Period Profit */}
                   <div className="bg-slate-900/50 rounded-xl p-5 text-center">
                     <p className="text-slate-500 text-sm mb-2">
-                      {language === 'ru' ? `Прибыль за ${selectedTerm} мес` : `Profit for ${selectedTerm}mo`}
+                      {language === 'ru' ? `Прибыль за ${selectedTerm} мес` : language === 'tr' ? `${selectedTerm} aylık kâr` : `Profit for ${selectedTerm}mo`}
                     </p>
                     <p className="text-2xl font-bold text-emerald-400">
                       +${(parseFloat(calcAmount) * (selectedRate / 100) * (selectedTerm / 12)).toLocaleString('en-US', {maximumFractionDigits: 0})}
@@ -588,7 +588,7 @@ export function LandingPage() {
                   {/* Monthly */}
                   <div className="bg-slate-900/50 rounded-xl p-5 text-center">
                     <p className="text-slate-500 text-sm mb-2">
-                      {language === 'ru' ? 'В месяц' : 'Monthly'}
+                      {language === 'ru' ? 'В месяц' : language === 'tr' ? 'Aylık' : 'Monthly'}
                     </p>
                     <p className="text-2xl font-bold text-slate-300">
                       +${((parseFloat(calcAmount) * (selectedRate / 100)) / 12).toLocaleString('en-US', {maximumFractionDigits: 0})}
@@ -598,7 +598,7 @@ export function LandingPage() {
                   {/* Total */}
                   <div className="bg-gradient-to-br from-amber-500/20 to-emerald-500/20 rounded-xl p-5 text-center border border-amber-400/30">
                     <p className="text-amber-400 text-sm mb-2 font-medium">
-                      {language === 'ru' ? 'Итого получите' : 'You will receive'}
+                      {language === 'ru' ? 'Итого получите' : language === 'tr' ? 'Toplam alacaksınız' : 'You will receive'}
                     </p>
                     <p className="text-3xl font-bold text-white">
                       ${(parseFloat(calcAmount) + parseFloat(calcAmount) * (selectedRate / 100) * (selectedTerm / 12)).toLocaleString('en-US', {maximumFractionDigits: 0})}
@@ -611,7 +611,7 @@ export function LandingPage() {
               <div className="mt-8 text-center">
                 <Link to="/portfolios">
                   <Button className="bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold px-12 py-6 text-lg rounded-xl shadow-lg shadow-amber-400/20 transition-all hover:shadow-amber-400/40">
-                    {language === 'ru' ? 'Выбрать портфель' : language === 'kz' ? 'Портфельді таңдау' : 'Choose Portfolio'}
+                    {language === 'ru' ? 'Выбрать портфель' : language === 'tr' ? 'Portföy Seç' : 'Choose Portfolio'}
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
@@ -622,15 +622,15 @@ export function LandingPage() {
             <div className="flex flex-wrap justify-center gap-6 mt-8 text-slate-500 text-sm">
               <div className="flex items-center gap-2">
                 <Shield className="w-4 h-4 text-emerald-500" />
-                <span>{language === 'ru' ? 'Застраховано до $500K' : 'Insured up to $500K'}</span>
+                <span>{language === 'ru' ? 'Застраховано до $500K' : language === 'tr' ? '$500K\'ya kadar sigortalı' : 'Insured up to $500K'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Lock className="w-4 h-4 text-emerald-500" />
-                <span>{language === 'ru' ? 'Безопасные транзакции' : 'Secure transactions'}</span>
+                <span>{language === 'ru' ? 'Безопасные транзакции' : language === 'tr' ? 'Güvenli işlemler' : 'Secure transactions'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                <span>{language === 'ru' ? 'Лицензия НБ РК' : 'NBK Licensed'}</span>
+                <span>{language === 'ru' ? 'Лицензировано' : language === 'tr' ? 'Lisanslı' : 'Licensed'}</span>
               </div>
             </div>
           </div>

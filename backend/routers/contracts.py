@@ -1,5 +1,5 @@
 """
-Contracts router for AltynContract - PDF generation, contract templates
+Contracts router for Phillip Capital Invest - PDF generation, contract templates
 """
 from datetime import datetime, timezone, timedelta
 from typing import Dict, Any
@@ -180,7 +180,7 @@ async def get_contract_pdf(investment_id: str, request: Request):
     portfolio_name = portfolio['name'].get(lang, portfolio['name'].get('ru', 'N/A')) if portfolio else 'N/A'
     
     # Company info from settings
-    company_name = admin_settings.get('company_name', 'AltynContract LLP')
+    company_name = admin_settings.get('company_name', 'Phillip Capital Invest LLP')
     company_director = admin_settings.get('company_director', 'Иванов И.И.')
     company_director_title = admin_settings.get('company_director_title', 'Генеральный директор')
     company_license = admin_settings.get('company_license', 'Лицензия НБ РК №1.2.34/567')
@@ -617,7 +617,7 @@ async def admin_create_contract_template(request: Request):
         "template_id": f"tmpl_{uuid.uuid4().hex[:8]}",
         "name": body.get("name"),
         "description": body.get("description", ""),
-        "content": body.get("content", {"ru": "", "en": "", "kz": ""}),
+        "content": body.get("content", {"ru": "", "en": "", "tr": ""}),
         "is_default": body.get("is_default", False),
         "created_at": datetime.now(timezone.utc).isoformat()
     }
@@ -696,7 +696,7 @@ async def admin_preview_contract_template(template_id: str, request: Request):
         "{{end_date}}": (datetime.now() + timedelta(days=365)).strftime('%d.%m.%Y'),
         "{{auto_reinvest}}": "Нет",
         "{{date}}": datetime.now().strftime('%d.%m.%Y'),
-        "{{company_name}}": "AltynContract LLP",
+        "{{company_name}}": "Phillip Capital Invest LLP",
         "{{company_director}}": "Иванов И.И.",
         "{{company_license}}": "Лицензия НБ РК №1.2.34/567",
         "{{company_bin}}": "123456789012",

@@ -292,10 +292,10 @@ export function AdminEmailTemplates() {
               <TabsList>
                 <TabsTrigger value="ru">🇷🇺 Русский</TabsTrigger>
                 <TabsTrigger value="en">🇬🇧 English</TabsTrigger>
-                <TabsTrigger value="kz">🇰🇿 Қазақша</TabsTrigger>
+                <TabsTrigger value="tr">🇹🇷 Türkçe</TabsTrigger>
               </TabsList>
 
-              {['ru', 'en', 'kz'].map((lang) => (
+              {['ru', 'en', 'tr'].map((lang) => (
                 <TabsContent key={lang} value={lang} className="space-y-4">
                   <div className="space-y-2">
                     <Label>Тема письма</Label>
@@ -305,7 +305,7 @@ export function AdminEmailTemplates() {
                         ...form, 
                         subject: {...form.subject, [lang]: e.target.value}
                       })}
-                      placeholder={lang === 'ru' ? 'Тема письма' : lang === 'en' ? 'Email subject' : 'Хат тақырыбы'}
+                      placeholder={lang === 'ru' ? 'Тема письма' : lang === 'en' ? 'Email subject' : 'E-posta konusu'}
                     />
                   </div>
                   <div className="space-y-2">

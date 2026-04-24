@@ -1,5 +1,5 @@
 """
-Authentication router for AltynContract
+Authentication router for Phillip Capital Invest
 """
 from datetime import datetime, timezone, timedelta
 import uuid
@@ -90,7 +90,7 @@ async def login(data: UserLogin, response: Response):
             try:
                 await EmailService.send_email(
                     to_email=user["email"],
-                    subject="AltynContract - Код входа",
+                    subject="Phillip Capital Invest - Код входа",
                     html_content=f"""
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                         <h2 style="color: #064E3B;">Вход в аккаунт</h2>
@@ -284,8 +284,8 @@ async def get_me(request: Request):
         "picture": user.get("picture"),
         "role": user.get("role", "user"),
         "tier": user.get("tier", "silver"),
-        "available_balance": user.get("available_balance", {"USD": 0, "KZT": 0, "EUR": 0, "USDT": 0}),
-        "portfolio_balance": user.get("portfolio_balance", {"USD": 0, "KZT": 0, "EUR": 0, "USDT": 0}),
+        "available_balance": user.get("available_balance", {"USD": 0, "TRY": 0, "EUR": 0, "USDT": 0}),
+        "portfolio_balance": user.get("portfolio_balance", {"USD": 0, "TRY": 0, "EUR": 0, "USDT": 0}),
         "total_invested": user.get("total_invested", 0),
         "kyc_status": user.get("kyc_status", "none"),
         "preferred_language": user.get("preferred_language", "ru"),

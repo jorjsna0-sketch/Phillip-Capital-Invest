@@ -1,5 +1,5 @@
 """
-AltynContract API - Main Server Entry Point
+Phillip Capital Invest API - Main Server Entry Point
 Clean, modular FastAPI application with automatic profit accrual scheduler
 """
 from fastapi import FastAPI, Request
@@ -26,7 +26,7 @@ client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 # Create the main app
-app = FastAPI(title="AltynContract API", version="2.0.0")
+app = FastAPI(title="Phillip Capital Invest API", version="2.0.0")
 
 # Configure logging
 logging.basicConfig(
@@ -500,7 +500,7 @@ except ImportError as e:
 @app.get("/")
 async def root():
     """Root endpoint"""
-    return {"message": "AltynContract API", "version": "2.0.0"}
+    return {"message": "Phillip Capital Invest API", "version": "2.0.0"}
 
 
 @app.get("/api/health")

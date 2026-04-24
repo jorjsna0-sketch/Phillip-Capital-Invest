@@ -29,7 +29,7 @@ export function AdminEmail() {
   const [settings, setSettings] = useState({
     sendgrid_api_key: '',
     sender_email: '',
-    sender_name: 'AltynContract',
+    sender_name: 'Phillip Capital Invest',
     smtp_host: '',
     smtp_port: 587,
     smtp_username: '',
@@ -211,7 +211,7 @@ export function AdminEmail() {
                   <Input
                     value={settings.sender_name || ''}
                     onChange={(e) => setSettings({ ...settings, sender_name: e.target.value })}
-                    placeholder="AltynContract"
+                    placeholder="Phillip Capital Invest"
                   />
                 </div>
               </div>
@@ -329,7 +329,7 @@ export function AdminEmail() {
                           ...campaignForm,
                           subject: { ...campaignForm.subject, ru: e.target.value }
                         })}
-                        placeholder="Важное уведомление от AltynContract"
+                        placeholder="Важное уведомление от Phillip Capital Invest"
                       />
                     </div>
 

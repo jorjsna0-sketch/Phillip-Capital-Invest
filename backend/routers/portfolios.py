@@ -1,5 +1,5 @@
 """
-Portfolios router for AltynContract
+Portfolios router for Phillip Capital Invest
 """
 from datetime import datetime, timezone
 from typing import Optional
@@ -251,8 +251,8 @@ async def add_portfolio_news(portfolio_id: str, request: Request):
     
     news_item = {
         "news_id": f"news_{uuid.uuid4().hex[:8]}",
-        "title": data.get("title", {"ru": "", "kz": "", "en": ""}),
-        "content": data.get("content", {"ru": "", "kz": "", "en": ""}),
+        "title": data.get("title", {"ru": "", "tr": "", "en": ""}),
+        "content": data.get("content", {"ru": "", "tr": "", "en": ""}),
         "published_at": datetime.now(timezone.utc).isoformat(),
         "source": data.get("source")
     }

@@ -1,5 +1,5 @@
 """
-Models package for AltynContract
+Models package for Phillip Capital Invest
 """
 from .schemas import (
     # User models

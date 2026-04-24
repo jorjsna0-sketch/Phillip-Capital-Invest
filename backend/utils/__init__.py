@@ -1,5 +1,5 @@
 """
-Utils package for AltynContract
+Utils package for Phillip Capital Invest
 """
 from .helpers import (
     hash_password,

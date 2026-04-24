@@ -585,7 +585,7 @@ function DesktopDashboard() {
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-h3 flex items-center gap-2">
                 <FileText className="w-5 h-5 text-primary" />
-                {language === 'ru' ? 'Мои контракты' : language === 'kz' ? 'Менің келісімшарттарым' : 'My Contracts'}
+                {language === 'ru' ? 'Мои контракты' : language === 'tr' ? 'Sözleşmelerim' : 'My Contracts'}
               </CardTitle>
               <Badge variant="outline">{investments.length} {language === 'ru' ? 'активных' : 'active'}</Badge>
             </CardHeader>
@@ -684,7 +684,7 @@ function DesktopDashboard() {
                         data-testid={`download-contract-${inv.investment_id}`}
                       >
                         <Download className="w-4 h-4 mr-2" />
-                        {language === 'ru' ? 'Скачать контракт (PDF)' : language === 'kz' ? 'Келісімшартты жүктеу (PDF)' : 'Download Contract (PDF)'}
+                        {language === 'ru' ? 'Скачать контракт (PDF)' : language === 'tr' ? 'Sözleşmeyi İndir (PDF)' : 'Download Contract (PDF)'}
                       </Button>
                     </div>
                   );

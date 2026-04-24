@@ -1,9 +1,238 @@
-// Translations for AltynContract - RU, KZ, EN
+// Translations for Phillip Capital Invest - TR (primary), RU, EN
 // Professional banking style for Tier-1 investors
 const translations = {
+  tr: {
+    // Common
+    app_name: "Phillip Capital Invest",
+    app_tagline: "Özel Varlık Yönetimi",
+    loading: "Yükleniyor...",
+    save: "Kaydet",
+    cancel: "İptal",
+    delete: "Sil",
+    edit: "Düzenle",
+    create: "Oluştur",
+    submit: "Onayla",
+    back: "Geri",
+    next: "Devam",
+    close: "Kapat",
+    search: "Ara",
+    filter: "Filtre",
+    view: "Detaylar",
+    download: "İndir",
+
+    // Auth
+    login: "Giriş Yap",
+    register: "Hesap Aç",
+    logout: "Çıkış Yap",
+    email: "E-posta Adresi",
+    password: "Parola",
+    confirm_password: "Parolayı Onayla",
+    name: "Ad Soyad",
+    forgot_password: "Erişimi Kurtar",
+    login_with_google: "Google ile Devam Et",
+    login_with_telegram: "Telegram ile Devam Et",
+    already_have_account: "Zaten müşteri misiniz?",
+    dont_have_account: "Henüz müşteri değil misiniz?",
+
+    // Navigation
+    nav_home: "Ana Sayfa",
+    nav_portfolios: "Stratejiler",
+    nav_dashboard: "Ana Sayfa",
+    nav_history: "İşlemler",
+    nav_support: "Destek",
+    nav_settings: "Ayarlar",
+    nav_admin: "Yönetim",
+    nav_wallet: "Cüzdan",
+    nav_profile: "Profil",
+    nav_more: "Daha Fazla",
+
+    // Mobile More Page
+    mobile_account: "Hesap",
+    mobile_settings: "Ayarlar",
+    mobile_documents: "Belgeler",
+    mobile_support: "Destek",
+    mobile_history: "İşlem Geçmişi",
+    mobile_personal: "Kişisel Bilgiler",
+    mobile_notifications: "Bildirimler",
+    mobile_language: "Dil ve Para Birimi",
+    mobile_security: "Güvenlik",
+    mobile_contracts: "Sözleşmelerim",
+    mobile_verification: "Doğrulama",
+    mobile_admin_panel: "Yönetici Paneli",
+    mobile_logout: "Hesaptan Çıkış",
+    mobile_app_version: "Uygulama Sürümü",
+
+    // Mobile Header
+    mobile_greeting: "İyi günler,",
+    mobile_investor: "Yatırımcı",
+
+    // Landing
+    hero_title: "Sermayeniz Güvenilir Korumada",
+    hero_subtitle: "Yüksek net değerli müşteriler için özel yatırım çözümleri. Garantili getirilerle profesyonel varlık yönetimi.",
+    cta_start: "Müşteri Ol",
+    cta_learn: "Danışmanlık Talep Et",
+    features_title: "Phillip Capital Invest Avantajları",
+    feature_1_title: "Kişiye Özel Yaklaşım",
+    feature_1_desc: "Her müşteri için özel portföy yöneticisi ve kişiselleştirilmiş yatırım stratejisi",
+    feature_2_title: "Sermaye Koruması",
+    feature_2_desc: "Risk yönetimi ve yatırım sigortası ile çeşitlendirilmiş portföyler",
+    feature_3_title: "Tam Şeffaflık",
+    feature_3_desc: "Günlük raporlama, analitik erişimi ve yasal bağlayıcılığı olan sözleşmeler",
+    stats_investors: "Müşteri",
+    stats_volume: "Yönetilen Varlık",
+    stats_return: "Yıllık Getiri",
+
+    // Dashboard
+    dashboard_title: "Müşteri Portföyü",
+    welcome_back: "İyi günler",
+    available_balance: "Kullanılabilir Bakiye",
+    portfolio_balance: "Yatırılan Sermaye",
+    total_invested: "Toplam Yatırım Tutarı",
+    expected_profit: "Beklenen Getiri",
+    active_investments: "Aktif Sözleşmeler",
+    recent_transactions: "Son İşlemler",
+    profit_forecast: "Getiri Tahmini",
+    asset_distribution: "Portföy Dağılımı",
+
+    // Tiers
+    tier_silver: "Private",
+    tier_gold: "Premium",
+    tier_platinum: "Elite",
+    tier_benefits: "Üyelik Avantajları",
+    tier_progress: "Bir Sonraki Seviyeye",
+
+    // Portfolios
+    portfolios_title: "Yatırım Stratejileri",
+    portfolios_subtitle: "Farklı risk-getiri profillerine sahip profesyonel yönetilen portföyler",
+    portfolio_min: "Minimum Giriş",
+    portfolio_max: "Maksimum Tahsis",
+    portfolio_return: "Hedef Getiri",
+    portfolio_duration: "Yatırım Süresi",
+    portfolio_risk: "Risk Profili",
+    portfolio_assets: "Portföy Bileşimi",
+    portfolio_strategy: "Yatırım Stratejisi",
+    risk_low: "Muhafazakar",
+    risk_medium: "Orta",
+    risk_high: "Agresif",
+    invest_now: "Yatırım Yap",
+    months: "ay",
+    per_year: "yıllık",
+
+    // Investment Process
+    invest_step_1: "Parametreler",
+    invest_step_2: "Koşullar",
+    invest_step_3: "İmza",
+    invest_step_4: "Onay",
+    select_amount: "Yatırım Tutarı",
+    select_duration: "Yatırım Süresi",
+    auto_reinvest: "Otomatik Yenileme",
+    auto_reinvest_desc: "Sözleşme süresi dolduğunda fonları otomatik olarak yeniden yatırın",
+    terms_accept: "Yatırım sözleşmesi koşullarını okudum ve kabul ediyorum",
+    signature_title: "Nitelikli Elektronik İmza",
+    signature_canvas: "İmzanızı Çizin",
+    signature_text: "Ad Soyad Yazın",
+    clear_signature: "Temizle",
+    investment_success: "Sözleşme Başarıyla İmzalandı",
+    download_contract: "Sözleşmeyi İndir",
+
+    // Transactions
+    transactions_title: "İşlem Geçmişi",
+    contracts_title: "Yatırım Sözleşmeleri",
+    tx_type: "İşlem Türü",
+    tx_amount: "Tutar",
+    tx_status: "Durum",
+    tx_date: "Tarih",
+    tx_deposit: "Yatırma",
+    tx_withdrawal: "Çekim",
+    tx_investment: "Yatırım",
+    tx_return: "Getiri Tahakkuku",
+    status_pending: "İşleniyor",
+    status_completed: "Tamamlandı",
+    status_failed: "Reddedildi",
+
+    // Balance
+    deposit: "Para Yatır",
+    withdraw: "Para Çek",
+    deposit_funds: "Hesap Dolum",
+    withdraw_funds: "Para Çekme",
+    select_currency: "İşlem Para Birimi",
+    enter_amount: "Tutar",
+
+    // KYC
+    kyc_title: "Müşteri Kimliklendirme",
+    kyc_subtitle: "AML/KYC gereksinimlerine uygun doğrulama prosedürü",
+    kyc_status: "Doğrulama Durumu",
+    kyc_not_started: "Tamamlanmadı",
+    kyc_pending: "İncelemede",
+    kyc_approved: "Doğrulandı",
+    kyc_rejected: "Açıklama Gerekli",
+    kyc_upload_passport: "Kimlik Belgesi",
+    kyc_upload_address: "Adres Kanıtı",
+
+    // Support
+    support_title: "Müşteri Desteği",
+    support_subtitle: "Kişisel yöneticiniz 7/24 hizmetinizde",
+    create_ticket: "Yeni Talep",
+    ticket_subject: "Konu",
+    ticket_message: "Açıklama",
+    ticket_status_open: "Yeni",
+    ticket_status_progress: "İşlemde",
+    ticket_status_resolved: "Çözüldü",
+    ticket_status_closed: "Kapalı",
+
+    // Settings
+    settings_title: "Profil Ayarları",
+    settings_language: "Arayüz Dili",
+    settings_currency: "Ana Para Birimi",
+    settings_notifications: "Bildirimler",
+    settings_security: "Güvenlik",
+
+    // Admin
+    admin_dashboard: "Kontrol Merkezi",
+    admin_users: "Müşteriler",
+    admin_portfolios: "Ürünler",
+    admin_kyc: "Doğrulama",
+    admin_withdrawals: "Çekimler",
+    admin_tickets: "Talepler",
+    admin_audit: "İşlem Günlüğü",
+    admin_emails: "İletişim",
+    admin_templates: "Sözleşme Şablonları",
+    admin_settings: "Sistem Ayarları",
+
+    // Portfolio Detail Page
+    back_to_portfolios: "Portföy Listesine",
+    annual_return: "Getiri",
+    investors: "Yatırımcı",
+    total_profit: "Toplam Kâr",
+    profit_calculator: "Kâr Hesaplayıcı",
+    investment_amount: "Yatırım Tutarı",
+    months_short: "ay",
+    tab_overview: "Genel Bakış",
+    tab_assets: "Varlıklar",
+    tab_performance: "Getiri",
+    tab_news: "Haberler",
+    investment_strategy: "Yatırım Stratejisi",
+    asset_allocation: "Varlık Dağılımı",
+    sales_text: "Portföy Hakkında",
+    safety_guarantee: "Güvenlik Garantileri",
+    returns_by_term: "Vadeye Göre Getiri",
+    portfolio_performance: "Tarihsel Getiri",
+    value: "Değer",
+    profit: "Kâr",
+    past_performance_disclaimer: "Geçmiş performans gelecekteki sonuçların garantisi değildir",
+    ready_to_invest: "Yatırıma Hazır mısınız?",
+    start_investing_description: "Yatırım hesabı açın ve bugün istikrarlı gelir elde etmeye başlayın",
+
+    // Footer
+    footer_rights: "Tüm Hakları Saklıdır",
+    footer_terms: "Hukuki Bilgiler",
+    footer_privacy: "Gizlilik Politikası",
+    footer_contact: "İletişim",
+  },
+
   ru: {
     // Common
-    app_name: "AltynContract",
+    app_name: "Phillip Capital Invest",
     app_tagline: "Частное управление капиталом",
     loading: "Загрузка...",
     save: "Сохранить",
@@ -19,7 +248,7 @@ const translations = {
     filter: "Фильтр",
     view: "Детали",
     download: "Загрузить",
-    
+
     // Auth
     login: "Вход",
     register: "Открыть счёт",
@@ -33,7 +262,7 @@ const translations = {
     login_with_telegram: "Войти через Telegram",
     already_have_account: "Уже являетесь клиентом?",
     dont_have_account: "Ещё не клиент?",
-    
+
     // Navigation
     nav_home: "Главная",
     nav_portfolios: "Портфели",
@@ -45,7 +274,7 @@ const translations = {
     nav_wallet: "Кошелёк",
     nav_profile: "Профиль",
     nav_more: "Ещё",
-    
+
     // Mobile More Page
     mobile_account: "Аккаунт",
     mobile_settings: "Настройки",
@@ -61,17 +290,17 @@ const translations = {
     mobile_admin_panel: "Панель администратора",
     mobile_logout: "Выйти из аккаунта",
     mobile_app_version: "Версия приложения",
-    
+
     // Mobile Header
     mobile_greeting: "Добрый день,",
     mobile_investor: "Инвестор",
-    
+
     // Landing
     hero_title: "Ваш капитал под надёжной защитой",
     hero_subtitle: "Индивидуальные инвестиционные решения для состоятельных клиентов. Профессиональное управление активами с гарантированной доходностью.",
     cta_start: "Стать клиентом",
     cta_learn: "Консультация",
-    features_title: "Преимущества AltynContract",
+    features_title: "Преимущества Phillip Capital Invest",
     feature_1_title: "Персональный подход",
     feature_1_desc: "Выделенный портфельный менеджер и индивидуальная инвестиционная стратегия для каждого клиента",
     feature_2_title: "Защита капитала",
@@ -81,7 +310,7 @@ const translations = {
     stats_investors: "Клиентов",
     stats_volume: "Под управлением",
     stats_return: "Доходность",
-    
+
     // Dashboard
     dashboard_title: "Личный кабинет",
     welcome_back: "Добрый день",
@@ -93,14 +322,14 @@ const translations = {
     recent_transactions: "Последние операции",
     profit_forecast: "Прогноз доходности",
     asset_distribution: "Структура портфеля",
-    
+
     // Tiers
     tier_silver: "Private",
     tier_gold: "Premium",
     tier_platinum: "Elite",
     tier_benefits: "Привилегии статуса",
     tier_progress: "До следующего уровня",
-    
+
     // Portfolios
     portfolios_title: "Инвестиционные стратегии",
     portfolios_subtitle: "Профессионально управляемые портфели с различным соотношением риска и доходности",
@@ -117,7 +346,7 @@ const translations = {
     invest_now: "Инвестировать",
     months: "мес.",
     per_year: "годовых",
-    
+
     // Investment Process
     invest_step_1: "Параметры",
     invest_step_2: "Условия",
@@ -134,7 +363,7 @@ const translations = {
     clear_signature: "Очистить",
     investment_success: "Контракт успешно оформлен",
     download_contract: "Загрузить договор",
-    
+
     // Transactions
     transactions_title: "История операций",
     contracts_title: "Инвестиционные контракты",
@@ -149,7 +378,7 @@ const translations = {
     status_pending: "В обработке",
     status_completed: "Исполнено",
     status_failed: "Отклонено",
-    
+
     // Balance
     deposit: "Пополнить",
     withdraw: "Вывести",
@@ -157,7 +386,7 @@ const translations = {
     withdraw_funds: "Вывод средств",
     select_currency: "Валюта операции",
     enter_amount: "Сумма",
-    
+
     // KYC
     kyc_title: "Идентификация клиента",
     kyc_subtitle: "Процедура верификации в соответствии с требованиями AML/KYC",
@@ -168,7 +397,7 @@ const translations = {
     kyc_rejected: "Требует уточнения",
     kyc_upload_passport: "Документ, удостоверяющий личность",
     kyc_upload_address: "Подтверждение адреса проживания",
-    
+
     // Support
     support_title: "Клиентская поддержка",
     support_subtitle: "Персональный менеджер доступен 24/7",
@@ -179,14 +408,14 @@ const translations = {
     ticket_status_progress: "В работе",
     ticket_status_resolved: "Решено",
     ticket_status_closed: "Закрыто",
-    
+
     // Settings
     settings_title: "Настройки профиля",
     settings_language: "Язык интерфейса",
     settings_currency: "Базовая валюта",
     settings_notifications: "Уведомления",
     settings_security: "Безопасность",
-    
+
     // Admin
     admin_dashboard: "Центр управления",
     admin_users: "Клиенты",
@@ -198,12 +427,11 @@ const translations = {
     admin_emails: "Коммуникации",
     admin_templates: "Шаблоны договоров",
     admin_settings: "Системные настройки",
-    
+
     // Portfolio Detail Page
     back_to_portfolios: "К списку портфелей",
     annual_return: "Доходность",
     investors: "Инвесторов",
-    total_invested: "Инвестировано",
     total_profit: "Общая прибыль",
     profit_calculator: "Калькулятор прибыли",
     investment_amount: "Сумма инвестиции",
@@ -223,222 +451,17 @@ const translations = {
     past_performance_disclaimer: "Прошлая доходность не гарантирует будущих результатов",
     ready_to_invest: "Готовы инвестировать?",
     start_investing_description: "Откройте инвестиционный счёт и начните получать стабильный доход уже сегодня",
-    
+
     // Footer
     footer_rights: "Все права защищены",
     footer_terms: "Правовая информация",
     footer_privacy: "Политика конфиденциальности",
     footer_contact: "Контакты",
   },
-  
-  kz: {
-    // Common
-    app_name: "AltynContract",
-    app_tagline: "Жеке капиталды басқару",
-    loading: "Жүктелуде...",
-    save: "Сақтау",
-    cancel: "Болдырмау",
-    delete: "Жою",
-    edit: "Өзгерту",
-    create: "Құру",
-    submit: "Растау",
-    back: "Артқа",
-    next: "Жалғастыру",
-    close: "Жабу",
-    search: "Іздеу",
-    filter: "Сүзгі",
-    view: "Толығырақ",
-    download: "Жүктеп алу",
-    
-    // Auth
-    login: "Кіру",
-    register: "Шот ашу",
-    logout: "Шығу",
-    email: "Электрондық пошта",
-    password: "Құпия сөз",
-    confirm_password: "Құпия сөзді растаңыз",
-    name: "Аты-жөні",
-    forgot_password: "Қолжетімділікті қалпына келтіру",
-    login_with_google: "Google арқылы кіру",
-    login_with_telegram: "Telegram арқылы кіру",
-    already_have_account: "Клиентсіз бе?",
-    dont_have_account: "Әлі клиент емессіз бе?",
-    
-    // Navigation
-    nav_home: "Басты бет",
-    nav_portfolios: "Стратегиялар",
-    nav_dashboard: "Басты бет",
-    nav_history: "Операциялар",
-    nav_support: "Қолдау",
-    nav_settings: "Баптаулар",
-    nav_admin: "Басқару",
-    nav_wallet: "Әмиян",
-    nav_profile: "Профиль",
-    nav_more: "Тағы",
-    
-    // Mobile More Page
-    mobile_account: "Аккаунт",
-    mobile_settings: "Баптаулар",
-    mobile_documents: "Құжаттар",
-    mobile_support: "Қолдау",
-    mobile_history: "Операциялар тарихы",
-    mobile_personal: "Жеке деректер",
-    mobile_notifications: "Хабарландырулар",
-    mobile_language: "Тіл және валюта",
-    mobile_security: "Қауіпсіздік",
-    mobile_contracts: "Менің келісімшарттарым",
-    mobile_verification: "Верификация",
-    mobile_admin_panel: "Әкімші панелі",
-    mobile_logout: "Аккаунттан шығу",
-    mobile_app_version: "Қолданба нұсқасы",
-    
-    // Mobile Header
-    mobile_greeting: "Қайырлы күн,",
-    mobile_investor: "Инвестор",
-    
-    // Landing
-    hero_title: "Сіздің капиталыңыз сенімді қорғауда",
-    hero_subtitle: "Бай клиенттерге арналған жеке инвестициялық шешімдер. Кепілдендірілген табыстылықпен кәсіби активтерді басқару.",
-    cta_start: "Клиент болу",
-    cta_learn: "Кеңес алу",
-    features_title: "AltynContract артықшылықтары",
-    feature_1_title: "Жеке тәсіл",
-    feature_1_desc: "Әр клиентке арналған портфолио менеджері және жеке инвестициялық стратегия",
-    feature_2_title: "Капиталды қорғау",
-    feature_2_desc: "Тәуекелдерді бақылау және инвестицияларды сақтандырумен әртараптандырылған портфельдер",
-    feature_3_title: "Толық ашықтық",
-    feature_3_desc: "Күнделікті есептілік, аналитикаға қол жетімділік және заңды түрде рәсімделген келісімшарттар",
-    stats_investors: "Клиенттер",
-    stats_volume: "Басқаруда",
-    stats_return: "Табыстылық",
-    
-    // Dashboard
-    dashboard_title: "Жеке кабинет",
-    welcome_back: "Қайырлы күн",
-    available_balance: "Бос қаражат",
-    portfolio_balance: "Инвестицияланған капитал",
-    total_invested: "Жалпы инвестиция көлемі",
-    expected_profit: "Болжамды табыс",
-    active_investments: "Белсенді келісімшарттар",
-    recent_transactions: "Соңғы операциялар",
-    profit_forecast: "Табыстылық болжамы",
-    asset_distribution: "Портфель құрылымы",
-    
-    // Tiers
-    tier_silver: "Private",
-    tier_gold: "Premium",
-    tier_platinum: "Elite",
-    tier_benefits: "Мәртебе артықшылықтары",
-    tier_progress: "Келесі деңгейге дейін",
-    
-    // Portfolios
-    portfolios_title: "Инвестициялық стратегиялар",
-    portfolios_subtitle: "Әртүрлі тәуекел мен табыстылық арақатынасы бар кәсіби басқарылатын портфельдер",
-    portfolio_min: "Минималды кіру",
-    portfolio_max: "Максималды көлем",
-    portfolio_return: "Мақсатты табыстылық",
-    portfolio_duration: "Орналастыру мерзімі",
-    portfolio_risk: "Тәуекел профилі",
-    portfolio_assets: "Портфель құрамы",
-    portfolio_strategy: "Инвестициялық стратегия",
-    risk_low: "Консервативті",
-    risk_medium: "Қалыпты",
-    risk_high: "Агрессивті",
-    invest_now: "Инвестициялау",
-    months: "ай",
-    per_year: "жылдық",
-    
-    // Investment Process
-    invest_step_1: "Параметрлер",
-    invest_step_2: "Шарттар",
-    invest_step_3: "Қол қою",
-    invest_step_4: "Растау",
-    select_amount: "Орналастыру сомасы",
-    select_duration: "Инвестициялау мерзімі",
-    auto_reinvest: "Автоматты ұзарту",
-    auto_reinvest_desc: "Келісімшарт мерзімі аяқталғаннан кейін қаражатты автоматты түрде қайта инвестициялау",
-    terms_accept: "Мен инвестициялық келісімшарт шарттарымен таныстым және келісемін",
-    signature_title: "Біліктілендірілген электрондық қолтаңба",
-    signature_canvas: "Графикалық қолтаңба",
-    signature_text: "Мәтіндік қолтаңба (аты-жөні)",
-    clear_signature: "Тазалау",
-    investment_success: "Келісімшарт сәтті рәсімделді",
-    download_contract: "Келісімшартты жүктеу",
-    
-    // Transactions
-    transactions_title: "Операциялар тарихы",
-    contracts_title: "Инвестициялық келісімшарттар",
-    tx_type: "Операция түрі",
-    tx_amount: "Сома",
-    tx_status: "Мәртебесі",
-    tx_date: "Күні",
-    tx_deposit: "Есепке алу",
-    tx_withdrawal: "Қаражатты шығару",
-    tx_investment: "Инвестициялау",
-    tx_return: "Табыс есептеу",
-    status_pending: "Өңдеуде",
-    status_completed: "Орындалды",
-    status_failed: "Қабылданбады",
-    
-    // Balance
-    deposit: "Толтыру",
-    withdraw: "Шығару",
-    deposit_funds: "Шотты толтыру",
-    withdraw_funds: "Қаражатты шығару",
-    select_currency: "Операция валютасы",
-    enter_amount: "Сома",
-    
-    // KYC
-    kyc_title: "Клиентті сәйкестендіру",
-    kyc_subtitle: "AML/KYC талаптарына сәйкес верификация процедурасы",
-    kyc_status: "Верификация мәртебесі",
-    kyc_not_started: "Өтілмеген",
-    kyc_pending: "Қарастырылуда",
-    kyc_approved: "Расталған",
-    kyc_rejected: "Нақтылауды қажет етеді",
-    kyc_upload_passport: "Жеке басын куәландыратын құжат",
-    kyc_upload_address: "Тұрғылықты мекенжайды растау",
-    
-    // Support
-    support_title: "Клиенттерді қолдау",
-    support_subtitle: "Жеке менеджер 24/7 қол жетімді",
-    create_ticket: "Жаңа өтініш",
-    ticket_subject: "Өтініш тақырыбы",
-    ticket_message: "Сипаттама",
-    ticket_status_open: "Жаңа",
-    ticket_status_progress: "Жұмыста",
-    ticket_status_resolved: "Шешілді",
-    ticket_status_closed: "Жабық",
-    
-    // Settings
-    settings_title: "Профиль баптаулары",
-    settings_language: "Интерфейс тілі",
-    settings_currency: "Негізгі валюта",
-    settings_notifications: "Хабарландырулар",
-    settings_security: "Қауіпсіздік",
-    
-    // Admin
-    admin_dashboard: "Басқару орталығы",
-    admin_users: "Клиенттер",
-    admin_portfolios: "Өнімдер",
-    admin_kyc: "Верификация",
-    admin_withdrawals: "Шығарулар",
-    admin_tickets: "Өтініштер",
-    admin_audit: "Операциялар журналы",
-    admin_emails: "Коммуникациялар",
-    admin_templates: "Келісімшарт үлгілері",
-    admin_settings: "Жүйелік баптаулар",
-    
-    // Footer
-    footer_rights: "Барлық құқықтар қорғалған",
-    footer_terms: "Құқықтық ақпарат",
-    footer_privacy: "Құпиялылық саясаты",
-    footer_contact: "Байланыс",
-  },
-  
+
   en: {
     // Common
-    app_name: "AltynContract",
+    app_name: "Phillip Capital Invest",
     app_tagline: "Private Wealth Management",
     loading: "Loading...",
     save: "Save",
@@ -454,7 +477,7 @@ const translations = {
     filter: "Filter",
     view: "Details",
     download: "Download",
-    
+
     // Auth
     login: "Sign In",
     register: "Open Account",
@@ -468,7 +491,7 @@ const translations = {
     login_with_telegram: "Continue with Telegram",
     already_have_account: "Already a client?",
     dont_have_account: "Not a client yet?",
-    
+
     // Navigation
     nav_home: "Home",
     nav_portfolios: "Strategies",
@@ -480,7 +503,7 @@ const translations = {
     nav_wallet: "Wallet",
     nav_profile: "Profile",
     nav_more: "More",
-    
+
     // Mobile More Page
     mobile_account: "Account",
     mobile_settings: "Settings",
@@ -496,17 +519,17 @@ const translations = {
     mobile_admin_panel: "Admin Panel",
     mobile_logout: "Sign Out",
     mobile_app_version: "App Version",
-    
+
     // Mobile Header
     mobile_greeting: "Good day,",
     mobile_investor: "Investor",
-    
+
     // Landing
     hero_title: "Your Capital Under Trusted Protection",
     hero_subtitle: "Bespoke investment solutions for high-net-worth individuals. Professional asset management with guaranteed returns.",
     cta_start: "Become a Client",
     cta_learn: "Request Consultation",
-    features_title: "AltynContract Advantages",
+    features_title: "Phillip Capital Invest Advantages",
     feature_1_title: "Personalized Approach",
     feature_1_desc: "Dedicated portfolio manager and customized investment strategy for each client",
     feature_2_title: "Capital Protection",
@@ -516,7 +539,7 @@ const translations = {
     stats_investors: "Clients",
     stats_volume: "Assets Under Management",
     stats_return: "Annual Return",
-    
+
     // Dashboard
     dashboard_title: "Client Portfolio",
     welcome_back: "Good day",
@@ -528,14 +551,14 @@ const translations = {
     recent_transactions: "Recent Transactions",
     profit_forecast: "Return Forecast",
     asset_distribution: "Portfolio Allocation",
-    
+
     // Tiers
     tier_silver: "Private",
     tier_gold: "Premium",
     tier_platinum: "Elite",
     tier_benefits: "Membership Benefits",
     tier_progress: "To Next Tier",
-    
+
     // Portfolios
     portfolios_title: "Investment Strategies",
     portfolios_subtitle: "Professionally managed portfolios with varying risk-return profiles",
@@ -552,7 +575,7 @@ const translations = {
     invest_now: "Invest Now",
     months: "mo.",
     per_year: "p.a.",
-    
+
     // Investment Process
     invest_step_1: "Parameters",
     invest_step_2: "Terms",
@@ -569,7 +592,7 @@ const translations = {
     clear_signature: "Clear",
     investment_success: "Contract Successfully Executed",
     download_contract: "Download Agreement",
-    
+
     // Transactions
     transactions_title: "Transaction History",
     contracts_title: "Investment Contracts",
@@ -584,7 +607,7 @@ const translations = {
     status_pending: "Processing",
     status_completed: "Completed",
     status_failed: "Declined",
-    
+
     // Balance
     deposit: "Deposit",
     withdraw: "Withdraw",
@@ -592,7 +615,7 @@ const translations = {
     withdraw_funds: "Funds Withdrawal",
     select_currency: "Transaction Currency",
     enter_amount: "Amount",
-    
+
     // KYC
     kyc_title: "Client Identification",
     kyc_subtitle: "Verification procedure in accordance with AML/KYC requirements",
@@ -603,7 +626,7 @@ const translations = {
     kyc_rejected: "Requires Clarification",
     kyc_upload_passport: "Identity Document",
     kyc_upload_address: "Proof of Address",
-    
+
     // Support
     support_title: "Client Support",
     support_subtitle: "Personal manager available 24/7",
@@ -614,14 +637,14 @@ const translations = {
     ticket_status_progress: "In Progress",
     ticket_status_resolved: "Resolved",
     ticket_status_closed: "Closed",
-    
+
     // Settings
     settings_title: "Profile Settings",
     settings_language: "Interface Language",
     settings_currency: "Base Currency",
     settings_notifications: "Notifications",
     settings_security: "Security",
-    
+
     // Admin
     admin_dashboard: "Control Center",
     admin_users: "Clients",
@@ -633,7 +656,31 @@ const translations = {
     admin_emails: "Communications",
     admin_templates: "Contract Templates",
     admin_settings: "System Settings",
-    
+
+    // Portfolio Detail Page
+    back_to_portfolios: "Back to Portfolios",
+    annual_return: "Return",
+    investors: "Investors",
+    total_profit: "Total Profit",
+    profit_calculator: "Profit Calculator",
+    investment_amount: "Investment Amount",
+    months_short: "mo.",
+    tab_overview: "Overview",
+    tab_assets: "Assets",
+    tab_performance: "Performance",
+    tab_news: "News",
+    investment_strategy: "Investment Strategy",
+    asset_allocation: "Asset Allocation",
+    sales_text: "About Portfolio",
+    safety_guarantee: "Safety Guarantees",
+    returns_by_term: "Returns by Term",
+    portfolio_performance: "Historical Performance",
+    value: "Value",
+    profit: "Profit",
+    past_performance_disclaimer: "Past performance does not guarantee future results",
+    ready_to_invest: "Ready to Invest?",
+    start_investing_description: "Open an investment account and start earning stable income today",
+
     // Footer
     footer_rights: "All Rights Reserved",
     footer_terms: "Legal Information",

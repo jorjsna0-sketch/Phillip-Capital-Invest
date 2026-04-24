@@ -36,7 +36,7 @@ export function AdminCompanySettings() {
   const { t } = useLanguage();
   
   const [settings, setSettings] = useState({
-    company_name: 'AltynContract LLP',
+    company_name: 'Phillip Capital Invest LLP',
     company_director: '',
     company_director_title: 'Генеральный директор',
     company_license: '',
@@ -56,7 +56,7 @@ export function AdminCompanySettings() {
     smtp_user: '',
     smtp_password: '',
     email_from: '',
-    email_from_name: 'AltynContract',
+    email_from_name: 'Phillip Capital Invest',
   });
   const [brokers, setBrokers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -233,7 +233,7 @@ export function AdminCompanySettings() {
                   <Input
                     value={settings.company_name}
                     onChange={(e) => setSettings({...settings, company_name: e.target.value})}
-                    placeholder="AltynContract LLP"
+                    placeholder="Phillip Capital Invest LLP"
                   />
                 </div>
                 <div className="space-y-2">
@@ -733,7 +733,7 @@ export function AdminCompanySettings() {
                   <Input
                     value={settings.email_from_name}
                     onChange={(e) => setSettings({...settings, email_from_name: e.target.value})}
-                    placeholder="AltynContract"
+                    placeholder="Phillip Capital Invest"
                   />
                 </div>
               </div>

@@ -6,6 +6,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Mail, Lock, Loader2, Smartphone, ArrowLeft } from 'lucide-react';
+import { Logo } from '../components/Logo';
 
 // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
 export function LoginPage() {
@@ -111,17 +112,14 @@ export function LoginPage() {
       <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-background">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 rounded-sm bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-heading font-bold text-xl">A</span>
-              </div>
-              <span className="font-heading font-semibold text-2xl text-primary">AltynContract</span>
+            <div className="inline-flex items-center mb-6">
+              <Logo variant="dark" size={40} />
             </div>
             <h1 className="text-h3 text-primary mb-2">
-              {language === 'ru' ? 'Двухфакторная аутентификация' : '2FA Verification'}
+              {language === 'ru' ? 'Двухфакторная аутентификация' : language === 'tr' ? 'İki Faktörlü Doğrulama' : '2FA Verification'}
             </h1>
             <p className="text-muted-foreground">
-              {language === 'ru' ? 'Введите код для входа' : 'Enter code to login'}
+              {language === 'ru' ? 'Введите код для входа' : language === 'tr' ? 'Giriş için kodu girin' : 'Enter code to login'}
             </p>
           </div>
 
@@ -131,7 +129,7 @@ export function LoginPage() {
               className="flex items-center gap-2 text-sm text-muted-foreground mb-4 hover:text-primary"
             >
               <ArrowLeft className="w-4 h-4" />
-              {language === 'ru' ? 'Назад' : 'Back'}
+              {language === 'ru' ? 'Назад' : language === 'tr' ? 'Geri' : 'Back'}
             </button>
 
             <form onSubmit={handle2FASubmit} className="space-y-4">
@@ -145,7 +143,7 @@ export function LoginPage() {
                 <div className="space-y-2">
                   <Label className="flex items-center gap-2">
                     <Smartphone className="w-4 h-4" />
-                    {language === 'ru' ? 'Код из Google Authenticator' : 'Google Authenticator Code'}
+                    {language === 'ru' ? 'Код из Google Authenticator' : language === 'tr' ? 'Google Authenticator Kodu' : 'Google Authenticator Code'}
                   </Label>
                   <Input
                     type="text"
@@ -164,10 +162,10 @@ export function LoginPage() {
                 <div className="space-y-2">
                   <Label className="flex items-center gap-2">
                     <Mail className="w-4 h-4" />
-                    {language === 'ru' ? 'Код из письма' : 'Email Code'}
+                    {language === 'ru' ? 'Код из письма' : language === 'tr' ? 'E-posta Kodu' : 'Email Code'}
                   </Label>
                   <p className="text-xs text-muted-foreground mb-2">
-                    {language === 'ru' ? `Код отправлен на ${maskedEmail}` : `Code sent to ${maskedEmail}`}
+                    {language === 'ru' ? `Код отправлен на ${maskedEmail}` : language === 'tr' ? `Kod ${maskedEmail} adresine gönderildi` : `Code sent to ${maskedEmail}`}
                   </p>
                   <Input
                     type="text"
@@ -186,7 +184,7 @@ export function LoginPage() {
                 <div className="space-y-2">
                   <Label className="flex items-center gap-2">
                     <Mail className="w-4 h-4" />
-                    {language === 'ru' ? 'Или код из письма' : 'Or Email Code'}
+                    {language === 'ru' ? 'Или код из письма' : language === 'tr' ? 'Veya E-posta Kodu' : 'Or Email Code'}
                   </Label>
                   <Input
                     type="text"
@@ -212,7 +210,7 @@ export function LoginPage() {
                     {t('loading')}
                   </>
                 ) : (
-                  language === 'ru' ? 'Подтвердить' : 'Verify'
+                  language === 'ru' ? 'Подтвердить' : language === 'tr' ? 'Onayla' : 'Verify'
                 )}
               </Button>
             </form>
@@ -226,15 +224,12 @@ export function LoginPage() {
     <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-background">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center space-x-2 mb-6">
-            <div className="w-10 h-10 rounded-sm bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-heading font-bold text-xl">A</span>
-            </div>
-            <span className="font-heading font-semibold text-2xl text-primary">AltynContract</span>
+          <Link to="/" className="inline-flex items-center mb-6">
+            <Logo variant="dark" size={40} />
           </Link>
           <h1 className="text-h3 text-primary mb-2">{t('login')}</h1>
           <p className="text-muted-foreground">
-            {language === 'ru' ? 'Вход в личный кабинет' : language === 'kz' ? 'Жеке кабинетке кіру' : 'Access your account'}
+            {language === 'ru' ? 'Вход в личный кабинет' : language === 'tr' ? 'Hesabınıza erişin' : 'Access your account'}
           </p>
         </div>
 

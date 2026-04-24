@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
+import { Logo } from './Logo';
 import { Building2, Mail, MapPin, FileText } from 'lucide-react';
 import axios from 'axios';
 
@@ -11,7 +12,6 @@ export function Footer() {
   const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
-    // Fetch contact info and documents from API
     const fetchData = async () => {
       try {
         const [contactRes, docsRes] = await Promise.all([
@@ -28,43 +28,42 @@ export function Footer() {
   }, []);
 
   const companyInfo = {
-    ru: {
-      name: 'AltynContract Ltd.',
-      license: 'Лицензия НБ РК №XXX от 01.01.2024',
+    tr: {
+      name: 'Phillip Capital Invest Ltd.',
+      license: 'Lisans No. XXX — 01.01.2024'
     },
-    kz: {
-      name: 'AltynContract Ltd.',
-      license: 'ҚР ҰБ лицензиясы №XXX 01.01.2024 ж.',
+    ru: {
+      name: 'Phillip Capital Invest Ltd.',
+      license: 'Лицензия №XXX от 01.01.2024'
     },
     en: {
-      name: 'AltynContract Ltd.',
-      license: 'NBK License №XXX dated 01.01.2024',
+      name: 'Phillip Capital Invest Ltd.',
+      license: 'License №XXX dated 01.01.2024'
     }
   };
 
   const info = companyInfo[language] || companyInfo.en;
 
-  // Get document URL by type
   const getDocUrl = (docType) => {
     const doc = documents.find(d => d.doc_type === docType);
     if (!doc?.file_url) return null;
-    
-    // file_url содержит /api/uploads/..., добавляем базовый URL
-    // Файлы раздаются на /api/uploads/, поэтому оставляем путь как есть
     return `${process.env.REACT_APP_BACKEND_URL}${doc.file_url}`;
   };
 
-  // Document labels
   const docLabels = {
-    legal_info: { ru: 'Правовая информация', kz: 'Құқықтық ақпарат', en: 'Legal Information' },
-    privacy_policy: { ru: 'Политика конфиденциальности', kz: 'Құпиялылық саясаты', en: 'Privacy Policy' },
-    disclosure: { ru: 'Раскрытие информации', kz: 'Ақпаратты ашу', en: 'Disclosure' },
-    fees: { ru: 'Тарифы и комиссии', kz: 'Тарифтер мен комиссиялар', en: 'Fees & Commissions' }
+    legal_info: { tr: 'Hukuki Bilgiler', ru: 'Правовая информация', en: 'Legal Information' },
+    privacy_policy: { tr: 'Gizlilik Politikası', ru: 'Политика конфиденциальности', en: 'Privacy Policy' },
+    disclosure: { tr: 'Bilgilendirme', ru: 'Раскрытие информации', en: 'Disclosure' },
+    fees: { tr: 'Ücretler ve Komisyonlar', ru: 'Тарифы и комиссии', en: 'Fees & Commissions' }
   };
 
-  // Contact info with fallbacks
-  const email = contactInfo?.email || 'info@altyncontract.kz';
-  const address = contactInfo?.address?.[language] || contactInfo?.address?.ru || 'г. Алматы, пр. Аль-Фараби, 77/8, БЦ "Esentai Tower"';
+  const navLabel = { tr: 'Gezinme', ru: 'Навигация', en: 'Navigation' };
+  const docsLabel = { tr: 'Belgeler', ru: 'Документы', en: 'Legal' };
+  const memberLabel = { tr: 'Küresel Sermaye Piyasaları Üyesi', ru: 'Член глобальных рынков капитала', en: 'Global Capital Markets Member' };
+  const regulatedLabel = { tr: 'Lisanslı ve Düzenlenmiş', ru: 'Лицензирована и регулируется', en: 'Licensed & Regulated' };
+
+  const email = contactInfo?.email || 'info@phillipcapitalinvest.com';
+  const address = contactInfo?.address?.[language] || contactInfo?.address?.en || contactInfo?.address?.ru || 'Istanbul, Levent Finance District, Tower A, 34330';
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -72,15 +71,12 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 rounded-sm bg-white flex items-center justify-center">
-                <span className="text-primary font-heading font-bold text-xl">A</span>
-              </div>
-              <div>
-                <span className="font-heading font-semibold text-xl block">AltynContract</span>
-                <span className="text-xs text-primary-foreground/60">{t('app_tagline')}</span>
-              </div>
+            <div className="mb-4">
+              <Logo variant="light" size={44} />
             </div>
+            <p className="text-xs text-primary-foreground/60 mt-1">
+              {t('app_tagline')}
+            </p>
             <p className="text-sm text-primary-foreground/70 mt-4 leading-relaxed">
               {info.name}
             </p>
@@ -92,7 +88,7 @@ export function Footer() {
           {/* Navigation */}
           <div>
             <h4 className="font-heading font-medium text-lg mb-4">
-              {language === 'ru' ? 'Навигация' : language === 'kz' ? 'Навигация' : 'Navigation'}
+              {navLabel[language] || navLabel.en}
             </h4>
             <ul className="space-y-3 text-sm">
               <li>
@@ -121,27 +117,27 @@ export function Footer() {
           {/* Legal Documents */}
           <div>
             <h4 className="font-heading font-medium text-lg mb-4">
-              {language === 'ru' ? 'Документы' : language === 'kz' ? 'Құжаттар' : 'Legal'}
+              {docsLabel[language] || docsLabel.en}
             </h4>
             <ul className="space-y-3 text-sm">
               {['legal_info', 'privacy_policy', 'disclosure', 'fees'].map((docType) => {
                 const url = getDocUrl(docType);
                 const label = docLabels[docType][language] || docLabels[docType].en;
-                
+
                 const handleClick = (e) => {
                   if (url) {
                     e.preventDefault();
                     window.open(url, '_blank', 'noopener,noreferrer');
                   }
                 };
-                
+
                 return (
                   <li key={docType}>
                     {url ? (
-                      <a 
-                        href={url} 
+                      <a
+                        href={url}
                         onClick={handleClick}
-                        target="_blank" 
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="text-primary-foreground/70 hover:text-primary-foreground transition-colors flex items-center gap-1"
                       >
@@ -181,18 +177,16 @@ export function Footer() {
         <div className="border-t border-primary-foreground/10 mt-12 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-primary-foreground/50">
-              © {currentYear} AltynContract. {t('footer_rights')}.
+              © {currentYear} Phillip Capital Invest. {t('footer_rights')}.
             </p>
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2 text-xs text-primary-foreground/50">
                 <Building2 className="w-4 h-4" />
-                <span>
-                  {language === 'ru' ? 'Член KASE' : language === 'kz' ? 'KASE мүшесі' : 'KASE Member'}
-                </span>
+                <span>{memberLabel[language] || memberLabel.en}</span>
               </div>
               <div className="h-4 w-px bg-primary-foreground/20" />
               <span className="text-xs text-primary-foreground/50">
-                {language === 'ru' ? 'Регулируется НБ РК' : language === 'kz' ? 'ҚР ҰБ реттейді' : 'Regulated by NBK'}
+                {regulatedLabel[language] || regulatedLabel.en}
               </span>
             </div>
           </div>
