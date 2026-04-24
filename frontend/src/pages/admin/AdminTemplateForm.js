@@ -26,7 +26,7 @@ export function AdminTemplateForm() {
   const { templateId } = useParams();
   const navigate = useNavigate();
   const { api } = useAuth();
-  const { formatDateTime } = useLanguage();
+  const { formatDateTime, language } = useLanguage();
   
   const isEditing = !!templateId;
   const [loading, setLoading] = useState(isEditing);
@@ -232,10 +232,14 @@ _____________________                    _____________________
         </Button>
         <div className="flex-1">
           <h1 className="text-h2 text-primary">
-            {isEditing ? 'Редактирование шаблона' : 'Создание шаблона'}
+            {isEditing 
+              ? (language === 'tr' ? 'Şablonu Düzenle' : language === 'en' ? 'Edit Template' : 'Редактирование шаблона')
+              : (language === 'tr' ? 'Şablon Oluştur' : language === 'en' ? 'Create Template' : 'Создание шаблона')}
           </h1>
           <p className="text-muted-foreground">
-            {isEditing ? formData.name : 'Создайте новый шаблон договора'}
+            {isEditing 
+              ? formData.name 
+              : (language === 'tr' ? 'Yeni sözleşme şablonu oluşturun' : language === 'en' ? 'Create a new contract template' : 'Создайте новый шаблон договора')}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -250,7 +254,7 @@ _____________________                    _____________________
               ) : (
                 <Eye className="w-4 h-4 mr-2" />
               )}
-              Предпросмотр PDF
+              {language === 'tr' ? 'PDF Önizleme' : language === 'en' ? 'PDF Preview' : 'Предпросмотр PDF'}
             </Button>
           )}
           <Button 
@@ -263,7 +267,9 @@ _____________________                    _____________________
             ) : (
               <Save className="w-4 h-4 mr-2" />
             )}
-            {isEditing ? 'Сохранить' : 'Создать'}
+            {isEditing 
+              ? (language === 'tr' ? 'Kaydet' : language === 'en' ? 'Save' : 'Сохранить')
+              : (language === 'tr' ? 'Oluştur' : language === 'en' ? 'Create' : 'Создать')}
           </Button>
         </div>
       </div>
@@ -274,25 +280,25 @@ _____________________                    _____________________
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
               <FileText className="w-4 h-4" />
-              Основная информация
+              {language === 'tr' ? 'Temel Bilgiler' : language === 'en' ? 'Basic Information' : 'Основная информация'}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Название шаблона *</Label>
+                <Label>{language === 'tr' ? 'Şablon adı *' : language === 'en' ? 'Template name *' : 'Название шаблона *'}</Label>
                 <Input
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  placeholder="Стандартный инвестиционный договор"
+                  placeholder={language === 'tr' ? 'Standart yatırım sözleşmesi' : language === 'en' ? 'Standard investment contract' : 'Стандартный инвестиционный договор'}
                 />
               </div>
               <div className="space-y-2">
-                <Label>Описание</Label>
+                <Label>{language === 'tr' ? 'Açıklama' : language === 'en' ? 'Description' : 'Описание'}</Label>
                 <Input
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
-                  placeholder="Краткое описание шаблона"
+                  placeholder={language === 'tr' ? 'Şablon kısa açıklaması' : language === 'en' ? 'Brief template description' : 'Краткое описание шаблона'}
                 />
               </div>
             </div>
@@ -303,7 +309,9 @@ _____________________                    _____________________
                 checked={formData.is_default}
                 onCheckedChange={(checked) => setFormData({...formData, is_default: checked})}
               />
-              <Label htmlFor="is_default">Использовать по умолчанию для новых портфелей</Label>
+              <Label htmlFor="is_default">
+                {language === 'tr' ? 'Yeni portföyler için varsayılan olarak kullan' : language === 'en' ? 'Use as default for new portfolios' : 'Использовать по умолчанию для новых портфелей'}
+              </Label>
             </div>
           </CardContent>
         </Card>

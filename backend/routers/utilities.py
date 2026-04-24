@@ -154,11 +154,13 @@ async def translate_text(request: Request):
             f"---\n{text}\n---"
         )
         
-        # Try models in order (gemini-2.0-flash → gemini-1.5-flash → claude-haiku)
+        # Try models in order — Emergent-supported stable models only
         model_fallbacks = [
             ("gemini", "gemini-2.0-flash"),
-            ("gemini", "gemini-1.5-flash"),
+            ("gemini", "gemini-2.5-flash"),
             ("anthropic", "claude-haiku-4-5"),
+            ("anthropic", "claude-sonnet-4-5"),
+            ("openai", "gpt-4o-mini"),
         ]
         last_error = None
         for provider, model in model_fallbacks:
@@ -174,14 +176,15 @@ async def translate_text(request: Request):
             except Exception as e:
                 last_error = e
                 err_str = str(e)
-                # If rate-limited, try next model
-                if "RateLimit" in err_str or "429" in err_str or "exhausted" in err_str.lower():
-                    logger.warning(f"Rate limited on {provider}/{model}, trying fallback...")
-                    await asyncio.sleep(0.5)
+                # Rate-limited OR model not found OR temporary issue → try next fallback
+                transient_markers = ("RateLimit", "429", "exhausted", "NotFound", "404", "model not found", "Timeout", "503")
+                if any(m.lower() in err_str.lower() for m in transient_markers):
+                    logger.warning(f"{provider}/{model} failed ({err_str[:100]}), trying next fallback...")
+                    await asyncio.sleep(0.3)
                     continue
-                # Other errors — bail out
+                # Other errors — log and try next anyway (robustness)
                 logger.error(f"Translation error ({src}->{tgt}) on {provider}/{model}: {e}")
-                raise HTTPException(status_code=503, detail=f"Translation service error: {str(e)[:200]}")
+                continue
         
         # All models failed
         logger.error(f"All translation models exhausted ({src}->{tgt}): {last_error}")
