@@ -28,7 +28,7 @@ const SUPPORTED_CURRS = CURRENCIES.map((c) => c.code);
 
 function detectInitialLanguage() {
   try {
-    // 1. Saved (new key)
+    // 1. Saved (new key) — user's explicit choice always wins
     const saved = localStorage.getItem(STORAGE_LANG_KEY);
     if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
 
@@ -40,14 +40,10 @@ function detectInitialLanguage() {
         return legacy;
       }
     }
-
-    // 3. Browser language
-    const browserLang = (navigator.language || 'tr').slice(0, 2).toLowerCase();
-    if (SUPPORTED_LANGS.includes(browserLang)) return browserLang;
   } catch (_) {
     // ignore
   }
-  // 4. Default
+  // 3. Default — Turkish always (regardless of browser language, IP or geo)
   return 'tr';
 }
 
