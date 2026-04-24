@@ -56,7 +56,7 @@ export function DashboardPage() {
 
 function DesktopDashboard() {
   const { user, api, refreshUser } = useAuth();
-  const { t, formatCurrency, formatUsdWithEquivalent, convertCurrency, formatDate, currency, CURRENCIES, language } = useLanguage();
+  const { t, formatCurrency, convertCurrency, formatDate, language } = useLanguage();
   
   const [investments, setInvestments] = useState([]);
   const [transactions, setTransactions] = useState([]);
@@ -65,7 +65,6 @@ function DesktopDashboard() {
   const [depositOpen, setDepositOpen] = useState(false);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
   const [amount, setAmount] = useState('');
-  const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const [submitting, setSubmitting] = useState(false);
 
   const [depositRequests, setDepositRequests] = useState([]);
@@ -108,9 +107,11 @@ function DesktopDashboard() {
     if (!amount || parseFloat(amount) <= 0) return;
     setSubmitting(true);
     try {
+      // User enters TRY; convert to USD (backend internal base).
+      const amountUsd = convertCurrency(parseFloat(amount), 'TRY', 'USD');
       await api.post('/deposit-requests', { 
-        amount: parseFloat(amount), 
-        currency: selectedCurrency 
+        amount: amountUsd, 
+        currency: 'USD'
       });
       await refreshUser();
       setDepositOpen(false);
@@ -131,9 +132,10 @@ function DesktopDashboard() {
     }
     setSubmitting(true);
     try {
+      const amountUsd = convertCurrency(parseFloat(amount), 'TRY', 'USD');
       await api.post('/withdrawal-requests', { 
-        amount: parseFloat(amount), 
-        currency: selectedCurrency,
+        amount: amountUsd, 
+        currency: 'USD',
         broker_id: selectedBroker,
         broker_account: brokerAccount
       });
@@ -172,14 +174,14 @@ function DesktopDashboard() {
     }
   };
 
-  // Calculate totals - always from USD, convert to user's currency for display
+  // Calculate totals - always from USD, display as TRY (sole currency).
   const availableBalanceUsd = user?.available_balance?.USD || 0;
   const portfolioBalanceUsd = user?.portfolio_balance?.USD || 0;
   const totalBalanceUsd = availableBalanceUsd + portfolioBalanceUsd;
   
-  // Convert to user's preferred currency for display
-  const availableBalance = convertCurrency(availableBalanceUsd, 'USD', currency);
-  const portfolioBalance = convertCurrency(portfolioBalanceUsd, 'USD', currency);
+  // Convert to TRY for display
+  const availableBalance = convertCurrency(availableBalanceUsd, 'USD', 'TRY');
+  const portfolioBalance = convertCurrency(portfolioBalanceUsd, 'USD', 'TRY');
   const totalBalance = availableBalance + portfolioBalance;
 
   // Chart data
@@ -298,22 +300,7 @@ function DesktopDashboard() {
                       )}
                       
                       <div className="space-y-2">
-                        <Label>{t('select_currency')}</Label>
-                        <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-                          <SelectTrigger data-testid="deposit-currency-select">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {CURRENCIES.map(c => (
-                              <SelectItem key={c.code} value={c.code}>
-                                {c.symbol} {c.code}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label>{t('enter_amount')}</Label>
+                        <Label>{t('enter_amount')} (₺ TRY)</Label>
                         <Input
                           type="number"
                           value={amount}
@@ -349,32 +336,16 @@ function DesktopDashboard() {
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                       <div className="space-y-2">
-                        <Label>{t('select_currency')}</Label>
-                        <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-                          <SelectTrigger data-testid="withdraw-currency-select">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {CURRENCIES.map(c => (
-                              <SelectItem key={c.code} value={c.code}>
-                                {c.symbol} {c.code}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label>{t('enter_amount')}</Label>
+                        <Label>{t('enter_amount')} (₺ TRY)</Label>
                         <Input
                           type="number"
                           value={amount}
                           onChange={(e) => setAmount(e.target.value)}
                           placeholder="0.00"
-                          max={user?.balance_available?.[selectedCurrency] || 0}
                           data-testid="withdraw-amount-input"
                         />
                         <p className="text-xs text-muted-foreground">
-                          Доступно: {formatCurrency(user?.balance_available?.[selectedCurrency] || 0, selectedCurrency)}
+                          Доступно: {formatCurrency(user?.available_balance?.USD || 0)}
                         </p>
                       </div>
                       

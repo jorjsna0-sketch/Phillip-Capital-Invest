@@ -60,7 +60,7 @@ export function MobileInvestWizard() {
   const { portfolioId } = useParams();
   const navigate = useNavigate();
   const { api, user, refreshUser } = useAuth();
-  const { t, formatCurrency, formatUsdWithEquivalent, getLocalizedText, currency, language } = useLanguage();
+  const { t, formatCurrency, convertCurrency, getLocalizedText, language } = useLanguage();
   const canvasRef = useRef(null);
   
   const [portfolio, setPortfolio] = useState(null);
@@ -227,25 +227,28 @@ export function MobileInvestWizard() {
   }, [autoReinvest, calculateCompoundReturn, calculateSimpleReturn]);
 
   const currentRate = portfolio?.returns_by_term?.[duration] || portfolio?.returns_by_term?.[parseInt(duration)] || portfolio?.expected_return || 0;
-  const availableBalance = user?.available_balance?.USD || 0;
+  const availableBalanceUsd = user?.available_balance?.USD || 0;
+  const availableBalanceTry = convertCurrency(availableBalanceUsd, 'USD', 'TRY');
 
   // Validation
   const validateStep1 = () => {
-    const numAmount = parseFloat(amount);
-    if (!amount || numAmount <= 0) {
+    const numAmountTry = parseFloat(amount);
+    if (!amount || numAmountTry <= 0) {
       setError(language === 'ru' ? 'Введите сумму инвестиции' : 'Enter investment amount');
       return false;
     }
-    if (numAmount < portfolio.min_investment) {
-      setError(`${language === 'ru' ? 'Минимальная сумма' : 'Minimum amount'}: ${formatUsdWithEquivalent(portfolio.min_investment)}`);
+    // Convert user's TRY input to USD (portfolio limits & balance are USD-based).
+    const numAmountUsd = convertCurrency(numAmountTry, 'TRY', 'USD');
+    if (numAmountUsd < portfolio.min_investment) {
+      setError(`${language === 'ru' ? 'Минимальная сумма' : 'Minimum amount'}: ${formatCurrency(portfolio.min_investment)}`);
       return false;
     }
-    if (numAmount > portfolio.max_investment) {
-      setError(`${language === 'ru' ? 'Максимальная сумма' : 'Maximum amount'}: ${formatUsdWithEquivalent(portfolio.max_investment)}`);
+    if (numAmountUsd > portfolio.max_investment) {
+      setError(`${language === 'ru' ? 'Максимальная сумма' : 'Maximum amount'}: ${formatCurrency(portfolio.max_investment)}`);
       return false;
     }
-    if (numAmount > availableBalance) {
-      setError(`${language === 'ru' ? 'Недостаточно средств. Доступно' : 'Insufficient funds. Available'}: ${formatUsdWithEquivalent(availableBalance)}`);
+    if (numAmountUsd > availableBalanceUsd) {
+      setError(`${language === 'ru' ? 'Недостаточно средств. Доступно' : 'Insufficient funds. Available'}: ${formatCurrency(availableBalanceUsd)}`);
       return false;
     }
     if (!duration) {
@@ -310,9 +313,11 @@ export function MobileInvestWizard() {
 
     try {
       const signature = getCanvasSignature();
+      const amountTry = parseFloat(amount);
+      const amountUsd = convertCurrency(amountTry, 'TRY', 'USD');
       const response = await api.post('/investments', {
         portfolio_id: portfolioId,
-        amount: parseFloat(amount),
+        amount: amountUsd,
         currency: selectedCurrency,
         duration_months: parseInt(duration),
         auto_reinvest: autoReinvest,
@@ -431,7 +436,7 @@ export function MobileInvestWizard() {
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-gray-500">{language === 'ru' ? 'Доступно' : 'Available'}</p>
-                    <p className="font-semibold text-sm">{formatUsdWithEquivalent(availableBalance)}</p>
+                    <p className="font-semibold text-sm">{formatCurrency(availableBalanceUsd)}</p>
                   </div>
                 </div>
               </div>
@@ -450,7 +455,7 @@ export function MobileInvestWizard() {
                     className="text-xl font-bold h-12"
                   />
                   <div className="flex items-center justify-center w-20 h-12 bg-gray-100 rounded-md text-sm font-medium">
-                    USD
+                    ₺ TRY
                   </div>
                 </div>
                 {/* Quick amounts */}
@@ -461,7 +466,7 @@ export function MobileInvestWizard() {
                       onClick={() => setAmount(amt.toString())}
                       className="flex-1 py-1.5 text-xs font-medium bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                     >
-                      ${amt.toLocaleString()}
+                      ₺{amt.toLocaleString()}
                     </button>
                   ))}
                 </div>
@@ -540,7 +545,7 @@ export function MobileInvestWizard() {
                       {language === 'ru' ? 'Ожидаемая прибыль' : 'Expected Profit'}
                       {autoReinvest && (language === 'ru' ? ' (сложн. %)' : ' (compound)')}
                     </p>
-                    <p className="text-2xl font-bold text-white">+{formatUsdWithEquivalent(expectedReturn())}</p>
+                    <p className="text-2xl font-bold text-white">+{formatCurrency(expectedReturn(), 'TRY', null)}</p>
                   </div>
                   <div className="text-right text-white/60 text-xs">
                     <p>{duration} {portfolio?.duration_unit === 'days' ? (language === 'ru' ? 'дн.' : 'd') : portfolio?.duration_unit === 'hours' ? (language === 'ru' ? 'ч.' : 'h') : portfolio?.duration_unit === 'years' ? (language === 'ru' ? 'г.' : 'y') : (language === 'ru' ? 'мес.' : 'mo')}</p>
@@ -572,7 +577,7 @@ export function MobileInvestWizard() {
                   </div>
                   <div className="flex justify-between py-1.5 border-b border-gray-100">
                     <span className="text-gray-500">{language === 'ru' ? 'Сумма' : 'Amount'}</span>
-                    <span className="font-medium">{formatUsdWithEquivalent(parseFloat(amount))}</span>
+                    <span className="font-medium">{formatCurrency(parseFloat(amount), 'TRY', null)}</span>
                   </div>
                   <div className="flex justify-between py-1.5 border-b border-gray-100">
                     <span className="text-gray-500">{language === 'ru' ? 'Срок' : 'Duration'}</span>
@@ -598,7 +603,7 @@ export function MobileInvestWizard() {
                   </div>
                   <div className="flex justify-between py-1.5">
                     <span className="text-gray-500">{language === 'ru' ? 'Прибыль' : 'Profit'}</span>
-                    <span className="font-bold text-green-600">+{formatUsdWithEquivalent(expectedReturn())}</span>
+                    <span className="font-bold text-green-600">+{formatCurrency(expectedReturn(), 'TRY', null)}</span>
                   </div>
                 </div>
               </div>
@@ -711,11 +716,11 @@ export function MobileInvestWizard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-white/70 text-xs">{language === 'ru' ? 'Итого' : 'Total'}</p>
-                    <p className="text-2xl font-bold">{formatUsdWithEquivalent(parseFloat(amount))}</p>
+                    <p className="text-2xl font-bold">{formatCurrency(parseFloat(amount), 'TRY', null)}</p>
                   </div>
                   <div className="text-right text-sm">
                     <p className="text-white/60">{duration} {portfolio?.duration_unit === 'days' ? (language === 'ru' ? 'дн.' : 'd') : portfolio?.duration_unit === 'hours' ? (language === 'ru' ? 'ч.' : 'h') : portfolio?.duration_unit === 'years' ? (language === 'ru' ? 'г.' : 'y') : (language === 'ru' ? 'мес.' : 'mo')}</p>
-                    <p className="text-white font-medium">+{formatUsdWithEquivalent(expectedReturn())}</p>
+                    <p className="text-white font-medium">+{formatCurrency(expectedReturn(), 'TRY', null)}</p>
                   </div>
                 </div>
               </div>
@@ -741,7 +746,7 @@ export function MobileInvestWizard() {
             <div className="mobile-card p-3 w-full max-w-sm mb-4">
               <div className="flex justify-between py-1.5 border-b border-gray-100 text-sm">
                 <span className="text-gray-500">{language === 'ru' ? 'Сумма' : 'Amount'}</span>
-                <span className="font-medium">{formatUsdWithEquivalent(parseFloat(amount))}</span>
+                <span className="font-medium">{formatCurrency(parseFloat(amount), 'TRY', null)}</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-gray-100 text-sm">
                 <span className="text-gray-500">{language === 'ru' ? 'Срок' : 'Duration'}</span>
@@ -749,7 +754,7 @@ export function MobileInvestWizard() {
               </div>
               <div className="flex justify-between py-1.5 text-sm">
                 <span className="text-gray-500">{language === 'ru' ? 'Прибыль' : 'Profit'}</span>
-                <span className="font-bold text-green-600">+{formatUsdWithEquivalent(expectedReturn())}</span>
+                <span className="font-bold text-green-600">+{formatCurrency(expectedReturn(), 'TRY', null)}</span>
               </div>
             </div>
 

@@ -1,0 +1,80 @@
+{
+  "summary": "Iteration 21: TRY-only currency enforcement. Backend accepts USD currency for deposit/withdrawal correctly (7/7 pytest passing). Landing, Dashboard, Portfolios, and InvestPage show only ₺/TRY with no USD/EUR/KZT leakage. CRITICAL BUG: Desktop Wallet page (/wallet) crashes with 'convertCurrency is not defined' ReferenceError preventing the entire wallet UI from rendering.",
+
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "DesktopWallet (/app/frontend/src/pages/WalletPage.js)",
+        "issue": "Runtime ReferenceError: convertCurrency is not defined. Line 56 destructures only { t, formatCurrency, formatDate } from useLanguage(), but convertCurrency is used at lines 107, 127, 178. Entire /wallet page is broken (renders only red error overlay).",
+        "selector": "page route /wallet",
+        "priority": "CRITICAL"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+
+  "passed_tests": [
+    "Backend: admin login with admin@altyncontract.kz / abc123 - PASS",
+    "Backend: /api/auth/me returns available_balance.USD (internal source of truth) - PASS",
+    "Backend: POST /api/deposit-requests with currency=USD accepted and persisted (verified via GET) - PASS",
+    "Backend: POST /api/withdrawal-requests with currency=USD accepted and persisted - PASS",
+    "Backend: /api/portfolios returns portfolios - PASS",
+    "Backend: /api/admin/dashboard returns admin dashboard - PASS",
+    "Frontend: Landing page default language is Turkish (tr-TR), header shows 'TR' - PASS",
+    "Frontend: Landing page metric cards show ₺4.2B AUM, ₺ symbols, no $/USD/EUR/KZT - PASS",
+    "Frontend: Landing page portfolio mins & insurance amounts use ₺ symbol - PASS",
+    "Frontend: Login page is Turkish ('Giriş Yap', 'E-posta Adresi', 'Parola', 'Hesap Aç') - PASS",
+    "Frontend: Dashboard balance cards show ₺186,653,056.31 (TRY), invested ₺345M, expected ₺55K with NO $/USD/EUR/KZT - PASS (75 ₺ occurrences)",
+    "Frontend: Dashboard contract cards display all amounts in TRY (₺10,000.00, ₺2,656.25 etc) - PASS",
+    "Frontend: Portfolios page Min/Max display in TRY (e.g., ₺1,123,500.00 / ₺22,470,000.00) with no USD - PASS (16 ₺ occurrences)",
+    "Frontend: InvestPage /invest/:id currency section shows '₺ TRY', 'Mevcut: ₺4,153,383.54', 'Minimum Giriş: ₺1,123,500.00' - PASS",
+    "Frontend: Language detection defaults to Turkish regardless of browser - PASS",
+    "Frontend: CURRENCIES array in LanguageContext contains only TRY - PASS"
+  ],
+
+  "test_report_links": [
+    "/app/backend/tests/test_iteration21_try.py",
+    "/app/test_reports/pytest/pytest_results_iter21.xml"
+  ],
+
+  "action_items": [
+    "FIX CRITICAL: /app/frontend/src/pages/WalletPage.js line 56 — change `const { t, formatCurrency, formatDate } = useLanguage();` to `const { t, formatCurrency, formatDate, convertCurrency } = useLanguage();` inside the DesktopWallet component so wallet page renders.",
+    "After fix: re-test /wallet — verify balance cards show ₺ TRY, Deposit dialog label 'Сумма пополнения (TRY)' / TR translation with ₺ placeholder, no currency dropdown, and submitting dialog converts TRY→USD before POST /api/deposit-requests."
+  ],
+
+  "critical_code_review_comments": [
+    "WalletPage.js DesktopWallet: useLanguage() destructure missing convertCurrency — crashes runtime. Same pattern should be audited in MobileWallet, DashboardPage, MobileDashboard, InvestPage, MobileInvestWizard to ensure they include convertCurrency in their destructure.",
+    "Backend response format for POST /api/deposit-requests and /api/withdrawal-requests returns only {message, request_id}; consider echoing back the full created object (amount, currency, status) for better client UX and easier testing.",
+    "LanguageContext exchangeRates default TRY=33.5 is hardcoded. If live rate fetching fails, TRY conversion will drift — consider fallback log/warning."
+  ],
+
+  "updated_files": [
+    "/app/backend/tests/test_iteration21_try.py"
+  ],
+
+  "success_rate": {
+    "backend": "100% (7/7 new iteration21 tests passed)",
+    "frontend": "80% (Landing, Dashboard, Portfolios, InvestPage OK; Wallet page BROKEN)"
+  },
+
+  "test_credentials": {
+    "admin_email": "admin@altyncontract.kz",
+    "admin_password": "abc123"
+  },
+
+  "seed_data_creation": "Created 1 test deposit request ($100 USD) and 1 test withdrawal request ($50 USD) as part of backend API verification. These are real entries in the database.",
+
+  "retest_needed": true,
+
+  "should_main_agent_self_test": true,
+
+  "context_for_next_testing_agent": "Main agent needs to add `convertCurrency` to the destructuring in DesktopWallet (WalletPage.js line 56). After fix, retest: (1) /wallet page renders, (2) balance cards show ₺ only, (3) Deposit dialog has TRY label and no currency dropdown, (4) Submit converts TRY→USD before POST, (5) same checks on /wallet in mobile viewport (MobileWallet.js). Verify MobileInvestWizard shows '₺ TRY' side label and quick-amount buttons ₺1,000/₺5,000/₺10,000. Old regression tests in /app/backend/tests/test_deposit_withdrawal.py and test_iteration7.py fail because they have stale hardcoded URL 'portfix.preview.emergentagent.com' as fallback — not a regression from this iteration, but should be updated.",
+
+  "rca of the issue": "RCA: DesktopWallet component was refactored to convert TRY↔USD for the new TRY-only UI (lines 107 amountUsd = convertCurrency(amountTry,'TRY','USD'), line 127 similar for withdrawal, line 178 availableBalanceTry = convertCurrency(availableBalance,'USD','TRY')), but the destructure of useLanguage() hook on line 56 was not updated to pull convertCurrency out of the context value. React renders the component, hits the first use of convertCurrency (line 178 during render) and throws ReferenceError. Reproduction: login as admin, navigate to /wallet → red 'Uncaught runtime errors' overlay appears with 'convertCurrency is not defined at DesktopWallet'. Mitigation: add convertCurrency to the destructure: `const { t, formatCurrency, formatDate, convertCurrency } = useLanguage();`."
+}

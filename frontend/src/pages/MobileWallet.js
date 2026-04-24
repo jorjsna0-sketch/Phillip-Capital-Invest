@@ -5,7 +5,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { 
+import {
   Wallet,
   Plus,
   Minus,
@@ -15,14 +15,13 @@ import {
   CheckCircle,
   XCircle,
   Copy,
-  Building,
   Loader2,
   X
 } from 'lucide-react';
 
 export function MobileWallet() {
-  const { api, user, refreshUser } = useAuth();
-  const { t, formatCurrency, formatDate, currency, CURRENCIES, language } = useLanguage();
+  const { api, user } = useAuth();
+  const { t, formatCurrency, formatDate, convertCurrency, language } = useLanguage();
   
   const [depositRequests, setDepositRequests] = useState([]);
   const [withdrawalRequests, setWithdrawalRequests] = useState([]);
@@ -35,7 +34,6 @@ export function MobileWallet() {
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [depositAmount, setDepositAmount] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');
-  const [selectedCurrency, setSelectedCurrency] = useState(currency);
   const [selectedBroker, setSelectedBroker] = useState('');
   const [brokerAccount, setBrokerAccount] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -70,9 +68,11 @@ export function MobileWallet() {
     if (!depositAmount || parseFloat(depositAmount) <= 0) return;
     setSubmitting(true);
     try {
+      // User enters TRY; convert to USD (backend internal base).
+      const amountUsd = convertCurrency(parseFloat(depositAmount), 'TRY', 'USD');
       await api.post('/deposit-requests', {
-        amount: parseFloat(depositAmount),
-        currency: selectedCurrency
+        amount: amountUsd,
+        currency: 'USD'
       });
       setDepositAmount('');
       setShowDepositModal(false);
@@ -88,9 +88,10 @@ export function MobileWallet() {
     if (!withdrawAmount || parseFloat(withdrawAmount) <= 0 || !selectedBroker) return;
     setSubmitting(true);
     try {
+      const amountUsd = convertCurrency(parseFloat(withdrawAmount), 'TRY', 'USD');
       await api.post('/withdrawal-requests', {
-        amount: parseFloat(withdrawAmount),
-        currency: selectedCurrency,
+        amount: amountUsd,
+        currency: 'USD',
         broker_id: selectedBroker,
         broker_account: brokerAccount
       });
@@ -126,8 +127,9 @@ export function MobileWallet() {
     }
   };
 
-  const availableBalance = user?.available_balance?.[currency] || 0;
-  const portfolioBalance = user?.portfolio_balance?.[currency] || 0;
+  const availableBalance = user?.available_balance?.USD || 0;
+  const portfolioBalance = user?.portfolio_balance?.USD || 0;
+  const availableBalanceTry = convertCurrency(availableBalance, 'USD', 'TRY');
   const currentRequests = activeTab === 'deposits' ? depositRequests : withdrawalRequests;
 
   if (loading) {
@@ -239,7 +241,7 @@ export function MobileWallet() {
                     </div>
                     <div>
                       <p className="font-semibold text-sm">
-                        {formatCurrency(request.amount, request.currency)}
+                        {formatCurrency(request.amount)}
                       </p>
                       <p className="text-xs text-gray-500">{formatDate(request.created_at)}</p>
                     </div>
@@ -280,27 +282,14 @@ export function MobileWallet() {
               )}
 
               <div>
-                <Label className="text-xs mb-1 block">{t('select_currency')}</Label>
-                <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-                  <SelectTrigger className="h-10">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CURRENCIES.map(c => (
-                      <SelectItem key={c.code} value={c.code}>{c.symbol} {c.code}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label className="text-xs mb-1 block">{t('enter_amount')}</Label>
+                <Label className="text-xs mb-1 block">{t('enter_amount')} (₺ TRY)</Label>
                 <Input
                   type="number"
                   value={depositAmount}
                   onChange={(e) => setDepositAmount(e.target.value)}
                   placeholder="0.00"
                   className="text-lg h-10"
+                  data-testid="mobile-deposit-amount-input"
                 />
               </div>
             </div>
@@ -328,30 +317,17 @@ export function MobileWallet() {
             
             <div className="p-4 space-y-3 overflow-y-auto flex-1">
               <div>
-                <Label className="text-xs mb-1 block">{t('select_currency')}</Label>
-                <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-                  <SelectTrigger className="h-10">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CURRENCIES.map(c => (
-                      <SelectItem key={c.code} value={c.code}>{c.symbol} {c.code}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label className="text-xs mb-1 block">{t('enter_amount')}</Label>
+                <Label className="text-xs mb-1 block">{t('enter_amount')} (₺ TRY)</Label>
                 <Input
                   type="number"
                   value={withdrawAmount}
                   onChange={(e) => setWithdrawAmount(e.target.value)}
                   placeholder="0.00"
                   className="text-lg h-10"
+                  data-testid="mobile-withdraw-amount-input"
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  {language === 'ru' ? 'Доступно' : 'Available'}: {formatCurrency(user?.available_balance?.[selectedCurrency] || 0, selectedCurrency)}
+                  {language === 'ru' ? 'Доступно' : 'Available'}: {formatCurrency(availableBalance)}
                 </p>
               </div>
 

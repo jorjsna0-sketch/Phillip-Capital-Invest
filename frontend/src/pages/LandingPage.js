@@ -27,7 +27,7 @@ export function LandingPage() {
   const { language, getLocalizedText } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const [activeMetric, setActiveMetric] = useState(0);
-  const [calcAmount, setCalcAmount] = useState('25000');
+  const [calcAmount, setCalcAmount] = useState('850000');
   const [selectedTerm, setSelectedTerm] = useState(12);
   const [selectedRate, setSelectedRate] = useState(18);
   const [featuredPortfolios, setFeaturedPortfolios] = useState([]);
@@ -84,7 +84,7 @@ export function LandingPage() {
       cta: 'Смотреть портфели',
       ctaSecondary: 'Как это работает',
       metrics: [
-        { value: '$127M', label: 'Активы под управлением', icon: Wallet },
+        { value: '₺4.2B', label: 'Активы под управлением', icon: Wallet },
         { value: '18.4%', label: 'Средняя доходность', icon: TrendingUp },
         { value: '2,847', label: 'Активных инвесторов', icon: Users }
       ],
@@ -94,7 +94,7 @@ export function LandingPage() {
         {
           icon: Shield,
           title: 'Защита инвестиций',
-          desc: 'Segregated accounts, страхование до $500K, многоуровневая защита',
+          desc: 'Segregated accounts, страхование до ₺17M, многоуровневая защита',
           highlight: 'Застраховано'
         },
         {
@@ -124,7 +124,7 @@ export function LandingPage() {
           tag: 'Консервативный',
           return: '12%', 
           risk: 'Минимальный риск',
-          min: 'от $10,000',
+          min: 'от ₺350,000',
           desc: 'Для тех, кто ценит стабильность и сохранность капитала',
           color: 'emerald'
         },
@@ -133,7 +133,7 @@ export function LandingPage() {
           tag: 'Оптимальный',
           return: '18%', 
           risk: 'Умеренный риск',
-          min: 'от $25,000',
+          min: 'от ₺850,000',
           desc: 'Золотая середина между доходностью и надёжностью',
           color: 'amber',
           popular: true
@@ -143,7 +143,7 @@ export function LandingPage() {
           tag: 'Максимум доходности',
           return: '28%', 
           risk: 'Высокий риск',
-          min: 'от $50,000',
+          min: 'от ₺1,700,000',
           desc: 'Для тех, кто готов к риску ради максимальной прибыли',
           color: 'slate'
         }
@@ -152,7 +152,7 @@ export function LandingPage() {
       steps: [
         { num: '01', title: 'Выберите портфель', desc: 'Изучите доступные портфели и выберите подходящий под ваши цели' },
         { num: '02', title: 'Откройте счёт', desc: 'Пройдите быструю регистрацию и верификацию за 15 минут' },
-        { num: '03', title: 'Пополните баланс', desc: 'Переведите средства удобным способом: карта, перевод, USDT' },
+        { num: '03', title: 'Пополните баланс', desc: 'Переведите средства удобным способом: карта, банковский перевод' },
         { num: '04', title: 'Инвестируйте', desc: 'Выберите сумму и срок — контракт формируется автоматически' }
       ],
       ctaSection: {
@@ -173,7 +173,7 @@ export function LandingPage() {
       cta: 'Portföyleri Görüntüle',
       ctaSecondary: 'Nasıl Çalışır',
       metrics: [
-        { value: '$127M', label: 'Yönetilen Varlıklar', icon: Wallet },
+        { value: '₺4.2B', label: 'Yönetilen Varlıklar', icon: Wallet },
         { value: '18.4%', label: 'Ortalama Getiri', icon: TrendingUp },
         { value: '2,847', label: 'Aktif Yatırımcı', icon: Users }
       ],
@@ -183,7 +183,7 @@ export function LandingPage() {
         {
           icon: Shield,
           title: 'Yatırım Koruması',
-          desc: 'Ayrı hesaplar, $500K\'ya kadar sigorta, çok katmanlı güvenlik',
+          desc: 'Ayrı hesaplar, ₺17M\'ye kadar sigorta, çok katmanlı güvenlik',
           highlight: 'Sigortalı'
         },
         {
@@ -213,7 +213,7 @@ export function LandingPage() {
           tag: 'Muhafazakar',
           return: '12%',
           risk: 'Minimum risk',
-          min: '$10,000\'dan itibaren',
+          min: '₺350,000\'den itibaren',
           desc: 'İstikrar ve sermaye korumasına değer verenler için',
           color: 'emerald'
         },
@@ -222,7 +222,7 @@ export function LandingPage() {
           tag: 'Optimal',
           return: '18%',
           risk: 'Orta risk',
-          min: '$25,000\'dan itibaren',
+          min: '₺850,000\'den itibaren',
           desc: 'Getiri ve güvenilirlik arasındaki altın denge',
           color: 'amber',
           popular: true
@@ -232,7 +232,7 @@ export function LandingPage() {
           tag: 'Maksimum getiri',
           return: '28%',
           risk: 'Yüksek risk',
-          min: '$50,000\'dan itibaren',
+          min: '₺1,700,000\'den itibaren',
           desc: 'Maksimum kâr için risk almaya hazır olanlar için',
           color: 'slate'
         }
@@ -241,7 +241,7 @@ export function LandingPage() {
       steps: [
         { num: '01', title: 'Portföy Seçin', desc: 'Mevcut portföyleri inceleyin ve hedeflerinize uygun olanı seçin' },
         { num: '02', title: 'Hesap Açın', desc: '15 dakikada hızlı kayıt ve doğrulamayı tamamlayın' },
-        { num: '03', title: 'Bakiyeyi Yükleyin', desc: 'Kolay yöntemle fon aktarın: kart, havale, USDT' },
+        { num: '03', title: 'Bakiyeyi Yükleyin', desc: 'Kolay yöntemle fon aktarın: kart, banka havalesi' },
         { num: '04', title: 'Yatırım Yapın', desc: 'Tutar ve süreyi seçin — sözleşme otomatik olarak oluşturulur' }
       ],
       ctaSection: {
@@ -262,7 +262,7 @@ export function LandingPage() {
       cta: 'View Portfolios',
       ctaSecondary: 'How It Works',
       metrics: [
-        { value: '$127M', label: 'Assets Under Management', icon: Wallet },
+        { value: '₺4.2B', label: 'Assets Under Management', icon: Wallet },
         { value: '18.4%', label: 'Average Return', icon: TrendingUp },
         { value: '2,847', label: 'Active Investors', icon: Users }
       ],
@@ -272,7 +272,7 @@ export function LandingPage() {
         {
           icon: Shield,
           title: 'Investment Protection',
-          desc: 'Segregated accounts, insurance up to $500K, multi-layer security',
+          desc: 'Segregated accounts, insurance up to ₺17M, multi-layer security',
           highlight: 'Insured'
         },
         {
@@ -302,7 +302,7 @@ export function LandingPage() {
           tag: 'Conservative',
           return: '12%', 
           risk: 'Minimal risk',
-          min: 'from $10,000',
+          min: 'from ₺350,000',
           desc: 'For those who value stability and capital preservation',
           color: 'emerald'
         },
@@ -311,7 +311,7 @@ export function LandingPage() {
           tag: 'Optimal',
           return: '18%', 
           risk: 'Moderate risk',
-          min: 'from $25,000',
+          min: 'from ₺850,000',
           desc: 'The golden mean between returns and reliability',
           color: 'amber',
           popular: true
@@ -321,7 +321,7 @@ export function LandingPage() {
           tag: 'Maximum returns',
           return: '28%', 
           risk: 'High risk',
-          min: 'from $50,000',
+          min: 'from ₺1,700,000',
           desc: 'For those ready to take risks for maximum profit',
           color: 'slate'
         }
@@ -330,7 +330,7 @@ export function LandingPage() {
       steps: [
         { num: '01', title: 'Choose a Portfolio', desc: 'Explore available portfolios and select one matching your goals' },
         { num: '02', title: 'Open an Account', desc: 'Complete quick registration and verification in 15 minutes' },
-        { num: '03', title: 'Fund Your Balance', desc: 'Transfer funds conveniently: card, wire transfer, USDT' },
+        { num: '03', title: 'Fund Your Balance', desc: 'Transfer funds conveniently: card, wire transfer' },
         { num: '04', title: 'Invest', desc: 'Select amount and term — the contract is generated automatically' }
       ],
       ctaSection: {
@@ -486,7 +486,7 @@ export function LandingPage() {
                     {language === 'ru' ? 'Сумма инвестиций' : language === 'tr' ? 'Yatırım tutarı' : 'Investment amount'}
                   </label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-400 text-xl font-bold">$</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-400 text-xl font-bold">₺</span>
                     <input
                       type="number"
                       value={calcAmount}
@@ -496,7 +496,7 @@ export function LandingPage() {
                     />
                   </div>
                   <div className="flex gap-2">
-                    {[10000, 25000, 50000, 100000].map(amount => (
+                    {[350000, 850000, 1700000, 3500000].map(amount => (
                       <button
                         key={amount}
                         onClick={() => setCalcAmount(amount.toString())}
@@ -506,7 +506,7 @@ export function LandingPage() {
                             : 'bg-slate-700/50 text-slate-400 hover:bg-slate-700 hover:text-white'
                         }`}
                       >
-                        ${amount >= 1000 ? `${amount/1000}K` : amount}
+                        ₺{amount >= 1000000 ? `${amount/1000000}M` : `${amount/1000}K`}
                       </button>
                     ))}
                   </div>
@@ -571,7 +571,7 @@ export function LandingPage() {
                       {language === 'ru' ? 'Ваши инвестиции' : language === 'tr' ? 'Yatırımınız' : 'Your investment'}
                     </p>
                     <p className="text-2xl font-bold text-white">
-                      ${parseFloat(calcAmount).toLocaleString()}
+                      ₺{parseFloat(calcAmount).toLocaleString()}
                     </p>
                   </div>
 
@@ -581,7 +581,7 @@ export function LandingPage() {
                       {language === 'ru' ? `Прибыль за ${selectedTerm} мес` : language === 'tr' ? `${selectedTerm} aylık kâr` : `Profit for ${selectedTerm}mo`}
                     </p>
                     <p className="text-2xl font-bold text-emerald-400">
-                      +${(parseFloat(calcAmount) * (selectedRate / 100) * (selectedTerm / 12)).toLocaleString('en-US', {maximumFractionDigits: 0})}
+                      +₺{(parseFloat(calcAmount) * (selectedRate / 100) * (selectedTerm / 12)).toLocaleString('en-US', {maximumFractionDigits: 0})}
                     </p>
                   </div>
 
@@ -591,7 +591,7 @@ export function LandingPage() {
                       {language === 'ru' ? 'В месяц' : language === 'tr' ? 'Aylık' : 'Monthly'}
                     </p>
                     <p className="text-2xl font-bold text-slate-300">
-                      +${((parseFloat(calcAmount) * (selectedRate / 100)) / 12).toLocaleString('en-US', {maximumFractionDigits: 0})}
+                      +₺{((parseFloat(calcAmount) * (selectedRate / 100)) / 12).toLocaleString('en-US', {maximumFractionDigits: 0})}
                     </p>
                   </div>
 
@@ -601,7 +601,7 @@ export function LandingPage() {
                       {language === 'ru' ? 'Итого получите' : language === 'tr' ? 'Toplam alacaksınız' : 'You will receive'}
                     </p>
                     <p className="text-3xl font-bold text-white">
-                      ${(parseFloat(calcAmount) + parseFloat(calcAmount) * (selectedRate / 100) * (selectedTerm / 12)).toLocaleString('en-US', {maximumFractionDigits: 0})}
+                      ₺{(parseFloat(calcAmount) + parseFloat(calcAmount) * (selectedRate / 100) * (selectedTerm / 12)).toLocaleString('en-US', {maximumFractionDigits: 0})}
                     </p>
                   </div>
                 </div>
@@ -622,7 +622,7 @@ export function LandingPage() {
             <div className="flex flex-wrap justify-center gap-6 mt-8 text-slate-500 text-sm">
               <div className="flex items-center gap-2">
                 <Shield className="w-4 h-4 text-emerald-500" />
-                <span>{language === 'ru' ? 'Застраховано до $500K' : language === 'tr' ? '$500K\'ya kadar sigortalı' : 'Insured up to $500K'}</span>
+                <span>{language === 'ru' ? 'Застраховано до ₺17M' : language === 'tr' ? '₺17M\'ye kadar sigortalı' : 'Insured up to ₺17M'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Lock className="w-4 h-4 text-emerald-500" />

@@ -24,7 +24,7 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'rec
 
 export function MobileDashboard() {
   const { user, api, refreshUser } = useAuth();
-  const { t, formatCurrency, formatUsdWithEquivalent, convertCurrency, formatDate, currency, language } = useLanguage();
+  const { t, formatCurrency, convertCurrency, formatDate, language } = useLanguage();
   const navigate = useNavigate();
   
   const [investments, setInvestments] = useState([]);
@@ -60,11 +60,11 @@ export function MobileDashboard() {
     setRefreshing(false);
   };
 
-  // Calculate totals - always from USD, convert to user's currency for display
+  // Calculate totals - always from USD (internal), display as TRY.
   const availableBalanceUsd = user?.available_balance?.USD || 0;
   const portfolioBalanceUsd = user?.portfolio_balance?.USD || 0;
-  const availableBalance = convertCurrency(availableBalanceUsd, 'USD', currency);
-  const portfolioBalance = convertCurrency(portfolioBalanceUsd, 'USD', currency);
+  const availableBalance = convertCurrency(availableBalanceUsd, 'USD', 'TRY');
+  const portfolioBalance = convertCurrency(portfolioBalanceUsd, 'USD', 'TRY');
   const expectedProfit = investments.reduce((sum, inv) => sum + (inv.remaining_profit || inv.expected_return || 0), 0);
   const activeContracts = investments.filter(i => i.status === 'active').length;
 

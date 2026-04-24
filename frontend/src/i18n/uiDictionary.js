@@ -823,6 +823,45 @@ const UI_TRANSLATIONS = {
   'Краткое описание шаблона': { tr: 'Şablon kısa açıklaması', en: 'Brief template description' },
   'Использовать по умолчанию для новых портфелей': { tr: 'Yeni portföyler için varsayılan olarak kullan', en: 'Use as default for new portfolios' },
 
+  // ===== Wallet deposit/withdrawal dialog =====
+  'Пополнение счёта': { tr: 'Hesap Dolumu', en: 'Account Deposit' },
+  'Создайте заявку на пополнение и переведите средства на указанные реквизиты': {
+    tr: 'Yatırma talebi oluşturun ve fonları belirtilen hesaba transfer edin',
+    en: 'Create a deposit request and transfer funds to the specified account'
+  },
+  'Ваш номер счёта для пополнения:': { tr: 'Yatırma için hesap numaranız:', en: 'Your deposit account number:' },
+  'Укажите этот номер в назначении платежа для быстрого зачисления': {
+    tr: 'Hızlı işleme için bu numarayı ödeme açıklamasında belirtin',
+    en: 'Specify this number in the payment description for faster processing'
+  },
+  'Сумма пополнения': { tr: 'Yatırma tutarı', en: 'Deposit amount' },
+  'Сумма пополнения (USD)': { tr: 'Yatırma tutarı (TRY)', en: 'Deposit amount (TRY)' },
+  'Сумма пополнения (TRY)': { tr: 'Yatırma tutarı (TRY)', en: 'Deposit amount (TRY)' },
+  'Сумма вывода': { tr: 'Çekim tutarı', en: 'Withdrawal amount' },
+  'Сумма вывода (USD)': { tr: 'Çekim tutarı (TRY)', en: 'Withdrawal amount (TRY)' },
+  'Сумма вывода (TRY)': { tr: 'Çekim tutarı (TRY)', en: 'Withdrawal amount (TRY)' },
+  'Минимальная сумма:': { tr: 'Minimum tutar:', en: 'Minimum amount:' },
+  'Минимальная сумма: $100': { tr: 'Minimum tutar: ₺100', en: 'Minimum amount: ₺100' },
+  'Минимальная сумма: ₺100': { tr: 'Minimum tutar: ₺100', en: 'Minimum amount: ₺100' },
+  'Отмена': { tr: 'İptal', en: 'Cancel' },
+  'Вывод средств': { tr: 'Para Çekme', en: 'Withdrawal' },
+  'Выберите брокера и укажите номер счёта для вывода': {
+    tr: 'Çekim için broker seçin ve hesap numarasını belirtin',
+    en: 'Select a broker and specify the account number for withdrawal'
+  },
+  'Доступно для вывода:': { tr: 'Çekim için mevcut:', en: 'Available for withdrawal:' },
+  'Выберите брокера': { tr: 'Broker seçin', en: 'Select broker' },
+  'Номер вашего счёта у брокера': { tr: 'Broker hesap numaranız', en: 'Your broker account number' },
+  'Введите номер счёта': { tr: 'Hesap numarası girin', en: 'Enter account number' },
+  'Переведите': { tr: 'Transfer edin', en: 'Transfer' },
+  'на указанные реквизиты.': { tr: 'belirtilen hesaba.', en: 'to the specified account.' },
+  'Средства будут зачислены после подтверждения.': { tr: 'Fonlar onay sonrası hesabınıza geçer.', en: 'Funds will be credited after confirmation.' },
+  'Заявка создана!': { tr: 'Başvuru oluşturuldu!', en: 'Request created!' },
+  'Создать заявку': { tr: 'Başvuru oluştur', en: 'Create request' },
+  'Реквизиты компании': { tr: 'Şirket bilgileri', en: 'Company details' },
+  'Номер счёта компании': { tr: 'Şirket hesap numarası', en: 'Company account number' },
+  'Скопировано': { tr: 'Kopyalandı', en: 'Copied' },
+
   // ===== English hardcoded strings → TR =====
   'Amount': { tr: 'Tutar', en: 'Amount' },
   'Expected': { tr: 'Beklenen', en: 'Expected' },

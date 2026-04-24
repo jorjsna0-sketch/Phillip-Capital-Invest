@@ -49,7 +49,7 @@ function DesktopInvestPage() {
   const { portfolioId } = useParams();
   const navigate = useNavigate();
   const { api, user, refreshUser } = useAuth();
-  const { t, formatCurrency, formatUsdWithEquivalent, getLocalizedText, currency } = useLanguage();
+  const { t, formatCurrency, convertCurrency, getLocalizedText } = useLanguage();
   const canvasRef = useRef(null);
   
   const [portfolio, setPortfolio] = useState(null);
@@ -174,22 +174,24 @@ function DesktopInvestPage() {
   };
 
   const validateStep1 = () => {
-    const numAmount = parseFloat(amount);
-    if (!amount || numAmount <= 0) {
+    const numAmountTry = parseFloat(amount);
+    if (!amount || numAmountTry <= 0) {
       setError('Введите сумму инвестиции');
       return false;
     }
-    if (numAmount < portfolio.min_investment) {
+    // Convert user's TRY input to USD (portfolio limits & balance are USD-based).
+    const numAmountUsd = convertCurrency(numAmountTry, 'TRY', 'USD');
+    if (numAmountUsd < portfolio.min_investment) {
       setError(`Минимальная сумма: ${formatCurrency(portfolio.min_investment)}`);
       return false;
     }
-    if (numAmount > portfolio.max_investment) {
+    if (numAmountUsd > portfolio.max_investment) {
       setError(`Максимальная сумма: ${formatCurrency(portfolio.max_investment)}`);
       return false;
     }
-    const availableBalance = user?.available_balance?.[selectedCurrency] || 0;
-    if (numAmount > availableBalance) {
-      setError(`Недостаточно средств. Доступно: ${formatCurrency(availableBalance, selectedCurrency)}`);
+    const availableBalanceUsd = user?.available_balance?.USD || 0;
+    if (numAmountUsd > availableBalanceUsd) {
+      setError(`Недостаточно средств. Доступно: ${formatCurrency(availableBalanceUsd)}`);
       return false;
     }
     if (!duration) {
@@ -258,9 +260,12 @@ function DesktopInvestPage() {
     try {
       const signature = getCanvasSignature();
       
+      const amountTry = parseFloat(amount);
+      const amountUsd = convertCurrency(amountTry, 'TRY', 'USD');
+
       const response = await api.post('/investments', {
         portfolio_id: portfolioId,
-        amount: parseFloat(amount),
+        amount: amountUsd,
         currency: selectedCurrency,
         duration_months: parseInt(duration),
         auto_reinvest: autoReinvest,
@@ -454,10 +459,10 @@ function DesktopInvestPage() {
                 <div className="space-y-2">
                   <Label>Валюта операции</Label>
                   <div className="p-3 bg-gray-50 rounded-md border">
-                    <span className="font-medium">$ USD</span>
+                    <span className="font-medium">₺ TRY</span>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Доступно: {formatUsdWithEquivalent(user?.available_balance?.USD || 0)}
+                    Доступно: {formatCurrency(user?.available_balance?.USD || 0)}
                   </p>
                 </div>
 
@@ -473,7 +478,7 @@ function DesktopInvestPage() {
                     data-testid="invest-amount-input"
                   />
                   <p className="text-xs text-muted-foreground">
-                    {t('portfolio_min')}: {formatUsdWithEquivalent(portfolio.min_investment)} | {t('portfolio_max')}: {formatUsdWithEquivalent(portfolio.max_investment)}
+                    {t('portfolio_min')}: {formatCurrency(portfolio.min_investment)} | {t('portfolio_max')}: {formatCurrency(portfolio.max_investment)}
                   </p>
                 </div>
 
@@ -528,7 +533,7 @@ function DesktopInvestPage() {
                   <div className="p-4 bg-green-50 rounded-sm">
                     <p className="text-sm text-muted-foreground">{t('expected_profit')}</p>
                     <p className="text-2xl font-heading font-bold text-green-600">
-                      +{formatUsdWithEquivalent(expectedReturn)}
+                      +{formatCurrency(expectedReturn, 'TRY', null)}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {currentRate}% за {duration} {portfolio.duration_unit === 'days' ? 'дн.' : portfolio.duration_unit === 'hours' ? 'ч.' : portfolio.duration_unit === 'years' ? 'г.' : 'мес.'}
@@ -557,7 +562,7 @@ function DesktopInvestPage() {
                   </div>
                   <div className="flex justify-between py-2 border-b border-gray-100">
                     <span className="text-muted-foreground">Сумма</span>
-                    <span className="font-medium">{formatUsdWithEquivalent(parseFloat(amount))}</span>
+                    <span className="font-medium">{formatCurrency(parseFloat(amount), 'TRY', null)}</span>
                   </div>
                   <div className="flex justify-between py-2 border-b border-gray-100">
                     <span className="text-muted-foreground">Срок</span>
@@ -578,7 +583,7 @@ function DesktopInvestPage() {
                   </div>
                   <div className="flex justify-between py-2 border-b border-gray-100">
                     <span className="text-muted-foreground">Ожидаемая прибыль</span>
-                    <span className="font-medium text-green-600">+{formatUsdWithEquivalent(expectedReturn)}</span>
+                    <span className="font-medium text-green-600">+{formatCurrency(expectedReturn, 'TRY', null)}</span>
                   </div>
                   <div className="flex justify-between py-2 border-b border-gray-100">
                     <span className="text-muted-foreground">Капитализация</span>
@@ -708,7 +713,7 @@ function DesktopInvestPage() {
                     {t('investment_success')}
                   </h3>
                   <p className="text-muted-foreground">
-                    Ваша инвестиция в размере {formatCurrency(parseFloat(amount), selectedCurrency)} успешно создана
+                    Ваша инвестиция в размере {formatCurrency(parseFloat(amount), 'TRY', null)} успешно создана
                   </p>
                 </div>
 

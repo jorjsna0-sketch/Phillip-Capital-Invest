@@ -12,10 +12,7 @@ export const LANGUAGES = [
 ];
 
 export const CURRENCIES = [
-  { code: 'USD', symbol: '$', name: 'US Dollar' },
-  { code: 'TRY', symbol: '₺', name: 'Turkish Lira' },
-  { code: 'EUR', symbol: '€', name: 'Euro' },
-  { code: 'USDT', symbol: '₮', name: 'Tether USDT' }
+  { code: 'TRY', symbol: '₺', name: 'Türk Lirası' }
 ];
 
 const STORAGE_LANG_KEY = 'pci_language';
@@ -62,7 +59,8 @@ function detectInitialCurrency() {
   } catch (_) {
     // ignore
   }
-  return 'USD';
+  // Default — Turkish Lira
+  return 'TRY';
 }
 
 function localeFor(lang) {
@@ -155,13 +153,14 @@ export function LanguageProvider({ children }) {
     return converted;
   }, [currency, exchangeRates]);
 
-  const formatCurrency = useCallback((amount, currencyCode = currency, convertFrom = null) => {
+  const formatCurrency = useCallback((amount, currencyCode = currency, convertFrom = 'USD') => {
     let displayAmount = amount;
     let displayCurrency = currencyCode;
 
-    if (convertFrom && convertFrom !== currency) {
-      displayAmount = convertCurrency(amount, convertFrom, currency);
-      displayCurrency = currency;
+    // Auto-convert from source currency (default USD — backend internal currency)
+    // to display currency, unless explicitly disabled with convertFrom = null
+    if (convertFrom && convertFrom !== displayCurrency) {
+      displayAmount = convertCurrency(amount, convertFrom, displayCurrency);
     }
 
     const curr = CURRENCIES.find(c => c.code === displayCurrency) || CURRENCIES[0];

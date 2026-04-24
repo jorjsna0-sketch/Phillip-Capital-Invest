@@ -45,7 +45,7 @@ export function PortfoliosPage() {
 
 function DesktopPortfolios() {
   const { api, user } = useAuth();
-  const { t, language, formatCurrency, formatUsdWithEquivalent, getLocalizedText } = useLanguage();
+  const { t, language, formatCurrency, getLocalizedText } = useLanguage();
   const navigate = useNavigate();
   
   const [portfolios, setPortfolios] = useState([]);
@@ -219,11 +219,11 @@ function DesktopPortfolios() {
                   <div className="pt-4 border-t border-gray-100">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">{t('portfolio_min')}</span>
-                      <span className="font-medium">{formatUsdWithEquivalent(portfolio.min_investment)}</span>
+                      <span className="font-medium">{formatCurrency(portfolio.min_investment)}</span>
                     </div>
                     <div className="flex justify-between text-sm mt-1">
                       <span className="text-muted-foreground">{t('portfolio_max')}</span>
-                      <span className="font-medium">{formatUsdWithEquivalent(portfolio.max_investment)}</span>
+                      <span className="font-medium">{formatCurrency(portfolio.max_investment)}</span>
                     </div>
                     <div className="flex justify-between text-sm mt-1">
                       <span className="text-muted-foreground">Начисление</span>

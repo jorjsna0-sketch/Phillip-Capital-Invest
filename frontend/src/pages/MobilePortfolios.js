@@ -19,7 +19,7 @@ import {
 
 export function MobilePortfolios() {
   const { api, user } = useAuth();
-  const { t, formatCurrency, formatUsdWithEquivalent, getLocalizedText, language } = useLanguage();
+  const { t, formatCurrency, getLocalizedText, language } = useLanguage();
   const navigate = useNavigate();
   
   const [portfolios, setPortfolios] = useState([]);
@@ -258,7 +258,7 @@ export function MobilePortfolios() {
                         {language === 'ru' ? 'Мин. сумма' : 'Min. amount'}
                       </span>
                       <span className="text-gray-700 font-medium">
-                        {formatUsdWithEquivalent(portfolio.min_investment)}
+                        {formatCurrency(portfolio.min_investment)}
                       </span>
                     </div>
 

@@ -120,7 +120,9 @@ export function useRuntimeTranslator() {
 
     // Initial full-page pass (covers tr/en/ru so English hardcoded strings
     // get translated to the active language)
-    const rootEl = document.getElementById('root') || document.body;
+    // Use document.body so we also cover React portals (Radix dialogs, toasts,
+    // dropdown menus) that render outside #root.
+    const rootEl = document.body;
     walkAndTranslate(rootEl, language);
 
     // Observe future DOM mutations
