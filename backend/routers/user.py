@@ -3,7 +3,7 @@ User router for Phillip Capital Invest - User profile and settings endpoints
 """
 from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, Request, HTTPException
-import random
+import secrets
 
 from database import db
 from models import Transaction, DepositRequest
@@ -85,7 +85,7 @@ async def send_phone_verification_code(request: Request):
         raise HTTPException(status_code=400, detail="Телефон уже подтверждён")
     
     # Generate 6-digit code
-    code = str(random.randint(100000, 999999))
+    code = f"{secrets.randbelow(900000) + 100000:06d}"
     expires = (datetime.now(timezone.utc) + timedelta(minutes=15)).isoformat()
     
     # Save code to user

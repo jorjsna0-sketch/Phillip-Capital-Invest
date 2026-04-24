@@ -215,13 +215,12 @@ async def update_user_balance(user_id: str, request: Request):
         raise HTTPException(status_code=400, detail="Invalid balance type")
     
     current = user.get(balance_type, {}).get(currency, 0)
+    new_value = amount  # default (set operation)
     
     if operation == "add":
         new_value = current + amount
     elif operation == "subtract":
         new_value = current - amount
-    else:
-        new_value = amount
     
     await db.users.update_one(
         {"user_id": user_id},

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../i18n/LanguageContext';
@@ -79,11 +79,7 @@ export function AdminUserDetail() {
   const [terminateWithPayout, setTerminateWithPayout] = useState(true);
   const [terminateReason, setTerminateReason] = useState('');
 
-  useEffect(() => {
-    fetchUserData();
-  }, [userId]);
-
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       const response = await api.get(`/admin/users/${userId}`);
       setUserData(response.data);
@@ -97,7 +93,11 @@ export function AdminUserDetail() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [api, userId]);
+
+  useEffect(() => {
+    fetchUserData();
+  }, [fetchUserData]);
 
   const handleBalanceUpdate = async () => {
     if (!balanceAmount || parseFloat(balanceAmount) <= 0) return;

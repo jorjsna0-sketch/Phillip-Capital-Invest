@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
@@ -17,11 +17,7 @@ export function AdminWithdrawals() {
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(null);
 
-  useEffect(() => {
-    fetchWithdrawals();
-  }, []);
-
-  const fetchWithdrawals = async () => {
+  const fetchWithdrawals = useCallback(async () => {
     try {
       const response = await api.get('/admin/withdrawals/pending');
       setWithdrawals(response.data);
@@ -30,7 +26,11 @@ export function AdminWithdrawals() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [api]);
+
+  useEffect(() => {
+    fetchWithdrawals();
+  }, [fetchWithdrawals]);
 
   const handleProcess = async (transactionId, status) => {
     setProcessing(transactionId);

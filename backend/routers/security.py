@@ -4,7 +4,7 @@ Security router for Phillip Capital Invest - 2FA (Google Authenticator & Email)
 import io
 import base64
 import uuid
-import random
+import secrets
 from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
@@ -131,7 +131,7 @@ async def disable_totp(data: Disable2FARequest, user: dict = Depends(get_current
 async def setup_email_2fa(user: dict = Depends(get_current_user)):
     """Enable Email 2FA - sends verification code"""
     # Generate 6-digit code
-    code = str(random.randint(100000, 999999))
+    code = f"{secrets.randbelow(900000) + 100000:06d}"
     expires_at = datetime.now(timezone.utc) + timedelta(minutes=10)
     
     # Store code
@@ -213,7 +213,7 @@ async def disable_email_2fa(data: Disable2FARequest, user: dict = Depends(get_cu
         raise HTTPException(status_code=400, detail="Email 2FA is not enabled")
     
     # Send verification code
-    code = str(random.randint(100000, 999999))
+    code = f"{secrets.randbelow(900000) + 100000:06d}"
     expires_at = datetime.now(timezone.utc) + timedelta(minutes=10)
     
     # For disable, we check if the provided code matches a recently sent one
@@ -288,7 +288,7 @@ async def send_login_email_code(email: str):
     if not user or not user.get("email_2fa_enabled"):
         raise HTTPException(status_code=400, detail="User not found or 2FA not enabled")
     
-    code = str(random.randint(100000, 999999))
+    code = f"{secrets.randbelow(900000) + 100000:06d}"
     expires_at = datetime.now(timezone.utc) + timedelta(minutes=10)
     
     await db.users.update_one(

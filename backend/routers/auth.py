@@ -3,7 +3,7 @@ Authentication router for Phillip Capital Invest
 """
 from datetime import datetime, timezone, timedelta
 import uuid
-import random
+import secrets
 import httpx
 import pyotp
 from fastapi import APIRouter, Request, Response, HTTPException
@@ -78,7 +78,7 @@ async def login(data: UserLogin, response: Response):
         # Return 2FA required response
         # Send email code if email 2FA is enabled
         if email_2fa_enabled:
-            code = str(random.randint(100000, 999999))
+            code = f"{secrets.randbelow(900000) + 100000:06d}"
             expires_at = datetime.now(timezone.utc) + timedelta(minutes=10)
             await db.users.update_one(
                 {"user_id": user["user_id"]},

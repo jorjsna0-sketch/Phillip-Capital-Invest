@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
@@ -74,11 +74,7 @@ function DesktopWallet() {
   const [brokerAccount, setBrokerAccount] = useState('');
   const [withdrawalSubmitting, setWithdrawalSubmitting] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const [depositsRes, withdrawalsRes, brokersRes, bankInfoRes] = await Promise.all([
         api.get('/deposit-requests'),
@@ -95,7 +91,11 @@ function DesktopWallet() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [api]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleDeposit = async () => {
     if (!depositAmount || parseFloat(depositAmount) <= 0) return;

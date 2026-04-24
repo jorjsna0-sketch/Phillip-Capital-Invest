@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import DOMPurify from 'dompurify';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
@@ -353,7 +354,11 @@ export function AdminEmailTemplates() {
             <DialogTitle>Предпросмотр</DialogTitle>
           </DialogHeader>
           <div className="border rounded-lg p-4 bg-white">
-            <div dangerouslySetInnerHTML={{ __html: previewContent }} />
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(previewContent || '', {
+              ALLOWED_TAGS: ['p', 'br', 'b', 'i', 'u', 'strong', 'em', 'a', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'img', 'blockquote', 'code', 'pre', 'hr'],
+              ALLOWED_ATTR: ['href', 'target', 'rel', 'src', 'alt', 'title', 'style', 'class', 'width', 'height'],
+              ALLOW_DATA_ATTR: false
+            }) }} />
           </div>
         </DialogContent>
       </Dialog>
