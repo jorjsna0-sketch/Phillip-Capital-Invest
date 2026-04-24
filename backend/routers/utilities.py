@@ -118,44 +118,91 @@ async def convert_currency(request: Request):
 
 @router.post("/translate")
 async def translate_text(request: Request):
-    """Translate text using Gemini API (requires Emergent LLM key)"""
+    """Translate text using Gemini API (requires Emergent LLM key).
+    
+    Supports two request formats:
+    - Single target: {"text": "...", "source": "ru", "target": "tr"}
+      → returns {"translated": "...", "original": "...", ...}
+    - Batch targets: {"text": "...", "source_lang": "ru", "target_langs": ["tr", "en"]}
+      → returns {"translations": {"tr": "...", "en": "..."}}
+    """
     body = await request.json()
     text = body.get("text", "")
-    source_lang = body.get("source", "ru")
-    target_lang = body.get("target", "en")
+    source_lang = body.get("source") or body.get("source_lang", "ru")
+    target_langs = body.get("target_langs")
+    
+    # Determine mode
+    batch_mode = isinstance(target_langs, list) and len(target_langs) > 0
+    if not batch_mode:
+        target_lang = body.get("target", "en")
     
     if not text:
+        if batch_mode:
+            return {"translations": {lang: "" for lang in target_langs}}
         return {"translated": ""}
     
-    # Use Gemini for translation via Emergent LLM key
-    try:
-        from emergentintegrations.llm.gemini import GeminiConfig, chat as gemini_chat
-        import os
+    # Helper: translate to a single target lang — with fallback models
+    async def _translate_one(src, tgt):
+        from emergentintegrations.llm.chat import LlmChat, UserMessage
+        import os, uuid, asyncio
         
-        config = GeminiConfig(
-            api_key=os.environ.get("EMERGENT_LLM_KEY", ""),
-            model="gemini-2.0-flash"
+        lang_names = {"ru": "Russian", "tr": "Turkish", "en": "English"}
+        prompt = (
+            f"Translate the text below from {lang_names.get(src, src)} to {lang_names.get(tgt, tgt)}.\n"
+            f"Preserve any template placeholders (strings wrapped in double curly braces) exactly as they appear.\n"
+            f"Return ONLY the translation, with no comments, notes, or quotes.\n\n"
+            f"---\n{text}\n---"
         )
         
-        prompt = f"Translate the following text from {source_lang} to {target_lang}. Return only the translation without any explanations:\n\n{text}"
+        # Try models in order (gemini-2.0-flash → gemini-1.5-flash → claude-haiku)
+        model_fallbacks = [
+            ("gemini", "gemini-2.0-flash"),
+            ("gemini", "gemini-1.5-flash"),
+            ("anthropic", "claude-haiku-4-5"),
+        ]
+        last_error = None
+        for provider, model in model_fallbacks:
+            try:
+                chat = LlmChat(
+                    api_key=os.environ.get("EMERGENT_LLM_KEY", ""),
+                    session_id=f"translate-{uuid.uuid4()}",
+                    system_message="You are a professional translator. Return ONLY the translated text without any explanations, quotes, or prefixes."
+                ).with_model(provider, model)
+                msg = UserMessage(text=prompt)
+                response_text = await chat.send_message(msg)
+                return response_text.strip()
+            except Exception as e:
+                last_error = e
+                err_str = str(e)
+                # If rate-limited, try next model
+                if "RateLimit" in err_str or "429" in err_str or "exhausted" in err_str.lower():
+                    logger.warning(f"Rate limited on {provider}/{model}, trying fallback...")
+                    await asyncio.sleep(0.5)
+                    continue
+                # Other errors — bail out
+                logger.error(f"Translation error ({src}->{tgt}) on {provider}/{model}: {e}")
+                raise HTTPException(status_code=503, detail=f"Translation service error: {str(e)[:200]}")
         
-        response = await gemini_chat(config=config, prompt=prompt)
-        
-        return {
-            "original": text,
-            "translated": response.message,
-            "source": source_lang,
-            "target": target_lang
-        }
-    except Exception as e:
-        logger.error(f"Translation error: {e}")
-        return {
-            "original": text,
-            "translated": text,  # Return original if translation fails
-            "source": source_lang,
-            "target": target_lang,
-            "error": str(e)
-        }
+        # All models failed
+        logger.error(f"All translation models exhausted ({src}->{tgt}): {last_error}")
+        raise HTTPException(status_code=503, detail="Translation service temporarily unavailable (rate limited). Please try again in a minute.")
+    
+    if batch_mode:
+        translations = {}
+        for tgt in target_langs:
+            if tgt == source_lang:
+                translations[tgt] = text
+            else:
+                translations[tgt] = await _translate_one(source_lang, tgt)
+        return {"translations": translations, "source": source_lang}
+    
+    translated = await _translate_one(source_lang, target_lang)
+    return {
+        "original": text,
+        "translated": translated,
+        "source": source_lang,
+        "target": target_lang
+    }
 
 
 # ==================== PUBLIC SITE INFO ====================
