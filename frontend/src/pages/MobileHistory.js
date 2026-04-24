@@ -46,9 +46,7 @@ export function MobileHistory() {
 
   const downloadContract = async (investmentId) => {
     try {
-      const response = await api.get(`/investments/${investmentId}/contract`, {
-        responseType: 'blob'
-      });
+      const response = await api.get(`/investments/${investmentId}/contract?lang=${language}`, { responseType: 'blob' });
       const blob = new Blob([response.data], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');

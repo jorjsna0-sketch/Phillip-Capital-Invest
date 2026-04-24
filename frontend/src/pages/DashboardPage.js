@@ -154,9 +154,7 @@ function DesktopDashboard() {
   // Download contract PDF
   const downloadContract = async (investmentId) => {
     try {
-      const response = await api.get(`/investments/${investmentId}/contract`, {
-        responseType: 'blob'
-      });
+      const response = await api.get(`/investments/${investmentId}/contract?lang=${language}`, { responseType: 'blob' });
       
       // Create download link
       const blob = new Blob([response.data], { type: 'application/pdf' });

@@ -82,7 +82,31 @@ async def get_contract_pdf(investment_id: str, request: Request):
     # Get admin settings for company signature and stamp
     admin_settings = await db.admin_settings.find_one({"setting_id": "admin_settings"}, {"_id": 0}) or {}
     
-    lang = user.get("preferred_language", "ru")
+    # Language priority (explicit UI language wins):
+    # 1. ?lang=xx query param (from current website UI)
+    # 2. Accept-Language header
+    # 3. User's saved preferred_language in profile
+    # 4. Fallback to Russian
+    SUPPORTED = {"tr", "ru", "en"}
+    lang = None
+    try:
+        qp = request.query_params.get("lang")
+        if qp and qp.lower() in SUPPORTED:
+            lang = qp.lower()
+    except Exception:
+        lang = None
+    if not lang:
+        accept_lang = (request.headers.get("accept-language") or "").lower()
+        for code in ("tr", "ru", "en"):
+            if code in accept_lang:
+                lang = code
+                break
+    if not lang:
+        profile_lang = (user.get("preferred_language") or "").lower()
+        if profile_lang in SUPPORTED:
+            lang = profile_lang
+    if not lang:
+        lang = "ru"
     
     # Create PDF buffer
     buffer = io.BytesIO()
