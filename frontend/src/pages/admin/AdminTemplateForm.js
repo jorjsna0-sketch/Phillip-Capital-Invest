@@ -37,7 +37,7 @@ export function AdminTemplateForm() {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    content: { ru: '', kz: '', en: '' },
+    content: { ru: '', tr: '', en: '' },
     is_default: false
   });
 
@@ -114,7 +114,7 @@ _____________________                    _____________________
         setFormData({
           name: template.name || '',
           description: template.description || '',
-          content: template.content || { ru: '', kz: '', en: '' },
+          content: template.content || { ru: '', tr: '', en: '' },
           is_default: template.is_default || false
         });
       } else {

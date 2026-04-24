@@ -47,8 +47,8 @@ export function AdminEmailTemplates() {
   const [form, setForm] = useState({
     name: '',
     description: '',
-    subject: { ru: '', en: '', kz: '' },
-    content: { ru: '', en: '', kz: '' },
+    subject: { ru: '', en: '', tr: '' },
+    content: { ru: '', en: '', tr: '' },
     is_active: true
   });
 
@@ -101,8 +101,8 @@ export function AdminEmailTemplates() {
     setForm({
       name: template.name,
       description: template.description || '',
-      subject: template.subject || { ru: '', en: '', kz: '' },
-      content: template.content || { ru: '', en: '', kz: '' },
+      subject: template.subject || { ru: '', en: '', tr: '' },
+      content: template.content || { ru: '', en: '', tr: '' },
       is_active: template.is_active !== false
     });
     setDialogOpen(true);
@@ -114,8 +114,8 @@ export function AdminEmailTemplates() {
       setForm({
         name: preset.name,
         description: preset.description,
-        subject: { ru: '', en: '', kz: '' },
-        content: { ru: '', en: '', kz: '' },
+        subject: { ru: '', en: '', tr: '' },
+        content: { ru: '', en: '', tr: '' },
         is_active: true
       });
     } else {
@@ -128,8 +128,8 @@ export function AdminEmailTemplates() {
     setForm({
       name: '',
       description: '',
-      subject: { ru: '', en: '', kz: '' },
-      content: { ru: '', en: '', kz: '' },
+      subject: { ru: '', en: '', tr: '' },
+      content: { ru: '', en: '', tr: '' },
       is_active: true
     });
     setEditingTemplate(null);

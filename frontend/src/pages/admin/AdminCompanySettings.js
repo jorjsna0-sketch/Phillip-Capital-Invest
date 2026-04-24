@@ -725,7 +725,7 @@ export function AdminCompanySettings() {
                     type="email"
                     value={settings.email_from}
                     onChange={(e) => setSettings({...settings, email_from: e.target.value})}
-                    placeholder="noreply@altyncontract.kz"
+                    placeholder="noreply@phillipcapitalinvest.com"
                   />
                 </div>
                 <div className="space-y-2">

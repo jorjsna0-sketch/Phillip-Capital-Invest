@@ -146,7 +146,7 @@ export function AdminPortfolioForm() {
   const { portfolioId } = useParams();
   const navigate = useNavigate();
   const { api } = useAuth();
-  const { t, getLocalizedText } = useLanguage();
+  const { t, language, getLocalizedText } = useLanguage();
   
   const isEditing = !!portfolioId;
   const [loading, setLoading] = useState(isEditing);
@@ -173,9 +173,9 @@ export function AdminPortfolioForm() {
 
   // Form state
   const [formData, setFormData] = useState({
-    name: { ru: '', kz: '', en: '' },
-    description: { ru: '', kz: '', en: '' },
-    strategy: { ru: '', kz: '', en: '' },
+    name: { ru: '', tr: '', en: '' },
+    description: { ru: '', tr: '', en: '' },
+    strategy: { ru: '', tr: '', en: '' },
     assets: '',
     min_investment: '',
     max_investment: '',
@@ -189,11 +189,11 @@ export function AdminPortfolioForm() {
     featured_on_landing: false,
     landing_order: 0,
     banner_url: '',
-    contract_template: { ru: '', kz: '', en: '' },
+    contract_template: { ru: '', tr: '', en: '' },
     contract_template_id: '',
     detailed_assets: [],
-    sales_text: { ru: '', kz: '', en: '' },
-    safety_guarantee: { ru: '', kz: '', en: '' },
+    sales_text: { ru: '', tr: '', en: '' },
+    safety_guarantee: { ru: '', tr: '', en: '' },
     // Display stats for marketing
     display_investor_count: undefined,
     display_total_invested: undefined,
@@ -223,9 +223,9 @@ export function AdminPortfolioForm() {
       }
       
       setFormData({
-        name: p.name || { ru: '', kz: '', en: '' },
-        description: p.description || { ru: '', kz: '', en: '' },
-        strategy: p.strategy || { ru: '', kz: '', en: '' },
+        name: p.name || { ru: '', tr: '', en: '' },
+        description: p.description || { ru: '', tr: '', en: '' },
+        strategy: p.strategy || { ru: '', tr: '', en: '' },
         assets: p.assets?.join(', ') || '',
         min_investment: p.min_investment?.toString() || '',
         max_investment: p.max_investment?.toString() || '',
@@ -238,11 +238,11 @@ export function AdminPortfolioForm() {
         featured_on_landing: p.featured_on_landing || false,
         landing_order: p.landing_order || 0,
         banner_url: p.banner_url || '',
-        contract_template: p.contract_template || { ru: '', kz: '', en: '' },
+        contract_template: p.contract_template || { ru: '', tr: '', en: '' },
         contract_template_id: p.contract_template_id || '',
         detailed_assets: p.detailed_assets || [],
-        sales_text: p.sales_text || { ru: '', kz: '', en: '' },
-        safety_guarantee: p.safety_guarantee || { ru: '', kz: '', en: '' },
+        sales_text: p.sales_text || { ru: '', tr: '', en: '' },
+        safety_guarantee: p.safety_guarantee || { ru: '', tr: '', en: '' },
         // Display stats
         display_investor_count: p.display_investor_count || undefined,
         display_total_invested: p.display_total_invested || undefined,
@@ -415,10 +415,14 @@ export function AdminPortfolioForm() {
         </Button>
         <div className="flex-1">
           <h1 className="text-h2 text-primary">
-            {isEditing ? 'Редактирование портфеля' : 'Создание портфеля'}
+            {isEditing 
+              ? (language === 'tr' ? 'Portföyü Düzenle' : language === 'en' ? 'Edit Portfolio' : 'Редактирование портфеля')
+              : (language === 'tr' ? 'Portföy Oluştur' : language === 'en' ? 'Create Portfolio' : 'Создание портфеля')}
           </h1>
           <p className="text-muted-foreground">
-            {isEditing ? getLocalizedText(formData.name) : 'Заполните информацию о новом портфеле'}
+            {isEditing 
+              ? getLocalizedText(formData.name) 
+              : (language === 'tr' ? 'Yeni portföy hakkında bilgi girin' : language === 'en' ? 'Fill in information about the new portfolio' : 'Заполните информацию о новом портфеле')}
           </p>
         </div>
         <Button 
@@ -437,10 +441,10 @@ export function AdminPortfolioForm() {
 
       <Tabs defaultValue="main" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="main">Основное</TabsTrigger>
-          <TabsTrigger value="returns">Доходность</TabsTrigger>
-          <TabsTrigger value="presentation">Презентация</TabsTrigger>
-          <TabsTrigger value="contract">Договор</TabsTrigger>
+          <TabsTrigger value="main">{language === 'tr' ? 'Ana' : language === 'en' ? 'Main' : 'Основное'}</TabsTrigger>
+          <TabsTrigger value="returns">{language === 'tr' ? 'Getiri' : language === 'en' ? 'Returns' : 'Доходность'}</TabsTrigger>
+          <TabsTrigger value="presentation">{language === 'tr' ? 'Sunum' : language === 'en' ? 'Presentation' : 'Презентация'}</TabsTrigger>
+          <TabsTrigger value="contract">{language === 'tr' ? 'Sözleşme' : language === 'en' ? 'Contract' : 'Договор'}</TabsTrigger>
         </TabsList>
 
         {/* Main Tab */}
@@ -450,7 +454,7 @@ export function AdminPortfolioForm() {
               <CardTitle className="text-base">Основная информация</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* Name in 3 languages */}
+              {/* Name in 3 languages (RU / TR / EN) */}
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label>Название (RU) *</Label>
@@ -461,11 +465,11 @@ export function AdminPortfolioForm() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Название (KZ)</Label>
+                  <Label>Ad (TR)</Label>
                   <Input
-                    value={formData.name.kz}
-                    onChange={(e) => setFormData({...formData, name: {...formData.name, kz: e.target.value}})}
-                    placeholder="Теңгерімді портфель"
+                    value={formData.name.tr || ''}
+                    onChange={(e) => setFormData({...formData, name: {...formData.name, tr: e.target.value}})}
+                    placeholder="Dengeli portföy"
                   />
                 </div>
                 <div className="space-y-2">

@@ -203,7 +203,7 @@ export function AdminEmail() {
                   <Input
                     value={settings.sender_email || ''}
                     onChange={(e) => setSettings({ ...settings, sender_email: e.target.value })}
-                    placeholder="noreply@altyncontract.kz"
+                    placeholder="noreply@phillipcapitalinvest.com"
                   />
                 </div>
                 <div className="space-y-2">

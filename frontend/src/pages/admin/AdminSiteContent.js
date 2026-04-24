@@ -311,7 +311,7 @@ export function AdminSiteContent() {
                     type="email"
                     value={contactInfo.email}
                     onChange={(e) => setContactInfo({...contactInfo, email: e.target.value})}
-                    placeholder="info@altyncontract.kz"
+                    placeholder="info@phillipcapitalinvest.com"
                   />
                 </div>
               </div>
@@ -331,29 +331,29 @@ export function AdminSiteContent() {
                         ...contactInfo, 
                         address: {...contactInfo.address, ru: e.target.value}
                       })}
-                      placeholder="г. Алматы, пр. Аль-Фараби, 77/8"
+                      placeholder="Стамбул, Левент, Финансовый район, Tower A"
                     />
                   </div>
                   <div>
-                    <Label>Адрес (EN)</Label>
+                    <Label>Adres (TR)</Label>
+                    <Input
+                      value={contactInfo.address?.tr || ''}
+                      onChange={(e) => setContactInfo({
+                        ...contactInfo, 
+                        address: {...contactInfo.address, tr: e.target.value}
+                      })}
+                      placeholder="İstanbul, Levent Finans Bölgesi, Tower A"
+                    />
+                  </div>
+                  <div>
+                    <Label>Address (EN)</Label>
                     <Input
                       value={contactInfo.address?.en || ''}
                       onChange={(e) => setContactInfo({
                         ...contactInfo, 
                         address: {...contactInfo.address, en: e.target.value}
                       })}
-                      placeholder="77/8 Al-Farabi Ave., Almaty"
-                    />
-                  </div>
-                  <div>
-                    <Label>Адрес (KZ)</Label>
-                    <Input
-                      value={contactInfo.address?.kz || ''}
-                      onChange={(e) => setContactInfo({
-                        ...contactInfo, 
-                        address: {...contactInfo.address, kz: e.target.value}
-                      })}
-                      placeholder="Алматы қ., Әл-Фараби д., 77/8"
+                      placeholder="Istanbul, Levent Finance District, Tower A"
                     />
                   </div>
                 </div>
