@@ -12,7 +12,7 @@ export const LANGUAGES = [
 ];
 
 export const CURRENCIES = [
-  { code: 'TRY', symbol: '₺', name: 'Türk Lirası' }
+  { code: 'USD', symbol: '$', name: 'US Dollar' }
 ];
 
 const STORAGE_LANG_KEY = 'pci_language';
@@ -59,8 +59,8 @@ function detectInitialCurrency() {
   } catch (_) {
     // ignore
   }
-  // Default — Turkish Lira
-  return 'TRY';
+  // Default — USD
+  return 'USD';
 }
 
 function localeFor(lang) {

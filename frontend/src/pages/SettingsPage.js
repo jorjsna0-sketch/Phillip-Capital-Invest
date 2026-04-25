@@ -432,7 +432,7 @@ function DesktopSettings() {
           <TabsContent value="preferences">
             <Card className="card-premium">
               <CardHeader>
-                <CardTitle className="text-h3">{t('settings_language')} & {t('settings_currency')}</CardTitle>
+                <CardTitle className="text-h3">{t('settings_language')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-2">
@@ -445,22 +445,6 @@ function DesktopSettings() {
                       {LANGUAGES.map(lang => (
                         <SelectItem key={lang.code} value={lang.code}>
                           {lang.flag} {lang.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>{t('settings_currency')}</Label>
-                  <Select value={currency} onValueChange={setCurrency}>
-                    <SelectTrigger data-testid="currency-select">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {CURRENCIES.map(curr => (
-                        <SelectItem key={curr.code} value={curr.code}>
-                          {curr.symbol} {curr.code} - {curr.name}
                         </SelectItem>
                       ))}
                     </SelectContent>

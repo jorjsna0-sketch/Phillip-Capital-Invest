@@ -56,7 +56,7 @@ export function DashboardPage() {
 
 function DesktopDashboard() {
   const { user, api, refreshUser } = useAuth();
-  const { t, formatCurrency, convertCurrency, formatDate, language } = useLanguage();
+  const { t, formatCurrency, formatDate, language } = useLanguage();
   
   const [investments, setInvestments] = useState([]);
   const [transactions, setTransactions] = useState([]);
@@ -107,10 +107,8 @@ function DesktopDashboard() {
     if (!amount || parseFloat(amount) <= 0) return;
     setSubmitting(true);
     try {
-      // User enters TRY; convert to USD (backend internal base).
-      const amountUsd = convertCurrency(parseFloat(amount), 'TRY', 'USD');
       await api.post('/deposit-requests', { 
-        amount: amountUsd, 
+        amount: parseFloat(amount), 
         currency: 'USD'
       });
       await refreshUser();
@@ -132,9 +130,8 @@ function DesktopDashboard() {
     }
     setSubmitting(true);
     try {
-      const amountUsd = convertCurrency(parseFloat(amount), 'TRY', 'USD');
       await api.post('/withdrawal-requests', { 
-        amount: amountUsd, 
+        amount: parseFloat(amount), 
         currency: 'USD',
         broker_id: selectedBroker,
         broker_account: brokerAccount
@@ -174,15 +171,14 @@ function DesktopDashboard() {
     }
   };
 
-  // Calculate totals - always from USD, display as TRY (sole currency).
+  // All balances in USD (sole currency).
   const availableBalanceUsd = user?.available_balance?.USD || 0;
   const portfolioBalanceUsd = user?.portfolio_balance?.USD || 0;
   const totalBalanceUsd = availableBalanceUsd + portfolioBalanceUsd;
   
-  // Convert to TRY for display
-  const availableBalance = convertCurrency(availableBalanceUsd, 'USD', 'TRY');
-  const portfolioBalance = convertCurrency(portfolioBalanceUsd, 'USD', 'TRY');
-  const totalBalance = availableBalance + portfolioBalance;
+  const availableBalance = availableBalanceUsd;
+  const portfolioBalance = portfolioBalanceUsd;
+  const totalBalance = totalBalanceUsd;
 
   // Chart data
   const pieData = [
@@ -300,7 +296,7 @@ function DesktopDashboard() {
                       )}
                       
                       <div className="space-y-2">
-                        <Label>{t('enter_amount')} (₺ TRY)</Label>
+                        <Label>{t('enter_amount')} ($ USD)</Label>
                         <Input
                           type="number"
                           value={amount}
@@ -336,7 +332,7 @@ function DesktopDashboard() {
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                       <div className="space-y-2">
-                        <Label>{t('enter_amount')} (₺ TRY)</Label>
+                        <Label>{t('enter_amount')} ($ USD)</Label>
                         <Input
                           type="number"
                           value={amount}

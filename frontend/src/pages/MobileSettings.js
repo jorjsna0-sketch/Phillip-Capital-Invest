@@ -251,7 +251,7 @@ export function MobileSettings() {
             </div>
             <div className="flex-1 text-left">
               <p className="font-medium text-sm">{language === 'ru' ? 'Язык и валюта' : 'Language'}</p>
-              <p className="text-xs text-gray-500">{LANGUAGES.find(l => l.code === language)?.name} • {currency}</p>
+              <p className="text-xs text-gray-500">{LANGUAGES.find(l => l.code === language)?.name}</p>
             </div>
             <ChevronRight className="w-5 h-5 text-gray-400" />
           </button>
@@ -441,7 +441,7 @@ export function MobileSettings() {
       <div className="h-full flex flex-col bg-white" data-testid="language-section">
         <div className="border-b px-4 py-3 flex items-center gap-3 flex-shrink-0">
           <button onClick={() => setActiveSection(null)} className="p-1"><X className="w-5 h-5" /></button>
-          <h2 className="font-semibold">{language === 'ru' ? 'Язык и валюта' : 'Language'}</h2>
+          <h2 className="font-semibold">{language === 'ru' ? 'Язык' : 'Language'}</h2>
         </div>
         
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -452,18 +452,6 @@ export function MobileSettings() {
                 <button key={lang.code} onClick={() => setLanguage(lang.code)} className={`w-full p-3 rounded-xl flex items-center justify-between ${language === lang.code ? 'bg-primary/10 border-2 border-primary' : 'bg-gray-50'}`}>
                   <span className="font-medium text-sm">{lang.name}</span>
                   {language === lang.code && <Check className="w-5 h-5 text-primary" />}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="text-xs text-gray-500 mb-2 block">{language === 'ru' ? 'Валюта' : 'Currency'}</label>
-            <div className="space-y-2">
-              {CURRENCIES.map(curr => (
-                <button key={curr.code} onClick={() => setCurrency(curr.code)} className={`w-full p-3 rounded-xl flex items-center justify-between ${currency === curr.code ? 'bg-primary/10 border-2 border-primary' : 'bg-gray-50'}`}>
-                  <span className="font-medium text-sm">{curr.symbol} {curr.code}</span>
-                  {currency === curr.code && <Check className="w-5 h-5 text-primary" />}
                 </button>
               ))}
             </div>

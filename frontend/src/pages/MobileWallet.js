@@ -21,7 +21,7 @@ import {
 
 export function MobileWallet() {
   const { api, user } = useAuth();
-  const { t, formatCurrency, formatDate, convertCurrency, language } = useLanguage();
+  const { t, formatCurrency, formatDate, language } = useLanguage();
   
   const [depositRequests, setDepositRequests] = useState([]);
   const [withdrawalRequests, setWithdrawalRequests] = useState([]);
@@ -68,10 +68,8 @@ export function MobileWallet() {
     if (!depositAmount || parseFloat(depositAmount) <= 0) return;
     setSubmitting(true);
     try {
-      // User enters TRY; convert to USD (backend internal base).
-      const amountUsd = convertCurrency(parseFloat(depositAmount), 'TRY', 'USD');
       await api.post('/deposit-requests', {
-        amount: amountUsd,
+        amount: parseFloat(depositAmount),
         currency: 'USD'
       });
       setDepositAmount('');
@@ -88,9 +86,8 @@ export function MobileWallet() {
     if (!withdrawAmount || parseFloat(withdrawAmount) <= 0 || !selectedBroker) return;
     setSubmitting(true);
     try {
-      const amountUsd = convertCurrency(parseFloat(withdrawAmount), 'TRY', 'USD');
       await api.post('/withdrawal-requests', {
-        amount: amountUsd,
+        amount: parseFloat(withdrawAmount),
         currency: 'USD',
         broker_id: selectedBroker,
         broker_account: brokerAccount
@@ -129,7 +126,6 @@ export function MobileWallet() {
 
   const availableBalance = user?.available_balance?.USD || 0;
   const portfolioBalance = user?.portfolio_balance?.USD || 0;
-  const availableBalanceTry = convertCurrency(availableBalance, 'USD', 'TRY');
   const currentRequests = activeTab === 'deposits' ? depositRequests : withdrawalRequests;
 
   if (loading) {
@@ -282,7 +278,7 @@ export function MobileWallet() {
               )}
 
               <div>
-                <Label className="text-xs mb-1 block">{t('enter_amount')} (₺ TRY)</Label>
+                <Label className="text-xs mb-1 block">{t('enter_amount')} ($ USD)</Label>
                 <Input
                   type="number"
                   value={depositAmount}
@@ -317,7 +313,7 @@ export function MobileWallet() {
             
             <div className="p-4 space-y-3 overflow-y-auto flex-1">
               <div>
-                <Label className="text-xs mb-1 block">{t('enter_amount')} (₺ TRY)</Label>
+                <Label className="text-xs mb-1 block">{t('enter_amount')} ($ USD)</Label>
                 <Input
                   type="number"
                   value={withdrawAmount}

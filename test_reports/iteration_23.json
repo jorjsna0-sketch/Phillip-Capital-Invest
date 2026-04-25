@@ -1,0 +1,47 @@
+{
+  "summary": "Frontend-only retest of USD-only enforcement after reversal from TRY. Verified Wallet/Dashboard/Settings (desktop+mobile) and Settings — all clean. Found 4 hardcoded TRY (₺) leaks in LandingPage.js calculator + portfolio mins; calculator quick amounts still use ₺350K/₺850K/₺1.7M/₺3.5M instead of $10K/$25K/$50K/$100K. Same calculator surfaces on /invest screen (pre-portfolio-selection landing) on mobile, so InvestPage scanning also flagged TRY (root cause is LandingPage.js).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "LandingPage Calculator (input prefix)", "issue": "Hardcoded ₺ currency symbol in input prefix span at LandingPage.js:489. Should be $ per USD-only spec.", "selector": "[data-testid=\"calc-amount-input\"] preceding span.text-amber-400", "priority": "HIGH"},
+      {"component": "LandingPage Calculator (quick amount buttons)", "issue": "Quick amount buttons hardcoded to TRY values [350000, 850000, 1700000, 3500000] with ₺ prefix and K/M formatting (LandingPage.js:499-509). Spec requires $10,000 / $25,000 / $50,000 / $100,000 with $ symbol.", "selector": "section button.flex-1.py-2.text-xs.font-semibold.rounded-lg", "priority": "HIGH"},
+      {"component": "LandingPage portfolios[0].min (RU locale)", "issue": "Conservative portfolio min still 'от ₺350,000' at LandingPage.js:127. Should be 'от $10,000'.", "selector": "—", "priority": "HIGH"},
+      {"component": "LandingPage portfolios[1].min (TR locale)", "issue": "Balanced portfolio min still '₺850,000\\'den itibaren' at LandingPage.js:225. Should be '$25,000\\'dan itibaren'.", "selector": "—", "priority": "HIGH"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "verified_passing": [
+    "Desktop /wallet: balance cards $ only, no ₺/€/₸ leakage; deposit dialog label 'Yatırma tutarı (USD)', min $100, 0 currency comboboxes; withdraw dialog 'Çekim tutarı (USD)', balance shown as $92.420,64",
+    "Desktop /dashboard: USD only, no foreign currency",
+    "Desktop /settings: 0 comboboxes (no currency selector), no 'Валюта/Currency/Para birimi' label in body",
+    "Mobile /wallet: $ only, no ₺/€/₸ leakage",
+    "Mobile /settings: no currency selector, no currency label",
+    "InvestPage Step 1 'Валюта операции' label correctly shows '$ USD' (line 457)",
+    "Old localStorage pci_currency='TRY' is rejected at runtime by SUPPORTED_CURRS validation; UI falls back to USD default (no TRY rendered anywhere except LandingPage hardcoded leaks)",
+    "Login flow with admin@altyncontract.kz / abc123 works; no JS pageerrors during navigation"
+  ],
+  "action_items": [
+    "Replace ₺ prefix on LandingPage.js:489 with $ (or use currency from useLanguage)",
+    "Update LandingPage.js:499 quick-amount array to [10000, 25000, 50000, 100000] and replace ₺ prefix on line 509 with $",
+    "Change LandingPage.js:127 'от ₺350,000' → 'от $10,000' (RU portfolios[0].min)",
+    "Change LandingPage.js:225 '₺850,000\\'den itibaren' → '$25,000\\'dan itibaren' (TR portfolios[1].min)",
+    "After fix, retest /, /invest (desktop+mobile) — same calculator is shown on /invest before portfolio selection, so it auto-fixes there too"
+  ],
+  "critical_code_review_comments": [
+    "All 4 TRY/₺ leaks are concentrated in LandingPage.js — single file fix.",
+    "InvestPage.js still imports/uses formatCurrency but no longer calls convertCurrency — clean.",
+    "LanguageContext.js still exposes convertCurrency/formatCurrency/exchangeRates etc. for legacy compatibility (acceptable since SUPPORTED_CURRS=['USD'] makes conversions no-op).",
+    "Settings (desktop & mobile) cleanly removed currency picker — only language remains (mobile shows it as a tap-row, not a combobox).",
+    "Mobile deposit modal could not be opened via headless click (button outside viewport on the bottom-tab layout); not a regression — same pattern as iteration 22."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (skipped per instruction)", "frontend": "85% (Wallet/Dashboard/Settings clean; Landing calculator + portfolio mins still hold TRY)"},
+  "test_credentials": "admin@altyncontract.kz / abc123 (verified working)",
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Iteration 23: USD-only retest. Wallet/Dashboard/Settings desktop+mobile fully USD compliant (₺/€/₸ entirely absent, deposit/withdraw dialogs labeled '... (USD)', no currency dropdowns). Only remaining leakage is in LandingPage.js: (a) calculator input prefix ₺ at line 489, (b) quick-amount buttons array [350000,850000,1700000,3500000] with ₺ prefix at lines 499-510, (c) RU portfolios[0].min 'от ₺350,000' line 127, (d) TR portfolios[1].min '₺850,000\\'den itibaren' line 225. Mobile /invest (when no portfolio chosen) renders the same landing-style calculator so the leak appears on /invest mobile too — fixing LandingPage.js fixes both. After fix, simply re-run a body-text scan for '₺' on /, /invest desktop+mobile to confirm zero matches.",
+  "rca of the issue": "When reverting from TRY-only to USD-only, the developer updated LanguageContext (CURRENCIES, SUPPORTED_CURRS), Wallet, Dashboard, Settings, MobileWallet, MobileDashboard, MobileSettings, MobileInvestWizard and InvestPage Step 1 wizard. However, LandingPage.js still has the TRY-era calculator code: (1) input prefix span hardcoded to '₺', (2) quick-amount buttons hardcoded to TRY values 350K/850K/1.7M/3.5M with ₺ prefix and K/M template literal, (3) RU and TR portfolios array still has a `min` field with ₺. These are the only 4 string locations in /app/frontend/src that contain ₺ or TRY. Reproduction: open / unauthenticated or /invest authenticated (mobile) → calculator section shows '₺350K, ₺850K, ₺1.7M, ₺3.5M' and input prefix '₺'. Mitigation: edit LandingPage.js four locations; quick amounts → [10000,25000,50000,100000] formatted as '$10K/$25K/$50K/$100K'; portfolio mins → 'от $10,000' (RU) and '$25,000\\'dan itibaren' (TR)."
+}

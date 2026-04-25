@@ -53,7 +53,7 @@ export function WalletPage() {
 
 function DesktopWallet() {
   const { api, user } = useAuth();
-  const { t, formatCurrency, formatDate, convertCurrency } = useLanguage();
+  const { t, formatCurrency, formatDate } = useLanguage();
   
   const [depositRequests, setDepositRequests] = useState([]);
   const [withdrawalRequests, setWithdrawalRequests] = useState([]);
@@ -102,11 +102,8 @@ function DesktopWallet() {
     
     setDepositSubmitting(true);
     try {
-      // User enters amount in TRY; backend stores balances in USD (internal).
-      const amountTry = parseFloat(depositAmount);
-      const amountUsd = convertCurrency(amountTry, 'TRY', 'USD');
       await api.post('/deposit-requests', {
-        amount: amountUsd,
+        amount: parseFloat(depositAmount),
         currency: 'USD'
       });
       setDepositSuccess(true);
@@ -122,12 +119,10 @@ function DesktopWallet() {
   const handleWithdrawal = async () => {
     if (!withdrawalAmount || !selectedBroker || !brokerAccount) return;
     
-    // Amount user entered is in TRY. Compare with USD balance after converting.
-    const amountTry = parseFloat(withdrawalAmount);
-    const amountUsd = convertCurrency(amountTry, 'TRY', 'USD');
-    const availableUsd = user?.available_balance?.USD || 0;
+    const amount = parseFloat(withdrawalAmount);
+    const available = user?.available_balance?.USD || 0;
     
-    if (amountUsd > availableUsd) {
+    if (amount > available) {
       alert('Недостаточно средств на балансе');
       return;
     }
@@ -136,7 +131,7 @@ function DesktopWallet() {
     try {
       const broker = brokers.find(b => b.broker_id === selectedBroker);
       await api.post('/withdrawal-requests', {
-        amount: amountUsd,
+        amount,
         currency: 'USD',
         broker_id: selectedBroker,
         broker_name: broker?.name,
@@ -171,11 +166,9 @@ function DesktopWallet() {
     }
   };
 
-  // Backend stores balances in USD (internal base). Display converts to TRY via formatCurrency.
+  // Backend stores balances in USD (sole currency).
   const availableBalance = user?.available_balance?.USD || 0;
   const portfolioBalance = user?.portfolio_balance?.USD || 0;
-  // TRY-equivalent of available balance for validation vs user input (which is in TRY).
-  const availableBalanceTry = convertCurrency(availableBalance, 'USD', 'TRY');
 
   if (loading) {
     return (
@@ -261,16 +254,16 @@ function DesktopWallet() {
                   )}
                   
                   <div className="space-y-2">
-                    <Label>Сумма пополнения (TRY)</Label>
+                    <Label>Сумма пополнения (USD)</Label>
                     <Input
                       type="number"
                       value={depositAmount}
                       onChange={(e) => setDepositAmount(e.target.value)}
-                      placeholder="10000"
+                      placeholder="100"
                       min="100"
                       data-testid="deposit-amount-input"
                     />
-                    <p className="text-xs text-muted-foreground">Минимальная сумма: ₺100</p>
+                    <p className="text-xs text-muted-foreground">Минимальная сумма: $100</p>
                   </div>
 
                 </div>
@@ -328,13 +321,13 @@ function DesktopWallet() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Сумма вывода (TRY)</Label>
+                  <Label>Сумма вывода (USD)</Label>
                   <Input
                     type="number"
                     value={withdrawalAmount}
                     onChange={(e) => setWithdrawalAmount(e.target.value)}
-                    placeholder="1000"
-                    max={availableBalanceTry}
+                    placeholder="100"
+                    max={availableBalance}
                     data-testid="withdrawal-amount-input"
                   />
                 </div>
@@ -377,7 +370,7 @@ function DesktopWallet() {
                   </>
                 )}
 
-                {withdrawalAmount && parseFloat(withdrawalAmount) > availableBalanceTry && (
+                {withdrawalAmount && parseFloat(withdrawalAmount) > availableBalance && (
                   <div className="p-3 bg-red-50 rounded-lg border border-red-200">
                     <p className="text-sm text-red-700">Сумма превышает доступный баланс</p>
                   </div>
@@ -393,7 +386,7 @@ function DesktopWallet() {
                     !withdrawalAmount || 
                     !selectedBroker || 
                     !brokerAccount ||
-                    parseFloat(withdrawalAmount) > availableBalanceTry ||
+                    parseFloat(withdrawalAmount) > availableBalance ||
                     parseFloat(withdrawalAmount) <= 0
                   }
                 >
