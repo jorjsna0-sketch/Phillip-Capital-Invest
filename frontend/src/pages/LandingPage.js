@@ -124,7 +124,7 @@ export function LandingPage() {
           tag: 'Консервативный',
           return: '12%', 
           risk: 'Минимальный риск',
-          min: 'от ₺350,000',
+          min: 'от $10,000',
           desc: 'Для тех, кто ценит стабильность и сохранность капитала',
           color: 'emerald'
         },
@@ -222,7 +222,7 @@ export function LandingPage() {
           tag: 'Optimal',
           return: '18%',
           risk: 'Orta risk',
-          min: '₺850,000\'den itibaren',
+          min: '$25,000\'dan itibaren',
           desc: 'Getiri ve güvenilirlik arasındaki altın denge',
           color: 'amber',
           popular: true
@@ -486,7 +486,7 @@ export function LandingPage() {
                     {language === 'ru' ? 'Сумма инвестиций' : language === 'tr' ? 'Yatırım tutarı' : 'Investment amount'}
                   </label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-400 text-xl font-bold">₺</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-400 text-xl font-bold">$</span>
                     <input
                       type="number"
                       value={calcAmount}
@@ -496,7 +496,7 @@ export function LandingPage() {
                     />
                   </div>
                   <div className="flex gap-2">
-                    {[350000, 850000, 1700000, 3500000].map(amount => (
+                    {[10000, 25000, 50000, 100000].map(amount => (
                       <button
                         key={amount}
                         onClick={() => setCalcAmount(amount.toString())}
@@ -506,7 +506,7 @@ export function LandingPage() {
                             : 'bg-slate-700/50 text-slate-400 hover:bg-slate-700 hover:text-white'
                         }`}
                       >
-                        ₺{amount >= 1000000 ? `${amount/1000000}M` : `${amount/1000}K`}
+                        ${amount >= 1000 ? `${amount/1000}K` : amount}
                       </button>
                     ))}
                   </div>

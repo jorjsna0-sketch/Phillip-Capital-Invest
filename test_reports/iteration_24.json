@@ -1,0 +1,24 @@
+{
+  "summary": "Re-verified Landing Page is fully USD ($) across RU/TR/EN. The 4 spots flagged in iteration 23 (LandingPage.js lines 127, 225, 489, 499-509) are all clean; runtime body-text scan shows 0 occurrences of ₺ or TRY in any language. All expected $ markers ($10,000 / $25,000 / $50,000 / $100 / 10K / 25K / 50K / 100K) are rendered as expected.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Non-blocking residual TRY references outside LandingPage scope: src/i18n/uiDictionary.js lines 839/842/845 keep Russian source keys 'Сумма пополнения (TRY)', 'Сумма вывода (TRY)' and 'Минимальная сумма: ₺100'. TR/EN translations correctly resolve to USD/$, but if these RU strings are still rendered in the Deposit/Withdrawal screens for RU users, they will display TRY/₺. Consider updating the Russian source strings to USD as well in a future pass.",
+    "src/i18n/LanguageContext.js still defines TRY exchange rate (TRY: 33.5) — harmless data, but if currency is fully USD, this can be removed for cleanliness.",
+    "src/hooks/useRuntimeTranslator.js retains ₺ inside a numeric-skip regex character class — benign (no UI impact)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "test_credentials": "admin@altyncontract.kz / abc123 (not used — frontend-only verification)",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "LandingPage TRY/₺ leakage confirmed eliminated as of iteration 24. Runtime scan across RU, TR, EN body text returned 0 ₺/TRY occurrences. Quick amount buttons and portfolio min thresholds all render in USD ($). Only residual TRY references live in i18n/uiDictionary.js (Russian Deposit/Withdrawal source keys) and LanguageContext exchange rates — out of LandingPage scope, may be cleaned up later.",
+  "rca_of_the_issue": "Iteration 23 leak was due to RU portfolios[0].min='от ₺350,000', TR portfolios[1].min using ₺ prefix, calculator $/₺ symbol prefix and 4 quick-amount buttons rendering ₺350K/₺875K/₺1.75M/₺3.5M. Fix replaced all 4 spots with $-prefixed values; verified via grep of source and runtime DOM body.innerText scan in 3 languages."
+}
