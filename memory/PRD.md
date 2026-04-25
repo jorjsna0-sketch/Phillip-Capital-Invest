@@ -2,24 +2,21 @@
 
 ## Latest Updates (February 2026)
 
-### TRY as Sole Currency (P0) - ✅ COMPLETE (Feb 2026)
-User requirement: "Сделай основную валюту лиры, другие валюты убери" (Make Lira the main currency, remove others).
+### USD as Sole Currency (Final) - ✅ COMPLETE (Feb 2026)
+User reversed earlier TRY-only request: "Все в долларах сделай. Убери выбор валют" (Make everything in dollars. Remove currency selectors).
 
 **What's implemented:**
-- `LanguageContext.CURRENCIES` now contains only TRY — removed USD, EUR, KZT, USDT options from user-facing UI
-- `formatCurrency` auto-converts backend USD balances → TRY for display; backend storage remains USD (internal base, invisible to users)
-- Desktop Wallet (`WalletPage.js`): balance/deposit/withdrawal show only ₺ TRY. Deposit/withdrawal inputs collected in TRY, converted TRY→USD via `convertCurrency` before POST to backend. Removed currency dropdowns.
-- Mobile Wallet (`MobileWallet.js`): removed currency selector; inputs in TRY, submit converts to USD.
-- Desktop & Mobile Dashboards: removed currency selectors from deposit/withdraw dialogs; balance cards, charts, and transaction history display TRY only.
-- Desktop & Mobile Invest Wizards (`InvestPage.js`, `MobileInvestWizard.js`): "Валюта операции" shows "₺ TRY"; amount input labelled TRY; portfolio min/max limits display as TRY via `formatCurrency`; quick-amount presets changed to ₺1K/₺5K/₺10K (mobile wizard). `validateStep1` converts TRY input → USD for backend comparison.
-- Portfolios & MobilePortfolios: min/max investment display in TRY.
-- Landing Page: calculator uses ₺ symbol with quick amounts ₺350K/₺850K/₺1.7M/₺3.5M; marketing metrics (AUM, insurance, portfolio minimums) restated in TRY; dropped all USDT references.
+- `LanguageContext.CURRENCIES` contains only `{code:'USD', symbol:'$', name:'US Dollar'}`. Default currency = USD.
+- All wallet/dashboard/invest UIs display $ (USD) directly with no conversions. Backend storage of `available_balance.USD` is used as-is.
+- Removed all currency selectors from Settings (desktop + mobile), wallet dialogs, dashboard dialogs, and invest wizards.
+- Inputs labelled "(USD)"; placeholders, quick amounts, balance hints all use $ symbol.
+- Landing page calculator uses $ prefix, quick amounts $10K / $25K / $50K / $100K. Marketing copy reverted to '$127M AUM', '$500K insurance', portfolio mins 'от $10,000' / '$25,000' / '$50,000'.
+- Old `pci_currency='TRY'` localStorage entries gracefully fall back to USD via SUPPORTED_CURRS validation.
 
-**Architecture note:** Backend `available_balance.USD` is the source of truth. Frontend converts at display (USD→TRY) and submission (TRY→USD). Admin approval flow unchanged — deposits/withdrawals continue to increment `available_balance.USD`.
+**Testing (iteration 24):** Frontend 100% — 0 occurrences of ₺/TRY across all 3 locales (TR/RU/EN) on every user-facing screen.
 
-**Testing:**
-- Iteration 21: Found `convertCurrency` missing in DesktopWallet destructure → fixed.
-- Iteration 22: All TRY flows verified (desktop + mobile viewports, TR/RU/EN language switching). No USD/EUR/KZT leakage. Backend deposit/withdrawal endpoints accept USD-currency payloads as expected.
+### TRY as Sole Currency (Reverted) - ⏪ ROLLED BACK
+User initially asked for Turkish Lira; later changed back to USD. Architecture flipped accordingly.
 
 ### Investment Logic Refactoring (P0) - ✅ COMPLETE (Session 2, Part 3)
 **Новая логика начисления прибыли:**
