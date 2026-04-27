@@ -38,18 +38,11 @@ logger = logging.getLogger(__name__)
 
 # ================== CORS MIDDLEWARE ==================
 
-# For production: set CORS_ORIGINS env variable with comma-separated origins
-# For preview/dev: defaults to common development origins
-cors_origins_env = os.environ.get("CORS_ORIGINS", "")
-if cors_origins_env:
-    cors_allow_origins = [origin.strip() for origin in cors_origins_env.split(",")]
-else:
-    # Default origins for development/preview
-    cors_allow_origins = [
-        "http://localhost:3000",
-        "https://localhost:3000",
-        "https://portfix.preview.emergentagent.com"
-    ]
+# CORS_ORIGINS env: comma-separated origins, or "*" for all (default).
+cors_origins_env = os.environ.get("CORS_ORIGINS", "*")
+cors_allow_origins = [origin.strip() for origin in cors_origins_env.split(",") if origin.strip()]
+if not cors_allow_origins:
+    cors_allow_origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -383,13 +376,34 @@ async def run_profit_accrual():
 # ================== BACKUP FUNCTION ==================
 
 async def run_database_backup():
-    """Create database backup every hour"""
+    """Create database backup every hour. Skips silently if `mongodump` is unavailable
+    or the backup directory is not writable (e.g. read-only production filesystem)."""
     import subprocess
     from pathlib import Path
+    import shutil
     
-    backup_dir = Path("/app/backend/db_backup")
-    db_name = os.environ.get('DB_NAME', 'test_database')
-    mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
+    backup_root_env = os.environ.get("BACKUP_DIR")
+    backup_root = Path(backup_root_env) if backup_root_env else (ROOT_DIR / "db_backup")
+    db_name = os.environ.get('DB_NAME')
+    mongo_url = os.environ.get('MONGO_URL')
+    if not db_name or not mongo_url:
+        logger.info("Backup skipped: MONGO_URL/DB_NAME not configured")
+        return
+    
+    # Verify mongodump is available
+    if shutil.which("mongodump") is None:
+        logger.info("Backup skipped: mongodump binary not available")
+        return
+    
+    # Verify backup root is writable
+    try:
+        backup_root.parent.mkdir(parents=True, exist_ok=True)
+        test = backup_root.parent / ".backup_write_test"
+        test.touch()
+        test.unlink(missing_ok=True)
+    except (OSError, PermissionError) as exc:
+        logger.info(f"Backup skipped: backup directory not writable ({exc})")
+        return
     
     try:
         # Remove old backup and create new one
@@ -397,22 +411,20 @@ async def run_database_backup():
             "mongodump",
             f"--uri={mongo_url}",
             f"--db={db_name}",
-            f"--out={backup_dir.parent}/db_backup_temp",
+            f"--out={backup_root.parent}/db_backup_temp",
             "--quiet"
         ], capture_output=True, text=True, timeout=60)
         
         if result.returncode == 0:
-            # Replace old backup with new one
-            import shutil
-            temp_backup = backup_dir.parent / "db_backup_temp" / db_name
+            temp_backup = backup_root.parent / "db_backup_temp" / db_name
             if temp_backup.exists():
-                if backup_dir.exists():
-                    shutil.rmtree(backup_dir)
-                backup_dir.mkdir(parents=True, exist_ok=True)
+                if backup_root.exists():
+                    shutil.rmtree(backup_root)
+                backup_root.mkdir(parents=True, exist_ok=True)
                 for item in temp_backup.iterdir():
-                    shutil.copy2(item, backup_dir / item.name)
-                shutil.rmtree(backup_dir.parent / "db_backup_temp")
-                logger.info(f"Database backup completed successfully")
+                    shutil.copy2(item, backup_root / item.name)
+                shutil.rmtree(backup_root.parent / "db_backup_temp")
+                logger.info("Database backup completed successfully")
         else:
             logger.error(f"Backup failed: {result.stderr}")
     except Exception as e:
@@ -468,12 +480,37 @@ async def shutdown_db_client():
 
 # ================== STATIC FILES ==================
 
-# Create uploads directory if it doesn't exist
-uploads_dir = Path("/app/backend/uploads")
-uploads_dir.mkdir(parents=True, exist_ok=True)
+# Uploads directory: configurable via UPLOADS_DIR env var (default: <ROOT>/uploads, fallback: /tmp/uploads).
+# Production filesystems may be read-only outside /tmp, so we degrade gracefully.
+def _resolve_uploads_dir() -> Path:
+    candidates = [
+        os.environ.get("UPLOADS_DIR"),
+        str(ROOT_DIR / "uploads"),
+        "/tmp/uploads",
+    ]
+    for candidate in candidates:
+        if not candidate:
+            continue
+        path = Path(candidate)
+        try:
+            path.mkdir(parents=True, exist_ok=True)
+            # Ensure we can actually write
+            test_file = path / ".write_test"
+            test_file.touch()
+            test_file.unlink(missing_ok=True)
+            return path
+        except (OSError, PermissionError) as exc:
+            logger.warning(f"Uploads dir {path} not writable ({exc}), trying next fallback")
+    # Last resort
+    fallback = Path("/tmp/uploads")
+    fallback.mkdir(parents=True, exist_ok=True)
+    return fallback
+
+
+uploads_dir = _resolve_uploads_dir()
+logger.info(f"Uploads directory: {uploads_dir}")
 
 # Mount uploads directory for serving static files at /api/uploads
-# This ensures the files are served through the backend API path
 app.mount("/api/uploads", StaticFiles(directory=str(uploads_dir)), name="uploads")
 
 

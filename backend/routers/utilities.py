@@ -10,14 +10,14 @@ import uuid
 from pathlib import Path
 
 from database import db
+from config import UPLOAD_DIR as _UPLOAD_DIR_STR
 
 router = APIRouter(tags=["utilities"])
 
 logger = logging.getLogger(__name__)
 
-# Upload directory
-UPLOAD_DIR = Path("/app/backend/uploads")
-UPLOAD_DIR.mkdir(exist_ok=True)
+# Upload directory (resolved by config.py to a writable location)
+UPLOAD_DIR = Path(_UPLOAD_DIR_STR)
 
 logger = logging.getLogger(__name__)
 

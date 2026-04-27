@@ -7,10 +7,9 @@ import os
 import uuid
 
 from database import db
+from config import UPLOAD_DIR
 
 router = APIRouter(prefix="/kyc", tags=["kyc"])
-
-UPLOAD_DIR = "/app/backend/uploads"
 
 
 async def get_current_user(request: Request) -> dict:
