@@ -391,11 +391,27 @@ export function LandingPage() {
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
-              <a href="#how-it-works">
+              <a
+                href="#how-it-works"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const el = document.getElementById('how-it-works');
+                  if (el) {
+                    const headerOffset = 80; // sticky header height + small gap
+                    const top = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                    // Update URL hash without jumping
+                    if (window.history && window.history.replaceState) {
+                      window.history.replaceState(null, '', '#how-it-works');
+                    }
+                  }
+                }}
+              >
                 <Button 
                   variant="outline" 
                   className="border-emerald-950/20 text-emerald-950 hover:bg-emerald-950/5 px-8 py-6 text-base"
                   data-testid="hero-cta-secondary"
+                  type="button"
                 >
                   {c.ctaSecondary}
                 </Button>
@@ -638,7 +654,7 @@ export function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-24 bg-emerald-950">
+      <section id="how-it-works" className="py-24 bg-emerald-950 scroll-mt-20">
         <div className="container-premium">
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-white text-center mb-16">{c.howItWorks}</h2>
           
