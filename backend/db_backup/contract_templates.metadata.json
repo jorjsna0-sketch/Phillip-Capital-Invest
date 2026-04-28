@@ -1,1 +1,1 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"2f0ccf77c4c140f8bdc3d87fc9f15786","collectionName":"contract_templates","type":"collection"}
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"5799f562d03541ddb6674a4c609b8e00","collectionName":"contract_templates","type":"collection"}
