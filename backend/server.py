@@ -20,10 +20,13 @@ from apscheduler.triggers.cron import CronTrigger
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
+# MongoDB connection — use safe env access. Bracket access raises KeyError at
+# import time if K8s/Emergent didn't inject the var, which crashes the pod
+# in a restart loop and fails HEALTH_CHECK.
+mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
+db_name = os.environ.get('DB_NAME', 'phillipcapitalinvest')
 client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+db = client[db_name]
 
 # Create the main app
 app = FastAPI(title="Phillip Capital Invest API", version="2.0.0")
@@ -39,6 +42,8 @@ logger = logging.getLogger(__name__)
 # ================== CORS MIDDLEWARE ==================
 
 # CORS_ORIGINS env: comma-separated origins, or "*" for all (default).
+# Starlette reflects the request origin when "*" is used together with
+# credentials, so this combination is safe.
 cors_origins_env = os.environ.get("CORS_ORIGINS", "*")
 cors_allow_origins = [origin.strip() for origin in cors_origins_env.split(",") if origin.strip()]
 if not cors_allow_origins:
@@ -51,6 +56,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+logger.info(f"CORS configured: origins={cors_allow_origins}")
 
 
 # ================== SCHEDULER FOR AUTOMATIC PROFIT ACCRUAL ==================
@@ -443,33 +449,46 @@ async def startup_event():
     except Exception as e:
         logger.warning(f"Database initialization skipped: {e}")
     
-    # Start profit accrual scheduler
-    scheduler.add_job(
-        run_profit_accrual,
-        CronTrigger(minute=0),  # Every hour at minute 0
-        id="profit_accrual_hourly",
-        name="Automatic Profit Accrual",
-        replace_existing=True
-    )
-    
-    # Start database backup scheduler (every hour at minute 30)
-    scheduler.add_job(
-        run_database_backup,
-        CronTrigger(minute=30),  # Every hour at minute 30
-        id="database_backup_hourly",
-        name="Automatic Database Backup",
-        replace_existing=True
-    )
-    
-    scheduler.start()
-    logger.info("Schedulers started - Profit accrual at :00, Backup at :30")
+    # Start profit accrual scheduler — only when explicitly enabled.
+    # In a multi-replica deployment (e.g. 2 K8s replicas) running APScheduler in
+    # every pod would double-count profit accrual. We gate it behind
+    # RUN_SCHEDULER=true (default ON in dev/single-replica, OFF on prod replicas
+    # except for the leader). Recommended prod config: set RUN_SCHEDULER=true on
+    # exactly ONE replica or run a separate cron worker.
+    run_scheduler = os.environ.get("RUN_SCHEDULER", "true").lower() == "true"
+    if run_scheduler:
+        scheduler.add_job(
+            run_profit_accrual,
+            CronTrigger(minute=0),  # Every hour at minute 0
+            id="profit_accrual_hourly",
+            name="Automatic Profit Accrual",
+            replace_existing=True
+        )
+
+        # Start database backup scheduler (every hour at minute 30)
+        scheduler.add_job(
+            run_database_backup,
+            CronTrigger(minute=30),  # Every hour at minute 30
+            id="database_backup_hourly",
+            name="Automatic Database Backup",
+            replace_existing=True
+        )
+
+        scheduler.start()
+        logger.info("Schedulers started - Profit accrual at :00, Backup at :30")
+    else:
+        logger.info("Schedulers DISABLED via RUN_SCHEDULER=false (multi-replica safety)")
 
 
 @app.on_event("shutdown")
 async def stop_scheduler():
-    """Stop the scheduler when the app shuts down"""
-    scheduler.shutdown(wait=False)
-    logger.info("Profit accrual scheduler stopped")
+    """Stop the scheduler when the app shuts down (no-op if it never started)"""
+    try:
+        if scheduler.running:
+            scheduler.shutdown(wait=False)
+            logger.info("Profit accrual scheduler stopped")
+    except Exception as e:
+        logger.debug(f"Scheduler shutdown skipped: {e}")
 
 
 @app.on_event("shutdown")
