@@ -3,6 +3,7 @@ Contract PDF Generator Service for Phillip Capital Invest
 Generates PDF contracts for investments
 """
 import io
+import os
 import base64
 import logging
 from datetime import datetime, timezone
@@ -66,16 +67,32 @@ async def generate_contract_pdf(investment_id: str, user_id: str) -> bytes:
         bottomMargin=2*cm
     )
     
-    # Register fonts
-    try:
-        pdfmetrics.registerFont(TTFont('DejaVuSans', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'))
-        pdfmetrics.registerFont(TTFont('DejaVuSans-Bold', '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'))
-        FONT_REGULAR = 'DejaVuSans'
-        FONT_BOLD = 'DejaVuSans-Bold'
-    except Exception as e:
-        logger.warning(f"Could not load DejaVuSans font: {e}")
-        FONT_REGULAR = 'Helvetica'
-        FONT_BOLD = 'Helvetica-Bold'
+    # Register fonts (DejaVuSans supports Cyrillic + Turkish + Latin Extended)
+    # Try bundled fonts first (works on any deployment), then common system paths.
+    FONT_REGULAR = 'Helvetica'
+    FONT_BOLD = 'Helvetica-Bold'
+    _font_candidates = [
+        (
+            os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets', 'fonts', 'DejaVuSans.ttf'),
+            os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'assets', 'fonts', 'DejaVuSans-Bold.ttf'),
+        ),
+        ('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'),
+        ('/usr/share/fonts/TTF/DejaVuSans.ttf', '/usr/share/fonts/TTF/DejaVuSans-Bold.ttf'),
+    ]
+    for regular_path, bold_path in _font_candidates:
+        try:
+            if os.path.isfile(regular_path) and os.path.isfile(bold_path):
+                pdfmetrics.registerFont(TTFont('DejaVuSans', regular_path))
+                pdfmetrics.registerFont(TTFont('DejaVuSans-Bold', bold_path))
+                FONT_REGULAR = 'DejaVuSans'
+                FONT_BOLD = 'DejaVuSans-Bold'
+                logger.info(f"PDF fonts loaded from {regular_path}")
+                break
+        except Exception as e:
+            logger.warning(f"Could not register DejaVuSans from {regular_path}: {e}")
+            continue
+    if FONT_REGULAR == 'Helvetica':
+        logger.warning("DejaVuSans not found — falling back to Helvetica (Turkish/Cyrillic chars may render as squares)")
     
     # Define styles
     title_style = ParagraphStyle('Title', fontSize=16, spaceAfter=6, alignment=TA_CENTER, fontName=FONT_BOLD, leading=20)

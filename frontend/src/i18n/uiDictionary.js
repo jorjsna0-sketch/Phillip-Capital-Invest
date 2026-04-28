@@ -494,6 +494,26 @@ const UI_TRANSLATIONS = {
   'Тема письма': { tr: 'E-posta konusu', en: 'Email subject' },
   'Сообщение': { tr: 'Mesaj', en: 'Message' },
   'Описание': { tr: 'Açıklama', en: 'Description' },
+  // Admin portfolio form — full-string placeholders / titles
+  'Продающий текст': { tr: 'Pazarlama metni', en: 'Sales copy' },
+  'Гарантии безопасности': { tr: 'Güvenlik garantileri', en: 'Safety guarantees' },
+  'Описание преимуществ портфеля для инвесторов...': {
+    tr: 'Yatırımcılar için portföy avantajlarının açıklaması...',
+    en: 'Description of portfolio benefits for investors...'
+  },
+  'Информация о защите инвестиций...': {
+    tr: 'Yatırım koruması hakkında bilgi...',
+    en: 'Information about investment protection...'
+  },
+  'Описание стратегии инвестирования...': {
+    tr: 'Yatırım stratejisi açıklaması...',
+    en: 'Investment strategy description...'
+  },
+  'Выбор шаблона договора': { tr: 'Sözleşme şablonu seçimi', en: 'Contract template selection' },
+  'Выберите шаблон или создайте свой': {
+    tr: 'Bir şablon seçin veya kendinizinkini oluşturun',
+    en: 'Choose a template or create your own'
+  },
   'Содержание': { tr: 'İçerik', en: 'Content' },
   'Содержимое': { tr: 'İçerik', en: 'Content' },
   'Содержание письма': { tr: 'E-posta içeriği', en: 'Email content' },

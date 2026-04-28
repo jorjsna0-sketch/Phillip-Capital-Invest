@@ -58,9 +58,15 @@ function translateAttributes(element, lang) {
   for (const attr of attrs) {
     const val = element.getAttribute && element.getAttribute(attr);
     if (val) {
-      const translated = translateText(val, lang);
-      if (translated !== val) {
-        element.setAttribute(attr, translated);
+      // For attributes use STRICT exact-match translation only.
+      // Partial/phrase replacement on single-word keys (e.g. "Описание")
+      // leads to mixed-language placeholders like "Açıklama преимуществ...".
+      const trimmed = val.trim();
+      const entry = UI_DICT[trimmed];
+      if (!entry) continue;
+      const tr = lang === 'ru' ? (entry.ru || trimmed) : (entry[lang] || entry.en);
+      if (tr && tr !== trimmed) {
+        element.setAttribute(attr, val.replace(trimmed, tr));
       }
     }
   }
